@@ -28714,76 +28714,6 @@
       }
     },
     {
-      "auto_confirm_blocked_reason": null,
-      "candidates": [],
-      "directors_normalized": [],
-      "directors_raw": null,
-      "eligibility": "non_film",
-      "entity_kind": "double_feature",
-      "film_id": "source:amc:85571",
-      "first_observed_at": null,
-      "identity_type": "source",
-      "last_observed_at": null,
-      "match_confidence": null,
-      "match_method": "none",
-      "match_status": "non_film",
-      "normalized_title": "Dune: Part One & Dune: Part Two Double Feature",
-      "presentation_labels": [],
-      "provenance": {
-        "source_identity_key": "amc|id|85571"
-      },
-      "runtime_min": 342,
-      "signals": null,
-      "source_identities": [
-        {
-          "showtime_film_key": "dune-part-one-dune-part-two-double-feature",
-          "source": "amc",
-          "source_film_id": "85571",
-          "source_title": "Dune: Part One & Dune: Part Two Double Feature"
-        }
-      ],
-      "tmdb_id": null,
-      "top_candidate_margin": null,
-      "warnings": [
-        "double_feature",
-        "product_year_weak_evidence",
-        "program_entity_not_tmdb_movie"
-      ],
-      "year_hint": 2026,
-      "year_interpretation": {
-        "alternate_search_title": null,
-        "anniversary_year_derived": false,
-        "anniversary_years": null,
-        "applied_alias": null,
-        "applied_alias_id": null,
-        "applied_rules": [
-          "normalized_source_fallback"
-        ],
-        "base_title": "Dune: Part One & Dune: Part Two Double Feature",
-        "canonical_year_candidate": null,
-        "event_labels": [],
-        "event_phrase": null,
-        "event_year": null,
-        "event_year_not_canonical": false,
-        "format_tags": [],
-        "presentation_labels": [],
-        "product_year": 2026,
-        "product_year_weak": true,
-        "program_series": null,
-        "removed_phrases": [],
-        "scoring_year": 2026,
-        "search_abbreviation": null,
-        "search_year": null,
-        "title_years": [],
-        "warnings": [
-          "product_year_weak_evidence"
-        ],
-        "year_confidence": "product",
-        "year_evidence": "derived_or_explicit",
-        "year_mismatch_relaxed": true
-      }
-    },
-    {
       "auto_confirm_blocked_reason": "below_auto_threshold",
       "candidates": [
         {
@@ -37787,6 +37717,205 @@
       "auto_confirm_blocked_reason": null,
       "candidates": [
         {
+          "director": "Marcel Bluwal",
+          "original_title": "Le Monte-charge",
+          "overview_excerpt": "On Christmas night, an ex-convict meets a beautiful, married Italian woman who has a lot of things to hide.",
+          "popularity": 0.5187,
+          "poster_path": "/i2DlNeadcelnU92C9iBXOZqhh6l.jpg",
+          "release_year": 1962,
+          "runtime_min": 86,
+          "score": 1.0,
+          "search_query": "Paris Pick-Up",
+          "search_query_reason": "normalized_title_year",
+          "search_year_used": 1962,
+          "signals": {
+            "available_weight": 0.9,
+            "contributions": {
+              "runtime": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.3
+              }
+            },
+            "director_candidate_normalized": [
+              "marcel bluwal"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": false,
+            "matched_weight": 0.9,
+            "original_title_exact": false,
+            "popularity": 0.5187,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 0,
+            "runtime_near": true,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "match",
+            "search_query": "Paris Pick-Up",
+            "search_query_reason": "normalized_title_year",
+            "search_year_used": 1962,
+            "title_conflict": false,
+            "title_exact": true,
+            "title_prefix_equivalence": false,
+            "year_conflict": false,
+            "year_evidence": "compatible",
+            "year_exact": true,
+            "year_near": false,
+            "year_status": "match"
+          },
+          "title": "Paris Pick-Up",
+          "tmdb_id": 95267,
+          "warnings": []
+        }
+      ],
+      "directors_normalized": [],
+      "directors_raw": null,
+      "eligibility": "eligible",
+      "entity_kind": "feature_film",
+      "film_id": "tmdb:95267",
+      "first_observed_at": null,
+      "identity_type": "tmdb",
+      "last_observed_at": null,
+      "match_confidence": 1.0,
+      "match_method": "automatic",
+      "match_status": "confirmed_automatic",
+      "normalized_title": "Paris Pick-Up",
+      "presentation_labels": [],
+      "provenance": {
+        "source_identity_key": "beacon|id|paris-pick-up",
+        "tmdb_search_queries": [
+          {
+            "reason": "normalized_title_year",
+            "title": "Paris Pick-Up",
+            "year": 1962
+          }
+        ]
+      },
+      "runtime_min": 86,
+      "signals": {
+        "available_weight": 0.9,
+        "contributions": {
+          "runtime": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.15
+          },
+          "title_exact": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.45
+          },
+          "year": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.3
+          }
+        },
+        "director_candidate_normalized": [
+          "marcel bluwal"
+        ],
+        "director_conflict": false,
+        "director_overlap": false,
+        "director_source_normalized": [],
+        "director_status": "unavailable",
+        "director_weak_overlap": false,
+        "event_year_relaxed": false,
+        "external_id_exact": false,
+        "hard_conflict": false,
+        "matched_weight": 0.9,
+        "original_title_exact": false,
+        "popularity": 0.5187,
+        "runtime_compatible_max": 3,
+        "runtime_conflict": false,
+        "runtime_conflict_min": 25,
+        "runtime_delta_minutes": 0,
+        "runtime_near": true,
+        "runtime_soft": false,
+        "runtime_soft_max": 12,
+        "runtime_status": "match",
+        "search_query": "Paris Pick-Up",
+        "search_query_reason": "normalized_title_year",
+        "search_year_used": 1962,
+        "title_conflict": false,
+        "title_exact": true,
+        "title_prefix_equivalence": false,
+        "year_conflict": false,
+        "year_evidence": "compatible",
+        "year_exact": true,
+        "year_near": false,
+        "year_status": "match"
+      },
+      "source_identities": [
+        {
+          "showtime_film_key": "paris-pick-up",
+          "source": "beacon",
+          "source_film_id": "paris-pick-up",
+          "source_title": "PARIS PICK-UP"
+        }
+      ],
+      "tmdb_id": 95267,
+      "tmdb_original_title": "Le Monte-charge",
+      "tmdb_overview_excerpt": "On Christmas night, an ex-convict meets a beautiful, married Italian woman who has a lot of things to hide.",
+      "tmdb_poster_path": "/i2DlNeadcelnU92C9iBXOZqhh6l.jpg",
+      "tmdb_release_year": 1962,
+      "tmdb_runtime_min": 86,
+      "tmdb_title": "Paris Pick-Up",
+      "top_candidate_margin": null,
+      "warnings": [],
+      "year_hint": 1962,
+      "year_interpretation": {
+        "alternate_search_title": null,
+        "anniversary_year_derived": false,
+        "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "normalized_source_fallback"
+        ],
+        "base_title": "Paris Pick-Up",
+        "canonical_year_candidate": 1962,
+        "event_labels": [],
+        "event_phrase": null,
+        "event_year": null,
+        "event_year_not_canonical": false,
+        "format_tags": [],
+        "presentation_labels": [],
+        "product_year": null,
+        "product_year_weak": false,
+        "program_series": null,
+        "removed_phrases": [],
+        "scoring_year": 1962,
+        "search_abbreviation": null,
+        "search_year": 1962,
+        "title_years": [],
+        "warnings": [],
+        "year_confidence": "explicit",
+        "year_evidence": "derived_or_explicit",
+        "year_mismatch_relaxed": false
+      }
+    },
+    {
+      "auto_confirm_blocked_reason": null,
+      "candidates": [
+        {
           "director": "Álex de la Iglesia",
           "original_title": "Perdita Durango",
           "overview_excerpt": "She's sexy, shameless and loves taking people to their limit. She's a dangerous young woman who dreams about a jaguar that licks her naked body and sleeps by her side. Her past is bathed in blood and weird passions. Now…",
@@ -40827,82 +40956,6 @@
         "scoring_year": 1989,
         "search_abbreviation": null,
         "search_year": 1989,
-        "title_years": [],
-        "warnings": [],
-        "year_confidence": "explicit",
-        "year_evidence": "derived_or_explicit",
-        "year_mismatch_relaxed": false
-      }
-    },
-    {
-      "auto_confirm_blocked_reason": null,
-      "candidates": [],
-      "directors_normalized": [],
-      "directors_raw": null,
-      "eligibility": "eligible",
-      "entity_kind": "feature_film",
-      "film_id": "source:beacon:vhs-uber-alles-presents-fri13",
-      "first_observed_at": null,
-      "identity_type": "source",
-      "last_observed_at": null,
-      "match_confidence": null,
-      "match_method": "fallback",
-      "match_status": "unmatched",
-      "normalized_title": "Vhs Über Alles Presents...",
-      "presentation_labels": [],
-      "provenance": {
-        "source_identity_key": "beacon|id|vhs-uber-alles-presents-fri13",
-        "tmdb_search_queries": [
-          {
-            "reason": "normalized_title_year",
-            "title": "Vhs Über Alles Presents...",
-            "year": 1991
-          },
-          {
-            "reason": "normalized_title",
-            "title": "Vhs Über Alles Presents...",
-            "year": null
-          }
-        ]
-      },
-      "runtime_min": 89,
-      "signals": null,
-      "source_identities": [
-        {
-          "showtime_film_key": "vhs-ber-alles-presents",
-          "source": "beacon",
-          "source_film_id": "vhs-uber-alles-presents-fri13",
-          "source_title": "VHS ÜBER ALLES PRESENTS…"
-        }
-      ],
-      "tmdb_id": null,
-      "top_candidate_margin": null,
-      "warnings": [],
-      "year_hint": 1991,
-      "year_interpretation": {
-        "alternate_search_title": null,
-        "anniversary_year_derived": false,
-        "anniversary_years": null,
-        "applied_alias": null,
-        "applied_alias_id": null,
-        "applied_rules": [
-          "normalized_source_fallback"
-        ],
-        "base_title": "Vhs Über Alles Presents...",
-        "canonical_year_candidate": 1991,
-        "event_labels": [],
-        "event_phrase": null,
-        "event_year": null,
-        "event_year_not_canonical": false,
-        "format_tags": [],
-        "presentation_labels": [],
-        "product_year": null,
-        "product_year_weak": false,
-        "program_series": null,
-        "removed_phrases": [],
-        "scoring_year": 1991,
-        "search_abbreviation": null,
-        "search_year": 1991,
         "title_years": [],
         "warnings": [],
         "year_confidence": "explicit",
@@ -49677,712 +49730,6 @@
       "normalized_title": "Wicker",
       "presentation_labels": [],
       "provenance": {
-        "source_identity_key": "majestic_bay|id|36787",
-        "tmdb_search_queries": [
-          {
-            "reason": "normalized_title",
-            "title": "Wicker",
-            "year": null
-          }
-        ]
-      },
-      "runtime_min": 105,
-      "signals": {
-        "available_weight": 0.6,
-        "contributions": {
-          "runtime": {
-            "kind": "match",
-            "matched": true,
-            "weight": 0.15
-          },
-          "title_exact": {
-            "kind": "match",
-            "matched": true,
-            "weight": 0.45
-          },
-          "year": {
-            "kind": "absent",
-            "matched": false,
-            "weight": 0.0
-          }
-        },
-        "director_candidate_normalized": [
-          "eleanor wilson"
-        ],
-        "director_conflict": false,
-        "director_overlap": false,
-        "director_source_normalized": [],
-        "director_status": "unavailable",
-        "director_weak_overlap": false,
-        "event_year_relaxed": false,
-        "external_id_exact": false,
-        "hard_conflict": false,
-        "matched_weight": 0.6,
-        "original_title_exact": false,
-        "popularity": 9.3249,
-        "runtime_compatible_max": 3,
-        "runtime_conflict": false,
-        "runtime_conflict_min": 25,
-        "runtime_delta_minutes": 0,
-        "runtime_near": true,
-        "runtime_soft": false,
-        "runtime_soft_max": 12,
-        "runtime_status": "match",
-        "search_query": "Wicker",
-        "search_query_reason": "normalized_title",
-        "search_year_used": null,
-        "title_conflict": false,
-        "title_exact": true,
-        "title_prefix_equivalence": false,
-        "year_conflict": false,
-        "year_evidence": "missing",
-        "year_exact": false,
-        "year_near": false,
-        "year_status": "unavailable"
-      },
-      "source_identities": [
-        {
-          "showtime_film_key": "wicker",
-          "source": "majestic_bay",
-          "source_film_id": "36787",
-          "source_title": "Wicker"
-        }
-      ],
-      "tmdb_id": 1195803,
-      "tmdb_original_title": null,
-      "tmdb_overview_excerpt": "On the outskirts of a village by the sea, lives a Fisherwoman; smelly, single and perpetually ridiculed. One day, fed up with her stuffy, small-minded neighbours, she commissions herself a husband to be made from wicker…",
-      "tmdb_poster_path": "/eOYkNDalgt1v6UGjw3AoFR5qo9D.jpg",
-      "tmdb_release_year": 2026,
-      "tmdb_runtime_min": 105,
-      "tmdb_title": "Wicker",
-      "top_candidate_margin": 0.7499,
-      "warnings": [
-        "year_evidence_absent",
-        "missing_year_supported_by_other_evidence",
-        "director_unavailable"
-      ],
-      "year_hint": null,
-      "year_interpretation": {
-        "alternate_search_title": null,
-        "anniversary_year_derived": false,
-        "anniversary_years": null,
-        "applied_alias": null,
-        "applied_alias_id": null,
-        "applied_rules": [
-          "normalized_source_fallback"
-        ],
-        "base_title": "Wicker",
-        "canonical_year_candidate": null,
-        "event_labels": [],
-        "event_phrase": null,
-        "event_year": null,
-        "event_year_not_canonical": false,
-        "format_tags": [],
-        "presentation_labels": [],
-        "product_year": null,
-        "product_year_weak": false,
-        "program_series": null,
-        "removed_phrases": [],
-        "scoring_year": null,
-        "search_abbreviation": null,
-        "search_year": null,
-        "title_years": [],
-        "warnings": [],
-        "year_confidence": "none",
-        "year_evidence": "missing",
-        "year_mismatch_relaxed": false
-      }
-    },
-    {
-      "auto_confirm_blocked_reason": null,
-      "candidates": [
-        {
-          "director": "Eleanor Wilson",
-          "original_title": null,
-          "overview_excerpt": "On the outskirts of a village by the sea, lives a Fisherwoman; smelly, single and perpetually ridiculed. One day, fed up with her stuffy, small-minded neighbours, she commissions herself a husband to be made from wicker…",
-          "popularity": 9.3249,
-          "poster_path": "/eOYkNDalgt1v6UGjw3AoFR5qo9D.jpg",
-          "release_year": 2026,
-          "runtime_min": 105,
-          "score": 1.0,
-          "search_query": "Wicker",
-          "search_query_reason": "normalized_title",
-          "search_year_used": null,
-          "signals": {
-            "available_weight": 0.6,
-            "contributions": {
-              "runtime": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.15
-              },
-              "title_exact": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [
-              "eleanor wilson"
-            ],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": false,
-            "matched_weight": 0.6,
-            "original_title_exact": false,
-            "popularity": 9.3249,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 0,
-            "runtime_near": true,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "match",
-            "search_query": "Wicker",
-            "search_query_reason": "normalized_title",
-            "search_year_used": null,
-            "title_conflict": false,
-            "title_exact": true,
-            "title_prefix_equivalence": false,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "Wicker",
-          "tmdb_id": 1195803,
-          "warnings": [
-            "year_evidence_absent",
-            "missing_year_supported_by_other_evidence",
-            "director_unavailable"
-          ]
-        },
-        {
-          "director": "Neil LaBute",
-          "original_title": null,
-          "overview_excerpt": "A sheriff investigating the disappearance of a young girl from a small island discovers there's a larger mystery to solve among the island's secretive, neo-pagan community.",
-          "popularity": 7.7841,
-          "poster_path": "/xsHrmfgDcEk5fGhSiieKvrDuofq.jpg",
-          "release_year": 2006,
-          "runtime_min": 102,
-          "score": 0.2501,
-          "search_query": "Wicker",
-          "search_query_reason": "normalized_title",
-          "search_year_used": null,
-          "signals": {
-            "available_weight": 0.6,
-            "contributions": {
-              "runtime": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.15
-              },
-              "title_exact": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [
-              "neil labute"
-            ],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": true,
-            "matched_weight": 0.15,
-            "original_title_exact": false,
-            "popularity": 7.7841,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 3,
-            "runtime_near": true,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "match",
-            "search_query": "Wicker",
-            "search_query_reason": "normalized_title",
-            "search_year_used": null,
-            "title_conflict": true,
-            "title_exact": false,
-            "title_prefix_equivalence": false,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "The Wicker Man",
-          "tmdb_id": 9708,
-          "warnings": [
-            "title_conflict",
-            "year_evidence_absent",
-            "director_unavailable"
-          ]
-        },
-        {
-          "director": "Robin Hardy",
-          "original_title": null,
-          "overview_excerpt": "Gospel singer Beth and her cowboy boyfriend Steve leave Texas to preach door-to-door in Scotland. When, after initial abuse, they are welcomed with joy and elation to Tressock, the border fiefdom of Sir Lachlan Morrison…",
-          "popularity": 1.3566,
-          "poster_path": "/vAmjzxeMWKkQRo7Wz6mUupZ4vfN.jpg",
-          "release_year": 2011,
-          "runtime_min": 96,
-          "score": 0.0833,
-          "search_query": "Wicker",
-          "search_query_reason": "normalized_title",
-          "search_year_used": null,
-          "signals": {
-            "available_weight": 0.6,
-            "contributions": {
-              "runtime": {
-                "delta_minutes": 9,
-                "kind": "soft",
-                "matched": true,
-                "soft_weight": 0.05,
-                "weight": 0.15
-              },
-              "title_exact": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [
-              "robin hardy"
-            ],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": true,
-            "matched_weight": 0.05,
-            "original_title_exact": false,
-            "popularity": 1.3566,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 9,
-            "runtime_near": false,
-            "runtime_soft": true,
-            "runtime_soft_max": 12,
-            "runtime_status": "soft",
-            "search_query": "Wicker",
-            "search_query_reason": "normalized_title",
-            "search_year_used": null,
-            "title_conflict": true,
-            "title_exact": false,
-            "title_prefix_equivalence": false,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "The Wicker Tree",
-          "tmdb_id": 79544,
-          "warnings": [
-            "title_conflict",
-            "year_evidence_absent",
-            "runtime_soft_penalty",
-            "director_unavailable"
-          ]
-        },
-        {
-          "director": "Paul McGuigan",
-          "original_title": null,
-          "overview_excerpt": "Matthew, a young advertising executive in Chicago, puts his life and a business trip to China on hold when he thinks he sees Lisa, the love of his life who left him without a word two years earlier, walking out of a res…",
-          "popularity": 6.0546,
-          "poster_path": "/gRKEluSpV1wBrZVTvLLaCSkzqcf.jpg",
-          "release_year": 2004,
-          "runtime_min": 115,
-          "score": 0.0556,
-          "search_query": "Wicker",
-          "search_query_reason": "normalized_title",
-          "search_year_used": null,
-          "signals": {
-            "available_weight": 0.6,
-            "contributions": {
-              "runtime": {
-                "delta_minutes": 10,
-                "kind": "soft",
-                "matched": true,
-                "soft_weight": 0.0333,
-                "weight": 0.15
-              },
-              "title_exact": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [
-              "paul mcguigan"
-            ],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": true,
-            "matched_weight": 0.0333,
-            "original_title_exact": false,
-            "popularity": 6.0546,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 10,
-            "runtime_near": false,
-            "runtime_soft": true,
-            "runtime_soft_max": 12,
-            "runtime_status": "soft",
-            "search_query": "Wicker",
-            "search_query_reason": "normalized_title",
-            "search_year_used": null,
-            "title_conflict": true,
-            "title_exact": false,
-            "title_prefix_equivalence": false,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "Wicker Park",
-          "tmdb_id": 11208,
-          "warnings": [
-            "title_conflict",
-            "year_evidence_absent",
-            "runtime_soft_penalty",
-            "director_unavailable"
-          ]
-        },
-        {
-          "director": "Robin Hardy",
-          "original_title": null,
-          "overview_excerpt": "Police sergeant Neil Howie is called to an island village in search of a missing girl whom the locals claim never existed. The investigation is further complicated as Howie’s religious views clash with those of the isla…",
-          "popularity": 11.4087,
-          "poster_path": "/wwtrXRL8SiOWxhwLEvw7iBgYh0g.jpg",
-          "release_year": 1973,
-          "runtime_min": 93,
-          "score": 0.0001,
-          "search_query": "Wicker",
-          "search_query_reason": "normalized_title",
-          "search_year_used": null,
-          "signals": {
-            "available_weight": 0.6,
-            "contributions": {
-              "runtime": {
-                "delta_minutes": 12,
-                "kind": "soft",
-                "matched": true,
-                "soft_weight": 0.0,
-                "weight": 0.15
-              },
-              "title_exact": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [
-              "robin hardy"
-            ],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": true,
-            "matched_weight": 0.0,
-            "original_title_exact": false,
-            "popularity": 11.4087,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 12,
-            "runtime_near": false,
-            "runtime_soft": true,
-            "runtime_soft_max": 12,
-            "runtime_status": "soft",
-            "search_query": "Wicker",
-            "search_query_reason": "normalized_title",
-            "search_year_used": null,
-            "title_conflict": true,
-            "title_exact": false,
-            "title_prefix_equivalence": false,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "The Wicker Man",
-          "tmdb_id": 16307,
-          "warnings": [
-            "title_conflict",
-            "year_evidence_absent",
-            "runtime_soft_penalty",
-            "director_unavailable"
-          ]
-        },
-        {
-          "director": null,
-          "original_title": null,
-          "overview_excerpt": "Every January, the country's largest jigsaw puzzle contest is held in St. Paul, Minnesota. Choose your favorite team and watch them try to put the pieces back together.",
-          "popularity": 0.7688,
-          "poster_path": "/gwmr8DEbUkwPLblbxj9rAYtMwJY.jpg",
-          "release_year": 2014,
-          "runtime_min": null,
-          "score": 0.0,
-          "search_query": "Wicker",
-          "search_query_reason": "normalized_title",
-          "search_year_used": null,
-          "signals": {
-            "available_weight": 0.45,
-            "contributions": {
-              "title_exact": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": true,
-            "matched_weight": 0.0,
-            "original_title_exact": false,
-            "popularity": 0.7688,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": null,
-            "runtime_near": false,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "unavailable",
-            "search_query": "Wicker",
-            "search_query_reason": "normalized_title",
-            "search_year_used": null,
-            "title_conflict": true,
-            "title_exact": false,
-            "title_prefix_equivalence": false,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "Wicker Kittens",
-          "tmdb_id": 253298,
-          "warnings": [
-            "title_conflict",
-            "year_evidence_absent",
-            "director_unavailable"
-          ]
-        },
-        {
-          "director": null,
-          "original_title": "Wiklinowy kosz",
-          "overview_excerpt": "Allegorical animated short about the power of creation and destruction. An unknown man carries a wicker basket filled with elements resembling human figures. After their combination the small creatures are come to life.…",
-          "popularity": 1.1434,
-          "poster_path": "/u7o2wVGaKLmSD6Xp2zNUG68E11o.jpg",
-          "release_year": 1967,
-          "runtime_min": null,
-          "score": 0.0,
-          "search_query": "Wicker",
-          "search_query_reason": "normalized_title",
-          "search_year_used": null,
-          "signals": {
-            "available_weight": 0.45,
-            "contributions": {
-              "title_exact": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": true,
-            "matched_weight": 0.0,
-            "original_title_exact": false,
-            "popularity": 1.1434,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": null,
-            "runtime_near": false,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "unavailable",
-            "search_query": "Wicker",
-            "search_query_reason": "normalized_title",
-            "search_year_used": null,
-            "title_conflict": true,
-            "title_exact": false,
-            "title_prefix_equivalence": false,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "Wicker Basket",
-          "tmdb_id": 491741,
-          "warnings": [
-            "title_conflict",
-            "year_evidence_absent",
-            "director_unavailable"
-          ]
-        },
-        {
-          "director": null,
-          "original_title": null,
-          "overview_excerpt": "In this documentary, Randy Wicker describes himself as a trans-aged male (young man trapped in an old body) who has been a LGBT activist since 1958, and a sex freedom activist since 1962.",
-          "popularity": 0.4752,
-          "poster_path": "/vs9owSCVyBKKkvjIZhYnPNmQDzB.jpg",
-          "release_year": 2015,
-          "runtime_min": null,
-          "score": 0.0,
-          "search_query": "Wicker",
-          "search_query_reason": "normalized_title",
-          "search_year_used": null,
-          "signals": {
-            "available_weight": 0.45,
-            "contributions": {
-              "title_exact": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": true,
-            "matched_weight": 0.0,
-            "original_title_exact": false,
-            "popularity": 0.4752,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": null,
-            "runtime_near": false,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "unavailable",
-            "search_query": "Wicker",
-            "search_query_reason": "normalized_title",
-            "search_year_used": null,
-            "title_conflict": true,
-            "title_exact": false,
-            "title_prefix_equivalence": false,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "TRANSforming Randy Wicker",
-          "tmdb_id": 769648,
-          "warnings": [
-            "title_conflict",
-            "year_evidence_absent",
-            "director_unavailable"
-          ]
-        }
-      ],
-      "directors_normalized": [],
-      "directors_raw": null,
-      "eligibility": "eligible",
-      "entity_kind": "feature_film",
-      "film_id": "tmdb:1195803",
-      "first_observed_at": null,
-      "identity_type": "tmdb",
-      "last_observed_at": null,
-      "match_confidence": 1.0,
-      "match_method": "automatic",
-      "match_status": "confirmed_automatic",
-      "normalized_title": "Wicker",
-      "presentation_labels": [],
-      "provenance": {
         "source_identity_key": "majestic_bay|id|36794",
         "tmdb_search_queries": [
           {
@@ -54810,6 +54157,205 @@
     },
     {
       "auto_confirm_blocked_reason": null,
+      "candidates": [
+        {
+          "director": "Nancy Walker",
+          "original_title": null,
+          "overview_excerpt": "A loose biography of seminal disco hit-makers The Village People and their composer Jacques Morali.",
+          "popularity": 1.1397,
+          "poster_path": "/j4Qu0WPS04bYOLwV3d9vSSsvYQb.jpg",
+          "release_year": 1980,
+          "runtime_min": 124,
+          "score": 1.0,
+          "search_query": "Can't Stop The Music",
+          "search_query_reason": "normalized_title_year",
+          "search_year_used": 1980,
+          "signals": {
+            "available_weight": 0.9,
+            "contributions": {
+              "runtime": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.3
+              }
+            },
+            "director_candidate_normalized": [
+              "nancy walker"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": false,
+            "matched_weight": 0.9,
+            "original_title_exact": false,
+            "popularity": 1.1397,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 0,
+            "runtime_near": true,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "match",
+            "search_query": "Can't Stop The Music",
+            "search_query_reason": "normalized_title_year",
+            "search_year_used": 1980,
+            "title_conflict": false,
+            "title_exact": true,
+            "title_prefix_equivalence": false,
+            "year_conflict": false,
+            "year_evidence": "compatible",
+            "year_exact": true,
+            "year_near": false,
+            "year_status": "match"
+          },
+          "title": "Can't Stop the Music",
+          "tmdb_id": 40932,
+          "warnings": []
+        }
+      ],
+      "directors_normalized": [],
+      "directors_raw": null,
+      "eligibility": "eligible",
+      "entity_kind": "feature_film",
+      "film_id": "tmdb:40932",
+      "first_observed_at": null,
+      "identity_type": "tmdb",
+      "last_observed_at": null,
+      "match_confidence": 1.0,
+      "match_method": "automatic",
+      "match_status": "confirmed_automatic",
+      "normalized_title": "Can't Stop The Music",
+      "presentation_labels": [],
+      "provenance": {
+        "source_identity_key": "nwff|id|cant-stop-the-music",
+        "tmdb_search_queries": [
+          {
+            "reason": "normalized_title_year",
+            "title": "Can't Stop The Music",
+            "year": 1980
+          }
+        ]
+      },
+      "runtime_min": 124,
+      "signals": {
+        "available_weight": 0.9,
+        "contributions": {
+          "runtime": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.15
+          },
+          "title_exact": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.45
+          },
+          "year": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.3
+          }
+        },
+        "director_candidate_normalized": [
+          "nancy walker"
+        ],
+        "director_conflict": false,
+        "director_overlap": false,
+        "director_source_normalized": [],
+        "director_status": "unavailable",
+        "director_weak_overlap": false,
+        "event_year_relaxed": false,
+        "external_id_exact": false,
+        "hard_conflict": false,
+        "matched_weight": 0.9,
+        "original_title_exact": false,
+        "popularity": 1.1397,
+        "runtime_compatible_max": 3,
+        "runtime_conflict": false,
+        "runtime_conflict_min": 25,
+        "runtime_delta_minutes": 0,
+        "runtime_near": true,
+        "runtime_soft": false,
+        "runtime_soft_max": 12,
+        "runtime_status": "match",
+        "search_query": "Can't Stop The Music",
+        "search_query_reason": "normalized_title_year",
+        "search_year_used": 1980,
+        "title_conflict": false,
+        "title_exact": true,
+        "title_prefix_equivalence": false,
+        "year_conflict": false,
+        "year_evidence": "compatible",
+        "year_exact": true,
+        "year_near": false,
+        "year_status": "match"
+      },
+      "source_identities": [
+        {
+          "showtime_film_key": "can-t-stop-the-music",
+          "source": "nwff",
+          "source_film_id": "cant-stop-the-music",
+          "source_title": "Can't Stop The Music"
+        }
+      ],
+      "tmdb_id": 40932,
+      "tmdb_original_title": null,
+      "tmdb_overview_excerpt": "A loose biography of seminal disco hit-makers The Village People and their composer Jacques Morali.",
+      "tmdb_poster_path": "/j4Qu0WPS04bYOLwV3d9vSSsvYQb.jpg",
+      "tmdb_release_year": 1980,
+      "tmdb_runtime_min": 124,
+      "tmdb_title": "Can't Stop the Music",
+      "top_candidate_margin": null,
+      "warnings": [],
+      "year_hint": 1980,
+      "year_interpretation": {
+        "alternate_search_title": null,
+        "anniversary_year_derived": false,
+        "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "normalized_source_fallback"
+        ],
+        "base_title": "Can't Stop The Music",
+        "canonical_year_candidate": 1980,
+        "event_labels": [],
+        "event_phrase": null,
+        "event_year": null,
+        "event_year_not_canonical": false,
+        "format_tags": [],
+        "presentation_labels": [],
+        "product_year": null,
+        "product_year_weak": false,
+        "program_series": null,
+        "removed_phrases": [],
+        "scoring_year": 1980,
+        "search_abbreviation": null,
+        "search_year": 1980,
+        "title_years": [],
+        "warnings": [],
+        "year_confidence": "explicit",
+        "year_evidence": "derived_or_explicit",
+        "year_mismatch_relaxed": false
+      }
+    },
+    {
+      "auto_confirm_blocked_reason": null,
       "candidates": [],
       "directors_normalized": [],
       "directors_raw": null,
@@ -55709,6 +55255,86 @@
         "scoring_year": 1995,
         "search_abbreviation": null,
         "search_year": 1995,
+        "title_years": [],
+        "warnings": [],
+        "year_confidence": "explicit",
+        "year_evidence": "derived_or_explicit",
+        "year_mismatch_relaxed": false
+      }
+    },
+    {
+      "auto_confirm_blocked_reason": null,
+      "candidates": [],
+      "directors_normalized": [],
+      "directors_raw": null,
+      "eligibility": "eligible",
+      "entity_kind": "feature_film",
+      "film_id": "source:nwff:muscle",
+      "first_observed_at": null,
+      "identity_type": "source",
+      "last_observed_at": null,
+      "match_confidence": null,
+      "match_method": "fallback",
+      "match_status": "unmatched",
+      "normalized_title": "Muscle (2K Restoration)",
+      "presentation_labels": [
+        "restoration"
+      ],
+      "provenance": {
+        "source_identity_key": "nwff|id|muscle",
+        "tmdb_search_queries": [
+          {
+            "reason": "normalized_title_year",
+            "title": "Muscle (2K Restoration)",
+            "year": 1989
+          },
+          {
+            "reason": "normalized_title",
+            "title": "Muscle (2K Restoration)",
+            "year": null
+          }
+        ]
+      },
+      "runtime_min": 59,
+      "signals": null,
+      "source_identities": [
+        {
+          "showtime_film_key": "muscle-2k-restoration",
+          "source": "nwff",
+          "source_film_id": "muscle",
+          "source_title": "Muscle (2K Restoration)"
+        }
+      ],
+      "tmdb_id": null,
+      "top_candidate_margin": null,
+      "warnings": [],
+      "year_hint": 1989,
+      "year_interpretation": {
+        "alternate_search_title": null,
+        "anniversary_year_derived": false,
+        "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "normalized_source_fallback"
+        ],
+        "base_title": "Muscle (2K Restoration)",
+        "canonical_year_candidate": 1989,
+        "event_labels": [],
+        "event_phrase": null,
+        "event_year": null,
+        "event_year_not_canonical": false,
+        "format_tags": [],
+        "presentation_labels": [
+          "restoration"
+        ],
+        "product_year": null,
+        "product_year_weak": false,
+        "program_series": null,
+        "removed_phrases": [],
+        "scoring_year": 1989,
+        "search_abbreviation": null,
+        "search_year": 1989,
         "title_years": [],
         "warnings": [],
         "year_confidence": "explicit",
@@ -57255,6 +56881,285 @@
         "scoring_year": 2016,
         "search_abbreviation": null,
         "search_year": 2016,
+        "title_years": [],
+        "warnings": [],
+        "year_confidence": "explicit",
+        "year_evidence": "derived_or_explicit",
+        "year_mismatch_relaxed": false
+      }
+    },
+    {
+      "auto_confirm_blocked_reason": null,
+      "candidates": [
+        {
+          "director": "Menahem Golan",
+          "original_title": null,
+          "overview_excerpt": "In a pseudo-futuristic 1994, a square couple enter the corrupt world of the music industry, and subsequently a maze of drugs, sex, and temptation.",
+          "popularity": 0.9306,
+          "poster_path": "/yQxFFhPzH3hzzmlEeCU0aKyOC4T.jpg",
+          "release_year": 1980,
+          "runtime_min": 88,
+          "score": 0.92,
+          "search_query": "The Apple",
+          "search_query_reason": "normalized_title_year",
+          "search_year_used": 1980,
+          "signals": {
+            "available_weight": 0.9,
+            "contributions": {
+              "runtime": {
+                "delta_minutes": 9,
+                "kind": "soft",
+                "matched": true,
+                "soft_weight": 0.05,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.3
+              }
+            },
+            "director_candidate_normalized": [
+              "menahem golan"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": false,
+            "matched_weight": 0.8,
+            "original_title_exact": false,
+            "popularity": 0.9306,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 9,
+            "runtime_near": false,
+            "runtime_soft": true,
+            "runtime_soft_max": 12,
+            "runtime_status": "soft",
+            "search_query": "The Apple",
+            "search_query_reason": "normalized_title_year",
+            "search_year_used": 1980,
+            "title_conflict": false,
+            "title_exact": true,
+            "title_prefix_equivalence": false,
+            "year_conflict": false,
+            "year_evidence": "compatible",
+            "year_exact": true,
+            "year_near": false,
+            "year_status": "match"
+          },
+          "title": "The Apple",
+          "tmdb_id": 49069,
+          "warnings": [
+            "runtime_soft_penalty"
+          ]
+        },
+        {
+          "director": "Dennis Phung",
+          "original_title": null,
+          "overview_excerpt": "Two apples meet and make love.",
+          "popularity": 0.0566,
+          "poster_path": null,
+          "release_year": 1980,
+          "runtime_min": 3,
+          "score": 0.3333,
+          "search_query": "The Apple",
+          "search_query_reason": "normalized_title_year",
+          "search_year_used": 1980,
+          "signals": {
+            "available_weight": 0.9,
+            "contributions": {
+              "runtime": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.3
+              }
+            },
+            "director_candidate_normalized": [
+              "dennis phung"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.3,
+            "original_title_exact": false,
+            "popularity": 0.0566,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": true,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 94,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "conflict",
+            "search_query": "The Apple",
+            "search_query_reason": "normalized_title_year",
+            "search_year_used": 1980,
+            "title_conflict": true,
+            "title_exact": false,
+            "title_prefix_equivalence": false,
+            "year_conflict": false,
+            "year_evidence": "compatible",
+            "year_exact": true,
+            "year_near": false,
+            "year_status": "match"
+          },
+          "title": "The Joy of Apples",
+          "tmdb_id": 1198706,
+          "warnings": [
+            "title_conflict",
+            "runtime_conflict"
+          ]
+        }
+      ],
+      "directors_normalized": [],
+      "directors_raw": null,
+      "eligibility": "eligible",
+      "entity_kind": "feature_film",
+      "film_id": "tmdb:49069",
+      "first_observed_at": null,
+      "identity_type": "tmdb",
+      "last_observed_at": null,
+      "match_confidence": 0.92,
+      "match_method": "automatic",
+      "match_status": "confirmed_automatic",
+      "normalized_title": "The Apple",
+      "presentation_labels": [],
+      "provenance": {
+        "source_identity_key": "nwff|id|the-apple",
+        "tmdb_search_queries": [
+          {
+            "reason": "normalized_title_year",
+            "title": "The Apple",
+            "year": 1980
+          }
+        ]
+      },
+      "runtime_min": 97,
+      "signals": {
+        "available_weight": 0.9,
+        "contributions": {
+          "runtime": {
+            "delta_minutes": 9,
+            "kind": "soft",
+            "matched": true,
+            "soft_weight": 0.05,
+            "weight": 0.15
+          },
+          "title_exact": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.45
+          },
+          "year": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.3
+          }
+        },
+        "director_candidate_normalized": [
+          "menahem golan"
+        ],
+        "director_conflict": false,
+        "director_overlap": false,
+        "director_source_normalized": [],
+        "director_status": "unavailable",
+        "director_weak_overlap": false,
+        "event_year_relaxed": false,
+        "external_id_exact": false,
+        "hard_conflict": false,
+        "matched_weight": 0.8,
+        "original_title_exact": false,
+        "popularity": 0.9306,
+        "runtime_compatible_max": 3,
+        "runtime_conflict": false,
+        "runtime_conflict_min": 25,
+        "runtime_delta_minutes": 9,
+        "runtime_near": false,
+        "runtime_soft": true,
+        "runtime_soft_max": 12,
+        "runtime_status": "soft",
+        "search_query": "The Apple",
+        "search_query_reason": "normalized_title_year",
+        "search_year_used": 1980,
+        "title_conflict": false,
+        "title_exact": true,
+        "title_prefix_equivalence": false,
+        "year_conflict": false,
+        "year_evidence": "compatible",
+        "year_exact": true,
+        "year_near": false,
+        "year_status": "match"
+      },
+      "source_identities": [
+        {
+          "showtime_film_key": "apple",
+          "source": "nwff",
+          "source_film_id": "the-apple",
+          "source_title": "The Apple"
+        }
+      ],
+      "tmdb_id": 49069,
+      "tmdb_original_title": null,
+      "tmdb_overview_excerpt": "In a pseudo-futuristic 1994, a square couple enter the corrupt world of the music industry, and subsequently a maze of drugs, sex, and temptation.",
+      "tmdb_poster_path": "/yQxFFhPzH3hzzmlEeCU0aKyOC4T.jpg",
+      "tmdb_release_year": 1980,
+      "tmdb_runtime_min": 88,
+      "tmdb_title": "The Apple",
+      "top_candidate_margin": 0.5867,
+      "warnings": [
+        "runtime_soft_penalty"
+      ],
+      "year_hint": 1980,
+      "year_interpretation": {
+        "alternate_search_title": null,
+        "anniversary_year_derived": false,
+        "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "normalized_source_fallback"
+        ],
+        "base_title": "The Apple",
+        "canonical_year_candidate": 1980,
+        "event_labels": [],
+        "event_phrase": null,
+        "event_year": null,
+        "event_year_not_canonical": false,
+        "format_tags": [],
+        "presentation_labels": [],
+        "product_year": null,
+        "product_year_weak": false,
+        "program_series": null,
+        "removed_phrases": [],
+        "scoring_year": 1980,
+        "search_abbreviation": null,
+        "search_year": 1980,
         "title_years": [],
         "warnings": [],
         "year_confidence": "explicit",
@@ -59834,77 +59739,6 @@
       }
     },
     {
-      "auto_confirm_blocked_reason": null,
-      "candidates": [],
-      "directors_normalized": [],
-      "directors_raw": null,
-      "eligibility": "eligible",
-      "entity_kind": "feature_film",
-      "film_id": "source:nwff:veronica-project-space-presents-four-by-jean-vigo",
-      "first_observed_at": null,
-      "identity_type": "source",
-      "last_observed_at": null,
-      "match_confidence": null,
-      "match_method": "fallback",
-      "match_status": "unmatched",
-      "normalized_title": "Veronica Project Space Presents DESSILLER LES YEUX: Four by Jean Vigo",
-      "presentation_labels": [],
-      "provenance": {
-        "source_identity_key": "nwff|id|veronica-project-space-presents-four-by-jean-vigo",
-        "tmdb_search_queries": [
-          {
-            "reason": "normalized_title",
-            "title": "Veronica Project Space Presents DESSILLER LES YEUX: Four by Jean Vigo",
-            "year": null
-          }
-        ]
-      },
-      "runtime_min": 165,
-      "signals": null,
-      "source_identities": [
-        {
-          "showtime_film_key": "veronica-project-space-presents-dessiller-les-yeux-four-by-jean-vigo",
-          "source": "nwff",
-          "source_film_id": "veronica-project-space-presents-four-by-jean-vigo",
-          "source_title": "Veronica Project Space Presents DESSILLER LES YEUX: Four by Jean Vigo"
-        }
-      ],
-      "tmdb_id": null,
-      "top_candidate_margin": null,
-      "warnings": [],
-      "year_hint": null,
-      "year_interpretation": {
-        "alternate_search_title": null,
-        "anniversary_year_derived": false,
-        "anniversary_years": null,
-        "applied_alias": null,
-        "applied_alias_id": null,
-        "applied_rules": [
-          "normalized_source_fallback"
-        ],
-        "base_title": "Veronica Project Space Presents DESSILLER LES YEUX: Four by Jean Vigo",
-        "canonical_year_candidate": null,
-        "event_labels": [],
-        "event_phrase": null,
-        "event_year": null,
-        "event_year_not_canonical": false,
-        "format_tags": [],
-        "presentation_labels": [],
-        "product_year": null,
-        "product_year_weak": false,
-        "program_series": null,
-        "removed_phrases": [],
-        "scoring_year": null,
-        "search_abbreviation": null,
-        "search_year": null,
-        "title_years": [],
-        "warnings": [],
-        "year_confidence": "none",
-        "year_evidence": "missing",
-        "year_mismatch_relaxed": false
-      }
-    },
-    {
       "auto_confirm_blocked_reason": "hard_conflict",
       "candidates": [
         {
@@ -60510,6 +60344,205 @@
         "scoring_year": 2025,
         "search_abbreviation": null,
         "search_year": 2025,
+        "title_years": [],
+        "warnings": [],
+        "year_confidence": "explicit",
+        "year_evidence": "derived_or_explicit",
+        "year_mismatch_relaxed": false
+      }
+    },
+    {
+      "auto_confirm_blocked_reason": null,
+      "candidates": [
+        {
+          "director": "Robert Greenwald",
+          "original_title": null,
+          "overview_excerpt": "Kira, a Greek muse incarnated on Earth to inspire people, helps Dan McGuire and an artist named Sonny Malone to meet. She inspires them to build a huge disco roller rink called Xanadu.",
+          "popularity": 2.0873,
+          "poster_path": "/4r1cHzhksHO3u1QS1Ct9mId7kQL.jpg",
+          "release_year": 1980,
+          "runtime_min": 96,
+          "score": 1.0,
+          "search_query": "Xanadu",
+          "search_query_reason": "normalized_title_year",
+          "search_year_used": 1980,
+          "signals": {
+            "available_weight": 0.9,
+            "contributions": {
+              "runtime": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.3
+              }
+            },
+            "director_candidate_normalized": [
+              "robert greenwald"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": false,
+            "matched_weight": 0.9,
+            "original_title_exact": false,
+            "popularity": 2.0873,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 0,
+            "runtime_near": true,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "match",
+            "search_query": "Xanadu",
+            "search_query_reason": "normalized_title_year",
+            "search_year_used": 1980,
+            "title_conflict": false,
+            "title_exact": true,
+            "title_prefix_equivalence": false,
+            "year_conflict": false,
+            "year_evidence": "compatible",
+            "year_exact": true,
+            "year_near": false,
+            "year_status": "match"
+          },
+          "title": "Xanadu",
+          "tmdb_id": 15668,
+          "warnings": []
+        }
+      ],
+      "directors_normalized": [],
+      "directors_raw": null,
+      "eligibility": "eligible",
+      "entity_kind": "feature_film",
+      "film_id": "tmdb:15668",
+      "first_observed_at": null,
+      "identity_type": "tmdb",
+      "last_observed_at": null,
+      "match_confidence": 1.0,
+      "match_method": "automatic",
+      "match_status": "confirmed_automatic",
+      "normalized_title": "Xanadu",
+      "presentation_labels": [],
+      "provenance": {
+        "source_identity_key": "nwff|id|xanadu",
+        "tmdb_search_queries": [
+          {
+            "reason": "normalized_title_year",
+            "title": "Xanadu",
+            "year": 1980
+          }
+        ]
+      },
+      "runtime_min": 96,
+      "signals": {
+        "available_weight": 0.9,
+        "contributions": {
+          "runtime": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.15
+          },
+          "title_exact": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.45
+          },
+          "year": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.3
+          }
+        },
+        "director_candidate_normalized": [
+          "robert greenwald"
+        ],
+        "director_conflict": false,
+        "director_overlap": false,
+        "director_source_normalized": [],
+        "director_status": "unavailable",
+        "director_weak_overlap": false,
+        "event_year_relaxed": false,
+        "external_id_exact": false,
+        "hard_conflict": false,
+        "matched_weight": 0.9,
+        "original_title_exact": false,
+        "popularity": 2.0873,
+        "runtime_compatible_max": 3,
+        "runtime_conflict": false,
+        "runtime_conflict_min": 25,
+        "runtime_delta_minutes": 0,
+        "runtime_near": true,
+        "runtime_soft": false,
+        "runtime_soft_max": 12,
+        "runtime_status": "match",
+        "search_query": "Xanadu",
+        "search_query_reason": "normalized_title_year",
+        "search_year_used": 1980,
+        "title_conflict": false,
+        "title_exact": true,
+        "title_prefix_equivalence": false,
+        "year_conflict": false,
+        "year_evidence": "compatible",
+        "year_exact": true,
+        "year_near": false,
+        "year_status": "match"
+      },
+      "source_identities": [
+        {
+          "showtime_film_key": "xanadu",
+          "source": "nwff",
+          "source_film_id": "xanadu",
+          "source_title": "Xanadu"
+        }
+      ],
+      "tmdb_id": 15668,
+      "tmdb_original_title": null,
+      "tmdb_overview_excerpt": "Kira, a Greek muse incarnated on Earth to inspire people, helps Dan McGuire and an artist named Sonny Malone to meet. She inspires them to build a huge disco roller rink called Xanadu.",
+      "tmdb_poster_path": "/4r1cHzhksHO3u1QS1Ct9mId7kQL.jpg",
+      "tmdb_release_year": 1980,
+      "tmdb_runtime_min": 96,
+      "tmdb_title": "Xanadu",
+      "top_candidate_margin": null,
+      "warnings": [],
+      "year_hint": 1980,
+      "year_interpretation": {
+        "alternate_search_title": null,
+        "anniversary_year_derived": false,
+        "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "normalized_source_fallback"
+        ],
+        "base_title": "Xanadu",
+        "canonical_year_candidate": 1980,
+        "event_labels": [],
+        "event_phrase": null,
+        "event_year": null,
+        "event_year_not_canonical": false,
+        "format_tags": [],
+        "presentation_labels": [],
+        "product_year": null,
+        "product_year_weak": false,
+        "program_series": null,
+        "removed_phrases": [],
+        "scoring_year": 1980,
+        "search_abbreviation": null,
+        "search_year": 1980,
         "title_years": [],
         "warnings": [],
         "year_confidence": "explicit",
@@ -62076,6 +62109,209 @@
       "auto_confirm_blocked_reason": null,
       "candidates": [
         {
+          "director": "Huang Weikai",
+          "original_title": "现实是过去的未来",
+          "overview_excerpt": "A \"city symphony\" full of dark humor that weaves together a collage of absurd sounds and events.",
+          "popularity": 0.2839,
+          "poster_path": "/7PsHLvgS2KmpSC9YJdNihYHu688.jpg",
+          "release_year": 2010,
+          "runtime_min": 58,
+          "score": 1.0,
+          "search_query": "Disorder (现实是过去的未来)",
+          "search_query_reason": "normalized_title_year",
+          "search_year_used": 2009,
+          "signals": {
+            "available_weight": 0.72,
+            "contributions": {
+              "runtime": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "near",
+                "matched": true,
+                "weight": 0.12
+              }
+            },
+            "director_candidate_normalized": [
+              "huang weikai"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": false,
+            "matched_weight": 0.72,
+            "original_title_exact": false,
+            "popularity": 0.2839,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 0,
+            "runtime_near": true,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "match",
+            "search_query": "Disorder (现实是过去的未来)",
+            "search_query_reason": "normalized_title_year",
+            "search_year_used": 2009,
+            "title_conflict": false,
+            "title_exact": true,
+            "title_prefix_equivalence": false,
+            "year_conflict": false,
+            "year_evidence": "compatible",
+            "year_exact": false,
+            "year_near": true,
+            "year_status": "near"
+          },
+          "title": "Disorder",
+          "tmdb_id": 102809,
+          "warnings": [
+            "year_proximity"
+          ]
+        }
+      ],
+      "directors_normalized": [],
+      "directors_raw": null,
+      "eligibility": "eligible",
+      "entity_kind": "feature_film",
+      "film_id": "tmdb:102809",
+      "first_observed_at": null,
+      "identity_type": "tmdb",
+      "last_observed_at": null,
+      "match_confidence": 1.0,
+      "match_method": "automatic",
+      "match_status": "confirmed_automatic",
+      "normalized_title": "Disorder (现实是过去的未来)",
+      "presentation_labels": [],
+      "provenance": {
+        "source_identity_key": "siff|id|cinema/in-theaters/disorder-(现实是过去的未来)",
+        "tmdb_search_queries": [
+          {
+            "reason": "normalized_title_year",
+            "title": "Disorder (现实是过去的未来)",
+            "year": 2009
+          }
+        ]
+      },
+      "runtime_min": 58,
+      "signals": {
+        "available_weight": 0.72,
+        "contributions": {
+          "runtime": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.15
+          },
+          "title_exact": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.45
+          },
+          "year": {
+            "kind": "near",
+            "matched": true,
+            "weight": 0.12
+          }
+        },
+        "director_candidate_normalized": [
+          "huang weikai"
+        ],
+        "director_conflict": false,
+        "director_overlap": false,
+        "director_source_normalized": [],
+        "director_status": "unavailable",
+        "director_weak_overlap": false,
+        "event_year_relaxed": false,
+        "external_id_exact": false,
+        "hard_conflict": false,
+        "matched_weight": 0.72,
+        "original_title_exact": false,
+        "popularity": 0.2839,
+        "runtime_compatible_max": 3,
+        "runtime_conflict": false,
+        "runtime_conflict_min": 25,
+        "runtime_delta_minutes": 0,
+        "runtime_near": true,
+        "runtime_soft": false,
+        "runtime_soft_max": 12,
+        "runtime_status": "match",
+        "search_query": "Disorder (现实是过去的未来)",
+        "search_query_reason": "normalized_title_year",
+        "search_year_used": 2009,
+        "title_conflict": false,
+        "title_exact": true,
+        "title_prefix_equivalence": false,
+        "year_conflict": false,
+        "year_evidence": "compatible",
+        "year_exact": false,
+        "year_near": true,
+        "year_status": "near"
+      },
+      "source_identities": [
+        {
+          "showtime_film_key": "disorder",
+          "source": "siff",
+          "source_film_id": "cinema/in-theaters/disorder-(现实是过去的未来)",
+          "source_title": "Disorder (现实是过去的未来)"
+        }
+      ],
+      "tmdb_id": 102809,
+      "tmdb_original_title": "现实是过去的未来",
+      "tmdb_overview_excerpt": "A \"city symphony\" full of dark humor that weaves together a collage of absurd sounds and events.",
+      "tmdb_poster_path": "/7PsHLvgS2KmpSC9YJdNihYHu688.jpg",
+      "tmdb_release_year": 2010,
+      "tmdb_runtime_min": 58,
+      "tmdb_title": "Disorder",
+      "top_candidate_margin": null,
+      "warnings": [
+        "year_proximity"
+      ],
+      "year_hint": 2009,
+      "year_interpretation": {
+        "alternate_search_title": null,
+        "anniversary_year_derived": false,
+        "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "normalized_source_fallback"
+        ],
+        "base_title": "Disorder (现实是过去的未来)",
+        "canonical_year_candidate": 2009,
+        "event_labels": [],
+        "event_phrase": null,
+        "event_year": null,
+        "event_year_not_canonical": false,
+        "format_tags": [],
+        "presentation_labels": [],
+        "product_year": null,
+        "product_year_weak": false,
+        "program_series": null,
+        "removed_phrases": [],
+        "scoring_year": 2009,
+        "search_abbreviation": null,
+        "search_year": 2009,
+        "title_years": [],
+        "warnings": [],
+        "year_confidence": "explicit",
+        "year_evidence": "derived_or_explicit",
+        "year_mismatch_relaxed": false
+      }
+    },
+    {
+      "auto_confirm_blocked_reason": null,
+      "candidates": [
+        {
           "director": "Denis Villeneuve",
           "original_title": null,
           "overview_excerpt": "Emperor Paul Atreides faces the fallout from his ascent to power as political plots and a galaxy-wide holy war endanger the future only he can see.",
@@ -62479,6 +62715,395 @@
         "scoring_year": 2026,
         "search_abbreviation": null,
         "search_year": 2026,
+        "title_years": [],
+        "warnings": [],
+        "year_confidence": "explicit",
+        "year_evidence": "derived_or_explicit",
+        "year_mismatch_relaxed": false
+      }
+    },
+    {
+      "auto_confirm_blocked_reason": "hard_conflict",
+      "candidates": [
+        {
+          "director": null,
+          "original_title": null,
+          "overview_excerpt": "A collection of the best fly fishing movies from 2018.",
+          "popularity": 0.0228,
+          "poster_path": "/n57nwddwJiJ7pYQxyrXTZWFNNz.jpg",
+          "release_year": null,
+          "runtime_min": 129,
+          "score": 0.0833,
+          "search_query": "Fly Fishing Film Tour",
+          "search_query_reason": "normalized_title",
+          "search_year_used": null,
+          "signals": {
+            "available_weight": 0.6,
+            "contributions": {
+              "runtime": {
+                "delta_minutes": 9,
+                "kind": "soft",
+                "matched": true,
+                "soft_weight": 0.05,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              }
+            },
+            "director_candidate_normalized": [],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.05,
+            "original_title_exact": false,
+            "popularity": 0.0228,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 9,
+            "runtime_near": false,
+            "runtime_soft": true,
+            "runtime_soft_max": 12,
+            "runtime_status": "soft",
+            "search_query": "Fly Fishing Film Tour",
+            "search_query_reason": "normalized_title",
+            "search_year_used": null,
+            "title_conflict": true,
+            "title_exact": false,
+            "title_prefix_equivalence": false,
+            "year_conflict": false,
+            "year_evidence": "unavailable",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "2018 Fly Fishing Film Tour",
+          "tmdb_id": 1533406,
+          "warnings": [
+            "title_conflict",
+            "runtime_soft_penalty"
+          ]
+        },
+        {
+          "director": null,
+          "original_title": null,
+          "overview_excerpt": "All films featured in the 2013 Fly Fishing Film Tour.",
+          "popularity": 0.0723,
+          "poster_path": null,
+          "release_year": 2012,
+          "runtime_min": 153,
+          "score": 0.0,
+          "search_query": "Fly Fishing Film Tour",
+          "search_query_reason": "normalized_title",
+          "search_year_used": null,
+          "signals": {
+            "available_weight": 0.9,
+            "contributions": {
+              "runtime": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.3
+              }
+            },
+            "director_candidate_normalized": [],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.0,
+            "original_title_exact": false,
+            "popularity": 0.0723,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": true,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 33,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "conflict",
+            "search_query": "Fly Fishing Film Tour",
+            "search_query_reason": "normalized_title",
+            "search_year_used": null,
+            "title_conflict": true,
+            "title_exact": false,
+            "title_prefix_equivalence": false,
+            "year_conflict": true,
+            "year_evidence": "conflict",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "conflict"
+          },
+          "title": "Fly Fishing Film Tour 2013",
+          "tmdb_id": 275488,
+          "warnings": [
+            "title_conflict",
+            "year_conflict",
+            "runtime_conflict"
+          ]
+        },
+        {
+          "director": null,
+          "original_title": null,
+          "overview_excerpt": "Compilation of the best Short Films on Fly fishing in 2014. All Aspect of Fly Fishing are covered from Alaska Salmon to Florida Tarpon.",
+          "popularity": 0.0496,
+          "poster_path": null,
+          "release_year": 2014,
+          "runtime_min": null,
+          "score": 0.0,
+          "search_query": "Fly Fishing Film Tour",
+          "search_query_reason": "normalized_title",
+          "search_year_used": null,
+          "signals": {
+            "available_weight": 0.75,
+            "contributions": {
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.3
+              }
+            },
+            "director_candidate_normalized": [],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.0,
+            "original_title_exact": false,
+            "popularity": 0.0496,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "search_query": "Fly Fishing Film Tour",
+            "search_query_reason": "normalized_title",
+            "search_year_used": null,
+            "title_conflict": true,
+            "title_exact": false,
+            "title_prefix_equivalence": false,
+            "year_conflict": true,
+            "year_evidence": "conflict",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "conflict"
+          },
+          "title": "2014 Fly Fishing Film Tour",
+          "tmdb_id": 334955,
+          "warnings": [
+            "title_conflict",
+            "year_conflict"
+          ]
+        },
+        {
+          "director": null,
+          "original_title": null,
+          "overview_excerpt": "All films featured in the 2013 Fly Fishing Film Tour.",
+          "popularity": 0.0554,
+          "poster_path": null,
+          "release_year": null,
+          "runtime_min": null,
+          "score": 0.0,
+          "search_query": "Fly Fishing Film Tour",
+          "search_query_reason": "normalized_title",
+          "search_year_used": null,
+          "signals": {
+            "available_weight": 0.45,
+            "contributions": {
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              }
+            },
+            "director_candidate_normalized": [],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.0,
+            "original_title_exact": false,
+            "popularity": 0.0554,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": null,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "unavailable",
+            "search_query": "Fly Fishing Film Tour",
+            "search_query_reason": "normalized_title",
+            "search_year_used": null,
+            "title_conflict": true,
+            "title_exact": false,
+            "title_prefix_equivalence": false,
+            "year_conflict": false,
+            "year_evidence": "unavailable",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Fly Fishing Film Tour 2011",
+          "tmdb_id": 398974,
+          "warnings": [
+            "title_conflict"
+          ]
+        }
+      ],
+      "directors_normalized": [],
+      "directors_raw": null,
+      "eligibility": "eligible",
+      "entity_kind": "feature_film",
+      "film_id": "source:siff:cinema/in-theaters/fly-fishing-film-tour",
+      "first_observed_at": null,
+      "identity_type": "source",
+      "last_observed_at": null,
+      "match_confidence": 0.0833,
+      "match_method": "fallback",
+      "match_status": "unmatched",
+      "normalized_title": "Fly Fishing Film Tour",
+      "presentation_labels": [],
+      "provenance": {
+        "source_identity_key": "siff|id|cinema/in-theaters/fly-fishing-film-tour",
+        "tmdb_search_queries": [
+          {
+            "reason": "normalized_title_year",
+            "title": "Fly Fishing Film Tour",
+            "year": 2027
+          },
+          {
+            "reason": "normalized_title",
+            "title": "Fly Fishing Film Tour",
+            "year": null
+          }
+        ]
+      },
+      "runtime_min": 120,
+      "signals": {
+        "available_weight": 0.6,
+        "contributions": {
+          "runtime": {
+            "delta_minutes": 9,
+            "kind": "soft",
+            "matched": true,
+            "soft_weight": 0.05,
+            "weight": 0.15
+          },
+          "title_exact": {
+            "kind": "conflict",
+            "matched": false,
+            "weight": 0.45
+          }
+        },
+        "director_candidate_normalized": [],
+        "director_conflict": false,
+        "director_overlap": false,
+        "director_source_normalized": [],
+        "director_status": "unavailable",
+        "director_weak_overlap": false,
+        "event_year_relaxed": false,
+        "external_id_exact": false,
+        "hard_conflict": true,
+        "matched_weight": 0.05,
+        "original_title_exact": false,
+        "popularity": 0.0228,
+        "runtime_compatible_max": 3,
+        "runtime_conflict": false,
+        "runtime_conflict_min": 25,
+        "runtime_delta_minutes": 9,
+        "runtime_near": false,
+        "runtime_soft": true,
+        "runtime_soft_max": 12,
+        "runtime_status": "soft",
+        "search_query": "Fly Fishing Film Tour",
+        "search_query_reason": "normalized_title",
+        "search_year_used": null,
+        "title_conflict": true,
+        "title_exact": false,
+        "title_prefix_equivalence": false,
+        "year_conflict": false,
+        "year_evidence": "unavailable",
+        "year_exact": false,
+        "year_near": false,
+        "year_status": "unavailable"
+      },
+      "source_identities": [
+        {
+          "showtime_film_key": "fly-fishing-film-tour",
+          "source": "siff",
+          "source_film_id": "cinema/in-theaters/fly-fishing-film-tour",
+          "source_title": "Fly Fishing Film Tour"
+        }
+      ],
+      "tmdb_id": null,
+      "top_candidate_margin": 0.0833,
+      "warnings": [
+        "title_conflict",
+        "runtime_soft_penalty"
+      ],
+      "year_hint": 2027,
+      "year_interpretation": {
+        "alternate_search_title": null,
+        "anniversary_year_derived": false,
+        "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "normalized_source_fallback"
+        ],
+        "base_title": "Fly Fishing Film Tour",
+        "canonical_year_candidate": 2027,
+        "event_labels": [],
+        "event_phrase": null,
+        "event_year": null,
+        "event_year_not_canonical": false,
+        "format_tags": [],
+        "presentation_labels": [],
+        "product_year": null,
+        "product_year_weak": false,
+        "program_series": null,
+        "removed_phrases": [],
+        "scoring_year": 2027,
+        "search_abbreviation": null,
+        "search_year": 2027,
         "title_years": [],
         "warnings": [],
         "year_confidence": "explicit",
@@ -63516,88 +64141,6 @@
       "directors_raw": null,
       "eligibility": "eligible",
       "entity_kind": "feature_film",
-      "film_id": "source:siff:cinema/in-theaters/romanian-film-festival-seattle-13th-edition/3-days-in-september",
-      "first_observed_at": null,
-      "identity_type": "source",
-      "last_observed_at": null,
-      "match_confidence": null,
-      "match_method": "fallback",
-      "match_status": "unmatched",
-      "normalized_title": "Romanian Film Festival Seattle: 3 Days in September",
-      "presentation_labels": [
-        "film festival"
-      ],
-      "provenance": {
-        "source_identity_key": "siff|id|cinema/in-theaters/romanian-film-festival-seattle-13th-edition/3-days-in-september",
-        "tmdb_search_queries": [
-          {
-            "reason": "normalized_title_year",
-            "title": "Romanian Film Festival Seattle: 3 Days in September",
-            "year": 2026
-          },
-          {
-            "reason": "normalized_title",
-            "title": "Romanian Film Festival Seattle: 3 Days in September",
-            "year": null
-          }
-        ]
-      },
-      "runtime_min": 75,
-      "signals": null,
-      "source_identities": [
-        {
-          "showtime_film_key": "romanian-film-festival-seattle-3-days-in-september",
-          "source": "siff",
-          "source_film_id": "cinema/in-theaters/romanian-film-festival-seattle-13th-edition/3-days-in-september",
-          "source_title": "Romanian Film Festival Seattle: 3 Days in September"
-        }
-      ],
-      "tmdb_id": null,
-      "top_candidate_margin": null,
-      "warnings": [
-        "festival_presentation"
-      ],
-      "year_hint": 2026,
-      "year_interpretation": {
-        "alternate_search_title": null,
-        "anniversary_year_derived": false,
-        "anniversary_years": null,
-        "applied_alias": null,
-        "applied_alias_id": null,
-        "applied_rules": [
-          "normalized_source_fallback"
-        ],
-        "base_title": "Romanian Film Festival Seattle: 3 Days in September",
-        "canonical_year_candidate": 2026,
-        "event_labels": [],
-        "event_phrase": null,
-        "event_year": null,
-        "event_year_not_canonical": false,
-        "format_tags": [],
-        "presentation_labels": [
-          "film festival"
-        ],
-        "product_year": null,
-        "product_year_weak": false,
-        "program_series": null,
-        "removed_phrases": [],
-        "scoring_year": 2026,
-        "search_abbreviation": null,
-        "search_year": 2026,
-        "title_years": [],
-        "warnings": [],
-        "year_confidence": "explicit",
-        "year_evidence": "derived_or_explicit",
-        "year_mismatch_relaxed": false
-      }
-    },
-    {
-      "auto_confirm_blocked_reason": null,
-      "candidates": [],
-      "directors_normalized": [],
-      "directors_raw": null,
-      "eligibility": "eligible",
-      "entity_kind": "feature_film",
       "film_id": "source:siff:cinema/in-theaters/romanian-film-festival-seattle-13th-edition/atlas-of-the-universe",
       "first_observed_at": null,
       "identity_type": "source",
@@ -64606,6 +65149,205 @@
         "removed_phrases": [
           "Q&A"
         ],
+        "scoring_year": 2026,
+        "search_abbreviation": null,
+        "search_year": 2026,
+        "title_years": [],
+        "warnings": [],
+        "year_confidence": "explicit",
+        "year_evidence": "derived_or_explicit",
+        "year_mismatch_relaxed": false
+      }
+    },
+    {
+      "auto_confirm_blocked_reason": null,
+      "candidates": [
+        {
+          "director": "Sam Green",
+          "original_title": null,
+          "overview_excerpt": "A decade-long global journey chronicles the ever-changing record holders of the title of oldest person alive. What begins as a portrait of longevity becomes a meditation on the passage of time, the randomness of fate, a…",
+          "popularity": 1.7199,
+          "poster_path": "/iVMz3xDZEXXDCKEQbVeXZ7Qbzuf.jpg",
+          "release_year": 2026,
+          "runtime_min": 87,
+          "score": 1.0,
+          "search_query": "The Oldest Person in the World",
+          "search_query_reason": "normalized_title_year",
+          "search_year_used": 2026,
+          "signals": {
+            "available_weight": 0.9,
+            "contributions": {
+              "runtime": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.3
+              }
+            },
+            "director_candidate_normalized": [
+              "sam green"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": false,
+            "matched_weight": 0.9,
+            "original_title_exact": false,
+            "popularity": 1.7199,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 0,
+            "runtime_near": true,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "match",
+            "search_query": "The Oldest Person in the World",
+            "search_query_reason": "normalized_title_year",
+            "search_year_used": 2026,
+            "title_conflict": false,
+            "title_exact": true,
+            "title_prefix_equivalence": false,
+            "year_conflict": false,
+            "year_evidence": "compatible",
+            "year_exact": true,
+            "year_near": false,
+            "year_status": "match"
+          },
+          "title": "The Oldest Person in the World",
+          "tmdb_id": 1596302,
+          "warnings": []
+        }
+      ],
+      "directors_normalized": [],
+      "directors_raw": null,
+      "eligibility": "eligible",
+      "entity_kind": "feature_film",
+      "film_id": "tmdb:1596302",
+      "first_observed_at": null,
+      "identity_type": "tmdb",
+      "last_observed_at": null,
+      "match_confidence": 1.0,
+      "match_method": "automatic",
+      "match_status": "confirmed_automatic",
+      "normalized_title": "The Oldest Person in the World",
+      "presentation_labels": [],
+      "provenance": {
+        "source_identity_key": "siff|id|cinema/in-theaters/the-oldest-person-in-the-world",
+        "tmdb_search_queries": [
+          {
+            "reason": "normalized_title_year",
+            "title": "The Oldest Person in the World",
+            "year": 2026
+          }
+        ]
+      },
+      "runtime_min": 87,
+      "signals": {
+        "available_weight": 0.9,
+        "contributions": {
+          "runtime": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.15
+          },
+          "title_exact": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.45
+          },
+          "year": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.3
+          }
+        },
+        "director_candidate_normalized": [
+          "sam green"
+        ],
+        "director_conflict": false,
+        "director_overlap": false,
+        "director_source_normalized": [],
+        "director_status": "unavailable",
+        "director_weak_overlap": false,
+        "event_year_relaxed": false,
+        "external_id_exact": false,
+        "hard_conflict": false,
+        "matched_weight": 0.9,
+        "original_title_exact": false,
+        "popularity": 1.7199,
+        "runtime_compatible_max": 3,
+        "runtime_conflict": false,
+        "runtime_conflict_min": 25,
+        "runtime_delta_minutes": 0,
+        "runtime_near": true,
+        "runtime_soft": false,
+        "runtime_soft_max": 12,
+        "runtime_status": "match",
+        "search_query": "The Oldest Person in the World",
+        "search_query_reason": "normalized_title_year",
+        "search_year_used": 2026,
+        "title_conflict": false,
+        "title_exact": true,
+        "title_prefix_equivalence": false,
+        "year_conflict": false,
+        "year_evidence": "compatible",
+        "year_exact": true,
+        "year_near": false,
+        "year_status": "match"
+      },
+      "source_identities": [
+        {
+          "showtime_film_key": "oldest-person-in-the-world",
+          "source": "siff",
+          "source_film_id": "cinema/in-theaters/the-oldest-person-in-the-world",
+          "source_title": "The Oldest Person in the World"
+        }
+      ],
+      "tmdb_id": 1596302,
+      "tmdb_original_title": null,
+      "tmdb_overview_excerpt": "A decade-long global journey chronicles the ever-changing record holders of the title of oldest person alive. What begins as a portrait of longevity becomes a meditation on the passage of time, the randomness of fate, a…",
+      "tmdb_poster_path": "/iVMz3xDZEXXDCKEQbVeXZ7Qbzuf.jpg",
+      "tmdb_release_year": 2026,
+      "tmdb_runtime_min": 87,
+      "tmdb_title": "The Oldest Person in the World",
+      "top_candidate_margin": null,
+      "warnings": [],
+      "year_hint": 2026,
+      "year_interpretation": {
+        "alternate_search_title": null,
+        "anniversary_year_derived": false,
+        "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "normalized_source_fallback"
+        ],
+        "base_title": "The Oldest Person in the World",
+        "canonical_year_candidate": 2026,
+        "event_labels": [],
+        "event_phrase": null,
+        "event_year": null,
+        "event_year_not_canonical": false,
+        "format_tags": [],
+        "presentation_labels": [],
+        "product_year": null,
+        "product_year_weak": false,
+        "program_series": null,
+        "removed_phrases": [],
         "scoring_year": 2026,
         "search_abbreviation": null,
         "search_year": 2026,
@@ -69187,82 +69929,6 @@
       "directors_raw": null,
       "eligibility": "eligible",
       "entity_kind": "feature_film",
-      "film_id": "source:siff:programs-and-events/seattle-film-critics-society-pnw-awards-2026/a-simple-machine",
-      "first_observed_at": null,
-      "identity_type": "source",
-      "last_observed_at": null,
-      "match_confidence": null,
-      "match_method": "fallback",
-      "match_status": "unmatched",
-      "normalized_title": "PNW Awards: A Simple Machine",
-      "presentation_labels": [],
-      "provenance": {
-        "source_identity_key": "siff|id|programs-and-events/seattle-film-critics-society-pnw-awards-2026/a-simple-machine",
-        "tmdb_search_queries": [
-          {
-            "reason": "normalized_title_year",
-            "title": "PNW Awards: A Simple Machine",
-            "year": 2025
-          },
-          {
-            "reason": "normalized_title",
-            "title": "PNW Awards: A Simple Machine",
-            "year": null
-          }
-        ]
-      },
-      "runtime_min": 100,
-      "signals": null,
-      "source_identities": [
-        {
-          "showtime_film_key": "pnw-awards-a-simple-machine",
-          "source": "siff",
-          "source_film_id": "programs-and-events/seattle-film-critics-society-pnw-awards-2026/a-simple-machine",
-          "source_title": "PNW Awards: A Simple Machine"
-        }
-      ],
-      "tmdb_id": null,
-      "top_candidate_margin": null,
-      "warnings": [],
-      "year_hint": 2025,
-      "year_interpretation": {
-        "alternate_search_title": null,
-        "anniversary_year_derived": false,
-        "anniversary_years": null,
-        "applied_alias": null,
-        "applied_alias_id": null,
-        "applied_rules": [
-          "normalized_source_fallback"
-        ],
-        "base_title": "PNW Awards: A Simple Machine",
-        "canonical_year_candidate": 2025,
-        "event_labels": [],
-        "event_phrase": null,
-        "event_year": null,
-        "event_year_not_canonical": false,
-        "format_tags": [],
-        "presentation_labels": [],
-        "product_year": null,
-        "product_year_weak": false,
-        "program_series": null,
-        "removed_phrases": [],
-        "scoring_year": 2025,
-        "search_abbreviation": null,
-        "search_year": 2025,
-        "title_years": [],
-        "warnings": [],
-        "year_confidence": "explicit",
-        "year_evidence": "derived_or_explicit",
-        "year_mismatch_relaxed": false
-      }
-    },
-    {
-      "auto_confirm_blocked_reason": null,
-      "candidates": [],
-      "directors_normalized": [],
-      "directors_raw": null,
-      "eligibility": "eligible",
-      "entity_kind": "feature_film",
       "film_id": "source:siff:programs-and-events/seattle-film-critics-society-pnw-awards-2026/again-again",
       "first_observed_at": null,
       "identity_type": "source",
@@ -72754,217 +73420,8 @@
         "year_evidence": "derived_or_explicit",
         "year_mismatch_relaxed": false
       }
-    },
-    {
-      "auto_confirm_blocked_reason": null,
-      "candidates": [
-        {
-          "director": "Javier Ambrossi",
-          "original_title": null,
-          "overview_excerpt": "The intertwined lives of three men in three different eras, three lives intimately linked by sexuality and desire, pain, and legacy.",
-          "popularity": 75.0998,
-          "poster_path": "/jT5SR5qc9KvVg7HUEmjMWEUYMce.jpg",
-          "release_year": 2026,
-          "runtime_min": 155,
-          "score": 0.9822,
-          "search_query": "La Bola Negra",
-          "search_query_reason": "normalized_title_year",
-          "search_year_used": 2026,
-          "signals": {
-            "available_weight": 0.9,
-            "contributions": {
-              "runtime": {
-                "delta_minutes": 4,
-                "kind": "soft",
-                "matched": true,
-                "soft_weight": 0.1333,
-                "weight": 0.15
-              },
-              "title_exact": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.3
-              }
-            },
-            "director_candidate_normalized": [
-              "javier ambrossi"
-            ],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": false,
-            "matched_weight": 0.8833,
-            "original_title_exact": false,
-            "popularity": 75.0998,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 4,
-            "runtime_near": false,
-            "runtime_soft": true,
-            "runtime_soft_max": 12,
-            "runtime_status": "soft",
-            "search_query": "La Bola Negra",
-            "search_query_reason": "normalized_title_year",
-            "search_year_used": 2026,
-            "title_conflict": false,
-            "title_exact": true,
-            "title_prefix_equivalence": false,
-            "year_conflict": false,
-            "year_evidence": "compatible",
-            "year_exact": true,
-            "year_near": false,
-            "year_status": "match"
-          },
-          "title": "La bola negra",
-          "tmdb_id": 1422041,
-          "warnings": [
-            "runtime_soft_penalty"
-          ]
-        }
-      ],
-      "directors_normalized": [],
-      "directors_raw": null,
-      "eligibility": "eligible",
-      "entity_kind": "feature_film",
-      "film_id": "tmdb:1422041",
-      "first_observed_at": null,
-      "identity_type": "tmdb",
-      "last_observed_at": null,
-      "match_confidence": 0.9822,
-      "match_method": "automatic",
-      "match_status": "confirmed_automatic",
-      "normalized_title": "La Bola Negra",
-      "presentation_labels": [],
-      "provenance": {
-        "source_identity_key": "tasveer|id|161445",
-        "tmdb_search_queries": [
-          {
-            "reason": "normalized_title_year",
-            "title": "La Bola Negra",
-            "year": 2026
-          }
-        ]
-      },
-      "runtime_min": 159,
-      "signals": {
-        "available_weight": 0.9,
-        "contributions": {
-          "runtime": {
-            "delta_minutes": 4,
-            "kind": "soft",
-            "matched": true,
-            "soft_weight": 0.1333,
-            "weight": 0.15
-          },
-          "title_exact": {
-            "kind": "match",
-            "matched": true,
-            "weight": 0.45
-          },
-          "year": {
-            "kind": "match",
-            "matched": true,
-            "weight": 0.3
-          }
-        },
-        "director_candidate_normalized": [
-          "javier ambrossi"
-        ],
-        "director_conflict": false,
-        "director_overlap": false,
-        "director_source_normalized": [],
-        "director_status": "unavailable",
-        "director_weak_overlap": false,
-        "event_year_relaxed": false,
-        "external_id_exact": false,
-        "hard_conflict": false,
-        "matched_weight": 0.8833,
-        "original_title_exact": false,
-        "popularity": 75.0998,
-        "runtime_compatible_max": 3,
-        "runtime_conflict": false,
-        "runtime_conflict_min": 25,
-        "runtime_delta_minutes": 4,
-        "runtime_near": false,
-        "runtime_soft": true,
-        "runtime_soft_max": 12,
-        "runtime_status": "soft",
-        "search_query": "La Bola Negra",
-        "search_query_reason": "normalized_title_year",
-        "search_year_used": 2026,
-        "title_conflict": false,
-        "title_exact": true,
-        "title_prefix_equivalence": false,
-        "year_conflict": false,
-        "year_evidence": "compatible",
-        "year_exact": true,
-        "year_near": false,
-        "year_status": "match"
-      },
-      "source_identities": [
-        {
-          "showtime_film_key": "la-bola-negra",
-          "source": "tasveer",
-          "source_film_id": "161445",
-          "source_title": "La Bola Negra (2026, Spain, Spanish)"
-        }
-      ],
-      "tmdb_id": 1422041,
-      "tmdb_original_title": null,
-      "tmdb_overview_excerpt": "The intertwined lives of three men in three different eras, three lives intimately linked by sexuality and desire, pain, and legacy.",
-      "tmdb_poster_path": "/jT5SR5qc9KvVg7HUEmjMWEUYMce.jpg",
-      "tmdb_release_year": 2026,
-      "tmdb_runtime_min": 155,
-      "tmdb_title": "La bola negra",
-      "top_candidate_margin": null,
-      "warnings": [
-        "runtime_soft_penalty"
-      ],
-      "year_hint": 2026,
-      "year_interpretation": {
-        "alternate_search_title": null,
-        "anniversary_year_derived": false,
-        "anniversary_years": null,
-        "applied_alias": null,
-        "applied_alias_id": null,
-        "applied_rules": [
-          "normalized_source_fallback"
-        ],
-        "base_title": "La Bola Negra (2026, Spain, Spanish)",
-        "canonical_year_candidate": 2026,
-        "event_labels": [],
-        "event_phrase": null,
-        "event_year": null,
-        "event_year_not_canonical": false,
-        "format_tags": [],
-        "presentation_labels": [],
-        "product_year": null,
-        "product_year_weak": false,
-        "program_series": null,
-        "removed_phrases": [],
-        "scoring_year": 2026,
-        "search_abbreviation": null,
-        "search_year": 2026,
-        "title_years": [
-          2026
-        ],
-        "warnings": [],
-        "year_confidence": "explicit",
-        "year_evidence": "derived_or_explicit",
-        "year_mismatch_relaxed": false
-      }
     }
   ],
-  "generated_at": "2026-11-13T14:58:34+00:00",
+  "generated_at": "2026-11-14T13:50:54+00:00",
   "schema_version": "1.0.0"
 }
