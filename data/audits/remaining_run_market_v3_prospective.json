@@ -1,7 +1,7 @@
 {
   "by_segment": {
     "ordinary": {
-      "brier": 0.2935155977423242,
+      "brier": 0.226825250517446,
       "calibration": [
         {
           "actual_final_week": 0.0,
@@ -9,8 +9,8 @@
             0,
             0.25
           ],
-          "mean_predicted": 0.16756412013274855,
-          "n": 3
+          "mean_predicted": 0.02890090295598931,
+          "n": 24
         },
         {
           "actual_final_week": 0.8181818181818182,
@@ -40,12 +40,12 @@
           "n": 13
         }
       ],
-      "final_week_actual_rate": 0.88,
-      "final_week_pairwise_accuracy": 0.875,
-      "final_week_predicted_rate": 0.6037536917585556,
-      "log_loss": 0.5258161039573939,
-      "n": 50,
-      "unique_films": 8,
+      "final_week_actual_rate": 0.6197183098591549,
+      "final_week_pairwise_accuracy": 0.9722222222222222,
+      "final_week_predicted_rate": 0.4278678013869476,
+      "log_loss": 0.4214273406256918,
+      "n": 71,
+      "unique_films": 14,
       "unique_programming_weeks": 2
     },
     "rerelease": {
@@ -110,7 +110,7 @@
     }
   },
   "clean": {
-    "brier": 0.27314609018022284,
+    "brier": 0.24517690190644215,
     "calibration": [
       {
         "actual_final_week": 0.0,
@@ -118,8 +118,8 @@
           0,
           0.25
         ],
-        "mean_predicted": 0.16756412013274855,
-        "n": 3
+        "mean_predicted": 0.02890090295598931,
+        "n": 24
       },
       {
         "actual_final_week": 0.75,
@@ -149,25 +149,25 @@
         "n": 81
       }
     ],
-    "final_week_actual_rate": 0.849624060150376,
-    "final_week_pairwise_accuracy": 0.627906976744186,
-    "final_week_predicted_rate": 0.7830146735612137,
-    "log_loss": 0.44855142605051945,
-    "n": 133,
-    "unique_films": 21,
+    "final_week_actual_rate": 0.7337662337662337,
+    "final_week_pairwise_accuracy": 0.8176638176638177,
+    "final_week_predicted_rate": 0.6774797460661488,
+    "log_loss": 0.41096023150177613,
+    "n": 154,
+    "unique_films": 27,
     "unique_programming_weeks": 2
   },
   "diagnostics": {
     "important": "Performance is not a causal evaluation of actual A-List decisions; eligibility, interest, scheduling, and the four-credit reset still need an offline replay",
-    "quality_degraded_resolved": 21,
-    "unresolved_or_censored": 616
+    "quality_degraded_resolved": 31,
+    "unresolved_or_censored": 621
   },
-  "generated_at": "2026-11-13T18:58:33.791487+00:00",
+  "generated_at": "2026-11-14T17:30:18.789763+00:00",
   "model_sha256": "f3376368dad1a01b920a19933b84c99b986cc230c94ecabc2eb6263b7c99f498",
   "model_version": "remaining_run_market_v3_prospective_1",
-  "newly_verified": 0,
+  "newly_verified": 31,
   "overall": {
-    "brier": 0.2975820933250578,
+    "brier": 0.2595306087924706,
     "calibration": [
       {
         "actual_final_week": 0.0,
@@ -175,8 +175,8 @@
           0,
           0.25
         ],
-        "mean_predicted": 0.1860414245691016,
-        "n": 4
+        "mean_predicted": 0.02965668318478109,
+        "n": 35
       },
       {
         "actual_final_week": 0.7333333333333333,
@@ -206,12 +206,12 @@
         "n": 94
       }
     ],
-    "final_week_actual_rate": 0.8311688311688312,
-    "final_week_pairwise_accuracy": 0.6221198156682027,
-    "final_week_predicted_rate": 0.7764121744356571,
-    "log_loss": 0.48288170599256497,
-    "n": 154,
-    "unique_films": 21,
+    "final_week_actual_rate": 0.6918918918918919,
+    "final_week_pairwise_accuracy": 0.8259023354564756,
+    "final_week_predicted_rate": 0.6478988814934169,
+    "log_loss": 0.4327133967010888,
+    "n": 185,
+    "unique_films": 27,
     "unique_programming_weeks": 2
   },
   "promotion": {
@@ -243,11 +243,11 @@
     "precision_at_four": 0.875,
     "weeks": 2
   },
-  "saved_forecasts": 814,
-  "strict_clean": 133,
-  "strict_resolved": 154,
+  "saved_forecasts": 850,
+  "strict_clean": 154,
+  "strict_resolved": 185,
   "thursday": {
-    "brier": 0.3712463730968233,
+    "brier": 0.32914399502898223,
     "calibration": [
       {
         "actual_final_week": 0.0,
@@ -255,8 +255,8 @@
           0,
           0.25
         ],
-        "mean_predicted": 0.13966826432407906,
-        "n": 2
+        "mean_predicted": 0.04578925744450258,
+        "n": 8
       },
       {
         "actual_final_week": 0.6666666666666666,
@@ -286,13 +286,13 @@
         "n": 14
       }
     ],
-    "final_week_actual_rate": 0.7241379310344828,
-    "final_week_pairwise_accuracy": 0.6944444444444444,
-    "final_week_predicted_rate": 0.7326943386960791,
-    "log_loss": 0.5833587655781022,
-    "n": 29,
-    "unique_films": 21,
+    "final_week_actual_rate": 0.6,
+    "final_week_pairwise_accuracy": 0.8253968253968254,
+    "final_week_predicted_rate": 0.6095746672312616,
+    "log_loss": 0.5268096218011213,
+    "n": 35,
+    "unique_films": 27,
     "unique_programming_weeks": 2
   },
-  "valid_postfreeze_forecasts": 770
+  "valid_postfreeze_forecasts": 806
 }
