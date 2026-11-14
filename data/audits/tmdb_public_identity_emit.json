@@ -1,11 +1,11 @@
 {
   "catalog_path": "data/film_identity/film_identity_catalog.json",
   "collisions": 0,
-  "coverage_rate": 0.5454545454545454,
-  "generated_at": "2026-11-13T14:59:43+00:00",
+  "coverage_rate": 0.5369649805447471,
+  "generated_at": "2026-11-14T12:50:06+00:00",
   "index_size": 156,
   "invalid_identities": 0,
-  "mapping_misses": 115,
+  "mapping_misses": 119,
   "non_null_film_id": 138,
   "notes": [
     "Public film_id emits confirmed tmdb:<id> only; unmatched/program → null.",
@@ -14,11 +14,11 @@
     "Saved/Seen/NI readers prefer filmId with showtimeFilmKey aliases (T-FILMID-03).",
     "Film Detail / Home / Search join enrichment by exact filmId only."
   ],
-  "null_film_id": 115,
+  "null_film_id": 119,
   "per_source": {
     "amc": {
-      "films": 101,
-      "null_film_id": 56,
+      "films": 100,
+      "null_film_id": 55,
       "with_film_id": 45
     },
     "anderson_school": {
@@ -27,8 +27,8 @@
       "with_film_id": 0
     },
     "beacon": {
-      "films": 48,
-      "null_film_id": 14,
+      "films": 49,
+      "null_film_id": 15,
       "with_film_id": 34
     },
     "central_cinema": {
@@ -47,26 +47,30 @@
       "with_film_id": 9
     },
     "nwff": {
-      "films": 28,
-      "null_film_id": 9,
+      "films": 31,
+      "null_film_id": 12,
       "with_film_id": 19
     },
     "siff": {
-      "films": 59,
-      "null_film_id": 23,
+      "films": 60,
+      "null_film_id": 24,
       "with_film_id": 36
-    },
-    "tasveer": {
-      "films": 1,
-      "null_film_id": 0,
-      "with_film_id": 1
     }
+  },
+  "performance_identity": {
+    "ambiguous": 0,
+    "inherited_from_registry": 14,
+    "matched": 0,
+    "registry_path": "data/performance_identity/performance_identity_current.json",
+    "registry_persisted": false,
+    "registry_upserts": 0,
+    "unmatched_gi": 14
   },
   "repeated_canonical_across_films": 5,
   "schema_version": "1.0.0",
   "source_fallback_emitted": 0,
   "status": "ok",
-  "total_public_films": 253,
+  "total_public_films": 257,
   "unique_tmdb_ids": 133,
   "warning_count": 0,
   "warnings": []

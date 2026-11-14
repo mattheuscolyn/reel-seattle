@@ -1,18 +1,18 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-11-13T05:45:22-08:00",
+  "generated_at": "2026-11-14T04:50:02-08:00",
   "status": "success",
   "window": {
-    "start_date": "2026-11-13",
+    "start_date": "2026-11-14",
     "end_date": "2027-10-26"
   },
   "sources": {
     "amc": {
       "status": "success",
-      "showtime_count": 8409,
-      "film_count": 101,
+      "showtime_count": 8176,
+      "film_count": 100,
       "theater_count": 7,
-      "last_successful_run": "2026-11-13",
+      "last_successful_run": "2026-11-14",
       "warnings": [
         "AMC allowlist: 2 disabled registry matches skipped: AMC Kitsap 8, AMC Lakewood Mall 12"
       ],
@@ -20,10 +20,10 @@
     },
     "siff": {
       "status": "success",
-      "showtime_count": 194,
-      "film_count": 59,
+      "showtime_count": 189,
+      "film_count": 60,
       "theater_count": 3,
-      "last_successful_run": "2026-11-13",
+      "last_successful_run": "2026-11-14",
       "warnings": [
         "SIFF parent/series page with no direct showtimes: programs-and-events/celluloid-screenings",
         "SIFF parent/series page with no direct showtimes: programs-and-events/cinema-italian-style-2026",
@@ -38,26 +38,24 @@
     "beacon": {
       "status": "success",
       "showtime_count": 86,
-      "film_count": 48,
+      "film_count": 49,
       "theater_count": 1,
-      "last_successful_run": "2026-11-13",
+      "last_successful_run": "2026-11-14",
       "warnings": [],
       "errors": []
     },
     "nwff": {
       "status": "success",
-      "showtime_count": 88,
-      "film_count": 28,
+      "showtime_count": 100,
+      "film_count": 31,
       "theater_count": 1,
-      "last_successful_run": "2026-11-12",
-      "warnings": [
-        "NWFF scrape incomplete or unsafe (scrape_status=partial_failure); retained prior future rows."
-      ],
+      "last_successful_run": "2026-11-14",
+      "warnings": [],
       "errors": []
     },
     "central_cinema": {
       "status": "success",
-      "showtime_count": 24,
+      "showtime_count": 21,
       "film_count": 8,
       "theater_count": 1,
       "last_successful_run": "2026-10-27",
@@ -78,20 +76,20 @@
       ]
     },
     "tasveer": {
-      "status": "success",
-      "showtime_count": 7,
-      "film_count": 1,
-      "theater_count": 1,
+      "status": "stale",
+      "showtime_count": 0,
+      "film_count": 0,
+      "theater_count": 0,
       "last_successful_run": "2026-11-13",
       "warnings": [],
       "errors": []
     },
     "anderson_school": {
       "status": "success",
-      "showtime_count": 50,
+      "showtime_count": 48,
       "film_count": 2,
       "theater_count": 1,
-      "last_successful_run": "2026-11-13",
+      "last_successful_run": "2026-11-14",
       "warnings": [],
       "errors": []
     },
@@ -108,18 +106,18 @@
     },
     "majestic_bay": {
       "status": "success",
-      "showtime_count": 93,
+      "showtime_count": 99,
       "film_count": 12,
       "theater_count": 1,
-      "last_successful_run": "2026-11-13",
+      "last_successful_run": "2026-11-14",
       "warnings": [],
       "errors": []
     }
   },
   "totals": {
-    "showtime_count": 8965,
-    "film_count": 253,
-    "theater_count": 16
+    "showtime_count": 8733,
+    "film_count": 257,
+    "theater_count": 15
   },
   "messages": [],
   "amc_source_catalog": {
@@ -131,15 +129,15 @@
     "outcome": "promoted",
     "artifacts_written_this_run": true,
     "artifacts_retained_from_prior": false,
-    "reported_at": "2026-11-13T05:56:52-08:00",
-    "last_successful_build_at": "2026-11-13T05:55:00-08:00",
+    "reported_at": "2026-11-14T05:01:26-08:00",
+    "last_successful_build_at": "2026-11-14T04:59:38-08:00",
     "message": "AMC source catalog: promoted",
     "warnings": [],
     "errors": [],
     "refresh": {
-      "active_ids": 101,
-      "selected": 101,
-      "success": 101,
+      "active_ids": 100,
+      "selected": 100,
+      "success": 100,
       "failed": 0,
       "invalid": 0
     },
@@ -150,7 +148,7 @@
         "exists": true,
         "valid": true,
         "schema_version": "1.0.0",
-        "generated_at": "2026-11-13T05:55:00-08:00",
+        "generated_at": "2026-11-14T04:59:38-08:00",
         "record_count": 466,
         "written_this_run": true,
         "retained_from_prior": false,
@@ -163,8 +161,8 @@
         "exists": true,
         "valid": true,
         "schema_version": "1.0.0",
-        "generated_at": "2026-11-13T05:55:00-08:00",
-        "record_count": 412,
+        "generated_at": "2026-11-14T04:59:38-08:00",
+        "record_count": 413,
         "written_this_run": true,
         "retained_from_prior": false,
         "warnings": [],
@@ -173,10 +171,10 @@
     },
     "products_summary": {
       "total": 466,
-      "active": 101,
-      "inactive": 365,
-      "with_release_id": 454,
-      "without_release_id": 12,
+      "active": 100,
+      "inactive": 366,
+      "with_release_id": 455,
+      "without_release_id": 11,
       "refresh_pending": 0,
       "refresh_success": 466,
       "refresh_stale": 0,
@@ -185,10 +183,10 @@
       "refresh_status_missing": 0,
       "stored_stats": {
         "products": 466,
-        "active_products": 101,
-        "inactive_products": 365,
-        "with_release_id": 454,
-        "without_release_id": 12,
+        "active_products": 100,
+        "inactive_products": 366,
+        "with_release_id": 455,
+        "without_release_id": 11,
         "refresh_pending": 0,
         "refresh_success": 466,
         "refresh_stale": 0,
@@ -198,14 +196,14 @@
       }
     },
     "releases_summary": {
-      "total": 412,
-      "singleton_groups": 390,
+      "total": 413,
+      "singleton_groups": 391,
       "multi_product_groups": 22,
-      "membership_references": 454,
+      "membership_references": 455,
       "unresolved_member_references": 0,
       "stored_stats": {
-        "release_observations": 412,
-        "singleton_groups": 390,
+        "release_observations": 413,
+        "singleton_groups": 391,
         "multi_product_groups": 22,
         "largest_group": 18
       }

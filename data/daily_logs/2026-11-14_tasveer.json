@@ -1,0 +1,76 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-11-14T04:48:47-08:00",
+  "source": "tasveer",
+  "records": [],
+  "stats": {
+    "scrape_status": "valid_empty",
+    "restate_safe": true,
+    "expected_structure_present": true,
+    "discovery_ok": true,
+    "discovered_programs": 0,
+    "program_pages_attempted": 1,
+    "program_pages_succeeded": 1,
+    "program_pages_failed": 0,
+    "failed_program_urls": [],
+    "valid_empty_proof": true,
+    "stale_retention_recommended": false,
+    "inspected_scope_complete": true,
+    "requested_window_start": "2026-11-14",
+    "requested_window_end": "2027-11-14",
+    "record_count": 0,
+    "warning_count": 0,
+    "error_count": 0
+  },
+  "warnings": [],
+  "errors": [],
+  "mapping": {
+    "status": "valid_empty",
+    "restate_safe": true,
+    "accepted_records": 0,
+    "rejected_records": 0
+  },
+  "independent_source_result": {
+    "contract_version": "1.0.0",
+    "source": "tasveer",
+    "scraped_at": "2026-11-14T04:48:47-08:00",
+    "requested_window": {
+      "start": "2026-11-14",
+      "end": "2027-11-14"
+    },
+    "inspected_window": {
+      "start": "2026-11-14",
+      "end": "2027-11-14",
+      "complete": true
+    },
+    "status": "valid_empty",
+    "restate_safe": true,
+    "identity": {
+      "program_strategy": "source_numeric_id",
+      "showtime_strategy": "source_showing_id"
+    },
+    "structural_validation": {
+      "passed": true,
+      "checks": [
+        {
+          "code": "expected_structure",
+          "passed": true,
+          "severity": "info",
+          "message": "expected source structure was present and no showtimes were published"
+        }
+      ]
+    },
+    "stats": {
+      "accepted_showtimes": 0,
+      "rejected_observations": 0
+    },
+    "warnings": [],
+    "rejected_observations": [],
+    "programs": [],
+    "showtimes": [],
+    "valid_empty_evidence": {
+      "proven": true,
+      "reason": "expected structure contained zero in-window showtimes"
+    }
+  }
+}

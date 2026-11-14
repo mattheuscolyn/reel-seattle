@@ -1,21 +1,21 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-11-13T05:56:52-08:00",
+  "generated_at": "2026-11-14T05:01:26-08:00",
   "audit_kind": "film_pipeline_source_metadata",
   "logs_dir": "data/daily_logs",
   "sources": {
     "amc": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-13_amc.json",
-      "generated_at": "2026-11-13T05:44:48-08:00",
-      "record_count": 8412,
+      "latest_log": "data/daily_logs/2026-11-14_amc.json",
+      "generated_at": "2026-11-14T04:49:28-08:00",
+      "record_count": 8179,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 101,
+      "source_identity_count": 100,
       "eligible_feature_count": 86,
       "title": {
-        "with_title": 101,
+        "with_title": 100,
         "missing": 0
       },
       "runtime": {
@@ -123,7 +123,6 @@
       },
       "entity_kind_counts": {
         "broadcast_event": 11,
-        "double_feature": 1,
         "feature_film": 86,
         "live_event": 2,
         "mystery_screening": 1
@@ -1636,22 +1635,6 @@
           ]
         },
         {
-          "source_identity_key": "id:85571",
-          "source_title": "Dune: Part One & Dune: Part Two Double Feature",
-          "adapter_identity_title": null,
-          "matcher_title": "Dune: Part One & Dune: Part Two Double Feature",
-          "program_series": null,
-          "runtime_min": 342,
-          "release_year": null,
-          "eligibility": "non_film",
-          "entity_kind": "double_feature",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
           "source_identity_key": "id:85578",
           "source_title": "Remember",
           "adapter_identity_title": null,
@@ -1751,20 +1734,20 @@
     },
     "siff": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-13_siff.json",
-      "generated_at": "2026-11-13T05:44:08-08:00",
-      "record_count": 194,
+      "latest_log": "data/daily_logs/2026-11-14_siff.json",
+      "generated_at": "2026-11-14T04:48:49-08:00",
+      "record_count": 189,
       "malformed_record_count": 0,
       "warning_count": 7,
       "error_count": 0,
-      "source_identity_count": 59,
-      "eligible_feature_count": 57,
+      "source_identity_count": 60,
+      "eligible_feature_count": 58,
       "title": {
-        "with_title": 59,
+        "with_title": 60,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 56,
+        "eligible_features_with_runtime": 57,
         "eligible_features_missing_runtime": 1,
         "missing_feature_samples": [
           "Elsinore"
@@ -1772,7 +1755,7 @@
       },
       "release_year": {
         "strategy": "source_page_metadata",
-        "eligible_features_with_year": 57,
+        "eligible_features_with_year": 58,
         "eligible_features_missing_year": 0,
         "missing_feature_samples": []
       },
@@ -1895,7 +1878,7 @@
         ]
       },
       "series": {
-        "identity_count": 35,
+        "identity_count": 34,
         "samples": [
           {
             "source_title": "Cinema Italian Style 2026: A Year of School",
@@ -1940,7 +1923,7 @@
         ]
       },
       "entity_kind_counts": {
-        "feature_film": 57,
+        "feature_film": 58,
         "multi_feature_program": 1,
         "shorts_program": 1
       },
@@ -1994,6 +1977,22 @@
           ]
         },
         {
+          "source_identity_key": "id:cinema/in-theaters/disorder-(现实是过去的未来)",
+          "source_title": "Disorder (现实是过去的未来)",
+          "adapter_identity_title": null,
+          "matcher_title": "Disorder (现实是过去的未来)",
+          "program_series": null,
+          "runtime_min": 58,
+          "release_year": 2009,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
           "source_identity_key": "id:cinema/in-theaters/dune-part-three",
           "source_title": "Dune: Part Three",
           "adapter_identity_title": null,
@@ -2017,6 +2016,22 @@
           "program_series": null,
           "runtime_min": null,
           "release_year": 2026,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:cinema/in-theaters/fly-fishing-film-tour",
+          "source_title": "Fly Fishing Film Tour",
+          "adapter_identity_title": null,
+          "matcher_title": "Fly Fishing Film Tour",
+          "program_series": null,
+          "runtime_min": 120,
+          "release_year": 2027,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
           "adapter_cleanup": false,
@@ -2097,22 +2112,6 @@
           "program_series": null,
           "runtime_min": 125,
           "release_year": 1991,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:cinema/in-theaters/romanian-film-festival-seattle-13th-edition/3-days-in-september",
-          "source_title": "Romanian Film Festival Seattle: 3 Days in September",
-          "adapter_identity_title": null,
-          "matcher_title": "Romanian Film Festival Seattle: 3 Days in September",
-          "program_series": null,
-          "runtime_min": 75,
-          "release_year": 2026,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
           "adapter_cleanup": false,
@@ -2295,6 +2294,22 @@
           "matcher_cleanup": true,
           "normalization_rules": [
             "presentation_trailing_atoms"
+          ]
+        },
+        {
+          "source_identity_key": "id:cinema/in-theaters/the-oldest-person-in-the-world",
+          "source_title": "The Oldest Person in the World",
+          "adapter_identity_title": null,
+          "matcher_title": "The Oldest Person in the World",
+          "program_series": null,
+          "runtime_min": 87,
+          "release_year": 2026,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
           ]
         },
         {
@@ -2618,22 +2633,6 @@
           ]
         },
         {
-          "source_identity_key": "id:programs-and-events/seattle-film-critics-society-pnw-awards-2026/a-simple-machine",
-          "source_title": "PNW Awards: A Simple Machine",
-          "adapter_identity_title": null,
-          "matcher_title": "PNW Awards: A Simple Machine",
-          "program_series": "Seattle Film Critics Society Pnw Awards",
-          "runtime_min": 100,
-          "release_year": 2025,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
           "source_identity_key": "id:programs-and-events/seattle-film-critics-society-pnw-awards-2026/again-again",
           "source_title": "PNW Awards: Again Again",
           "adapter_identity_title": null,
@@ -2896,8 +2895,8 @@
     },
     "beacon": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-13_beacon.json",
-      "generated_at": "2026-11-13T05:44:08-08:00",
+      "latest_log": "data/daily_logs/2026-11-14_beacon.json",
+      "generated_at": "2026-11-14T04:48:49-08:00",
       "record_count": 86,
       "malformed_record_count": 0,
       "warning_count": 0,
@@ -2928,7 +2927,7 @@
       },
       "cleanup": {
         "adapter_cleaned_identity_count": 1,
-        "matcher_cleaned_identity_count": 2,
+        "matcher_cleaned_identity_count": 1,
         "adapter_cleanup_samples": [
           {
             "source_title": "TV PARTY: THE BOX OF DELIGHTS",
@@ -2941,13 +2940,6 @@
             "matcher_title": "The Box Of Delights",
             "rules": [
               "program_series:tv-party"
-            ]
-          },
-          {
-            "source_title": "VHS ÜBER ALLES PRESENTS…",
-            "matcher_title": "Vhs Über Alles Presents...",
-            "rules": [
-              "normalized_source_fallback"
             ]
           }
         ]
@@ -3448,6 +3440,22 @@
           ]
         },
         {
+          "source_identity_key": "id:paris-pick-up",
+          "source_title": "PARIS PICK-UP",
+          "adapter_identity_title": null,
+          "matcher_title": "Paris Pick-Up",
+          "program_series": null,
+          "runtime_min": 86,
+          "release_year": 1962,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
           "source_identity_key": "id:perdita-durango",
           "source_title": "PERDITA DURANGO",
           "adapter_identity_title": null,
@@ -3720,22 +3728,6 @@
           ]
         },
         {
-          "source_identity_key": "id:vhs-uber-alles-presents-fri13",
-          "source_title": "VHS ÜBER ALLES PRESENTS…",
-          "adapter_identity_title": null,
-          "matcher_title": "Vhs Über Alles Presents...",
-          "program_series": null,
-          "runtime_min": 95,
-          "release_year": 1991,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": true,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
           "source_identity_key": "id:will-success-spoil-rock-hunter",
           "source_title": "WILL SUCCESS SPOIL ROCK HUNTER?",
           "adapter_identity_title": null,
@@ -3755,31 +3747,30 @@
     },
     "nwff": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-13_nwff.json",
-      "generated_at": "2026-11-13T05:43:12-08:00",
-      "record_count": 94,
+      "latest_log": "data/daily_logs/2026-11-14_nwff.json",
+      "generated_at": "2026-11-14T04:47:37-08:00",
+      "record_count": 100,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 29,
-      "eligible_feature_count": 28,
+      "source_identity_count": 31,
+      "eligible_feature_count": 30,
       "title": {
-        "with_title": 29,
+        "with_title": 31,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 28,
+        "eligible_features_with_runtime": 30,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "source_page_when_published",
-        "eligible_features_with_year": 25,
-        "eligible_features_missing_year": 3,
+        "eligible_features_with_year": 28,
+        "eligible_features_missing_year": 2,
         "missing_feature_samples": [
           "Seattle Film Society Presents Locals Only: November 2026",
-          "Truth To Fiction: Vittorio De Seta's Lost World",
-          "Veronica Project Space Presents DESSILLER LES YEUX: Four by Jean Vigo"
+          "Truth To Fiction: Vittorio De Seta's Lost World"
         ]
       },
       "cleanup": {
@@ -3947,7 +3938,7 @@
         ]
       },
       "entity_kind_counts": {
-        "feature_film": 28,
+        "feature_film": 30,
         "shorts_program": 1
       },
       "identities": [
@@ -3961,6 +3952,22 @@
           "release_year": 2026,
           "eligibility": "non_film",
           "entity_kind": "shorts_program",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:cant-stop-the-music",
+          "source_title": "Can't Stop The Music",
+          "adapter_identity_title": null,
+          "matcher_title": "Can't Stop The Music",
+          "program_series": null,
+          "runtime_min": 124,
+          "release_year": 1980,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
           "adapter_cleanup": false,
           "matcher_cleanup": false,
           "normalization_rules": [
@@ -4145,6 +4152,22 @@
           ]
         },
         {
+          "source_identity_key": "id:the-apple",
+          "source_title": "The Apple",
+          "adapter_identity_title": null,
+          "matcher_title": "The Apple",
+          "program_series": null,
+          "runtime_min": 97,
+          "release_year": 1980,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
           "source_identity_key": "id:the-day-she-returns",
           "source_title": "The Day She Returns",
           "adapter_identity_title": null,
@@ -4305,22 +4328,6 @@
           ]
         },
         {
-          "source_identity_key": "id:veronica-project-space-presents-four-by-jean-vigo",
-          "source_title": "Veronica Project Space Presents DESSILLER LES YEUX: Four by Jean Vigo",
-          "adapter_identity_title": null,
-          "matcher_title": "Veronica Project Space Presents DESSILLER LES YEUX: Four by Jean Vigo",
-          "program_series": null,
-          "runtime_min": 165,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
           "source_identity_key": "id:wtf-with-stuff-fresh-kill",
           "source_title": "WTF with STUFF - Fresh Kill",
           "adapter_identity_title": "Fresh Kill",
@@ -4360,6 +4367,22 @@
           "program_series": null,
           "runtime_min": 100,
           "release_year": 2025,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:xanadu",
+          "source_title": "Xanadu",
+          "adapter_identity_title": null,
+          "matcher_title": "Xanadu",
+          "program_series": null,
+          "runtime_min": 96,
+          "release_year": 1980,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
           "adapter_cleanup": false,
@@ -4420,8 +4443,8 @@
     },
     "central_cinema": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-13_central_cinema.json",
-      "generated_at": "2026-11-13T05:43:26-08:00",
+      "latest_log": "data/daily_logs/2026-11-14_central_cinema.json",
+      "generated_at": "2026-11-14T04:47:53-08:00",
       "record_count": 0,
       "malformed_record_count": 0,
       "warning_count": 0,
@@ -4458,8 +4481,8 @@
     },
     "grand_illusion": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-13_grand_illusion.json",
-      "generated_at": "2026-11-13T05:44:05-08:00",
+      "latest_log": "data/daily_logs/2026-11-14_grand_illusion.json",
+      "generated_at": "2026-11-14T04:48:46-08:00",
       "record_count": 14,
       "malformed_record_count": 0,
       "warning_count": 0,
@@ -4699,71 +4722,47 @@
     },
     "tasveer": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-13_tasveer.json",
-      "generated_at": "2026-11-13T05:44:06-08:00",
-      "record_count": 7,
+      "latest_log": "data/daily_logs/2026-11-14_tasveer.json",
+      "generated_at": "2026-11-14T04:48:47-08:00",
+      "record_count": 0,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 1,
-      "eligible_feature_count": 1,
+      "source_identity_count": 0,
+      "eligible_feature_count": 0,
       "title": {
-        "with_title": 1,
+        "with_title": 0,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 1,
+        "eligible_features_with_runtime": 0,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "source_title_when_present",
-        "eligible_features_with_year": 1,
+        "eligible_features_with_year": 0,
         "eligible_features_missing_year": 0,
         "missing_feature_samples": []
       },
       "cleanup": {
-        "adapter_cleaned_identity_count": 1,
+        "adapter_cleaned_identity_count": 0,
         "matcher_cleaned_identity_count": 0,
-        "adapter_cleanup_samples": [
-          {
-            "source_title": "La Bola Negra (2026, Spain, Spanish)",
-            "identity_title": "La Bola Negra"
-          }
-        ],
+        "adapter_cleanup_samples": [],
         "matcher_cleanup_samples": []
       },
       "series": {
         "identity_count": 0,
         "samples": []
       },
-      "entity_kind_counts": {
-        "feature_film": 1
-      },
-      "identities": [
-        {
-          "source_identity_key": "id:161445",
-          "source_title": "La Bola Negra (2026, Spain, Spanish)",
-          "adapter_identity_title": "La Bola Negra",
-          "matcher_title": "La Bola Negra (2026, Spain, Spanish)",
-          "program_series": null,
-          "runtime_min": 155,
-          "release_year": 2026,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": true,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        }
-      ]
+      "entity_kind_counts": {},
+      "identities": []
     },
     "anderson_school": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-13_anderson_school.json",
-      "generated_at": "2026-11-13T05:44:08-08:00",
-      "record_count": 50,
+      "latest_log": "data/daily_logs/2026-11-14_anderson_school.json",
+      "generated_at": "2026-11-14T04:48:49-08:00",
+      "record_count": 48,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
@@ -5118,27 +5117,27 @@
     },
     "majestic_bay": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-13_majestic_bay.json",
-      "generated_at": "2026-11-13T05:44:08-08:00",
-      "record_count": 93,
+      "latest_log": "data/daily_logs/2026-11-14_majestic_bay.json",
+      "generated_at": "2026-11-14T04:48:49-08:00",
+      "record_count": 99,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 19,
-      "eligible_feature_count": 19,
+      "source_identity_count": 18,
+      "eligible_feature_count": 18,
       "title": {
-        "with_title": 19,
+        "with_title": 18,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 19,
+        "eligible_features_with_runtime": 18,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "not_exposed_by_listing",
         "eligible_features_with_year": 0,
-        "eligible_features_missing_year": 19,
+        "eligible_features_missing_year": 18,
         "missing_feature_samples": [
           "Wildwood",
           "Star Trek IV: The Voyage Home",
@@ -5163,7 +5162,7 @@
         "samples": []
       },
       "entity_kind_counts": {
-        "feature_film": 19
+        "feature_film": 18
       },
       "identities": [
         {
@@ -5333,22 +5332,6 @@
           "matcher_title": "Dune: Part Three",
           "program_series": null,
           "runtime_min": 150,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:36787",
-          "source_title": "Wicker",
-          "adapter_identity_title": null,
-          "matcher_title": "Wicker",
-          "program_series": null,
-          "runtime_min": 105,
           "release_year": null,
           "eligibility": "eligible",
           "entity_kind": "feature_film",

@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-11-13T05:56:53-08:00",
+  "generated_at": "2026-11-14T05:01:27-08:00",
   "source": "amc",
   "fetch": {
     "endpoint": "/movies/views/coming-soon",
@@ -8,7 +8,7 @@
     "status": "success",
     "page_size": 100,
     "pages_fetched": 3,
-    "reported_total": 299,
+    "reported_total": 295,
     "exhausted": true,
     "next_link_observed": true,
     "duplicate_ids_skipped": 0,
@@ -16,15 +16,15 @@
     "errors": []
   },
   "stats": {
-    "movies": 299,
-    "with_release_date": 299,
+    "movies": 295,
+    "with_release_date": 295,
     "without_release_date": 0,
     "earliest_release_date": "2026-11-06",
     "latest_release_date": "2027-05-19",
-    "with_scheduled_showtimes": 107,
-    "without_scheduled_showtimes": 192,
+    "with_scheduled_showtimes": 100,
+    "without_scheduled_showtimes": 195,
     "scheduled_showtimes_unknown": 0,
-    "special_presentations": 87
+    "special_presentations": 81
   },
   "movies": [
     {
@@ -192,6 +192,50 @@
       "presentation": {
         "category": "concert_or_event",
         "is_special_presentation": true,
+        "classifier_version": "1.0.0"
+      }
+    },
+    {
+      "source": "amc",
+      "source_film_id": "72361",
+      "source_title": "Programming Placeholder",
+      "sortable_title": "Programming Placeholder",
+      "source_release_id": null,
+      "runtime_min": 60,
+      "release_date_utc": "2027-01-07T06:00:00Z",
+      "earliest_showing_utc": "1900-01-01T00:00:00Z",
+      "online_ticket_availability_date_utc": "2027-01-07T06:00:00Z",
+      "has_scheduled_showtimes": false,
+      "genre": null,
+      "mpaa_rating": null,
+      "starring_actors_raw": null,
+      "directors_raw": null,
+      "synopsis": null,
+      "distributor_id": "2717",
+      "distributor_code": "DIS",
+      "preferred_media_type": "Theatrical",
+      "available_for_a_list": true,
+      "slug": "programming-placeholder-72361",
+      "website_url": "https://www.amctheatres.com/movies/programming-placeholder-72361",
+      "showtimes_url": "https://www.amctheatres.com/movies/programming-placeholder-72361/showtimes",
+      "attribute_codes": [
+        "AMCPRIME",
+        "BIGD",
+        "DOLBYCINEMAATAMCPRIME",
+        "IMAX",
+        "PRIVATE",
+        "XL"
+      ],
+      "media": {
+        "poster_url": null,
+        "hero_desktop_url": null,
+        "hero_mobile_url": null,
+        "trailer_hd_url": null,
+        "trailer_mp4_url": null
+      },
+      "presentation": {
+        "category": "standard",
+        "is_special_presentation": false,
         "classifier_version": "1.0.0"
       }
     },
@@ -855,8 +899,8 @@
         "poster_url": null,
         "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1784229136/amc-cdn/content/general/bba6xpjqoaqm8bb54esw.jpg",
         "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1784229136/amc-cdn/content/general/bba6xpjqoaqm8bb54esw.jpg",
-        "trailer_hd_url": null,
-        "trailer_mp4_url": null
+        "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6408343208112.mp4",
+        "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6408343208112.mp4"
       },
       "presentation": {
         "category": "standard",
@@ -952,9 +996,9 @@
       "source_release_id": "385177",
       "runtime_min": 120,
       "release_date_utc": "2026-12-25T06:00:00Z",
-      "earliest_showing_utc": null,
+      "earliest_showing_utc": "2026-12-24T16:00:00Z",
       "online_ticket_availability_date_utc": "2026-12-25T06:00:00Z",
-      "has_scheduled_showtimes": false,
+      "has_scheduled_showtimes": true,
       "genre": "HORROR",
       "mpaa_rating": "R",
       "starring_actors_raw": null,
@@ -1078,6 +1122,43 @@
         "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1792148886/amc-cdn/production/2/movies/79600/79564/MovieStills/382379R5.jpg",
         "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6399805932112.mp4",
         "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6399805932112.mp4"
+      },
+      "presentation": {
+        "category": "standard",
+        "is_special_presentation": false,
+        "classifier_version": "1.0.0"
+      }
+    },
+    {
+      "source": "amc",
+      "source_film_id": "79703",
+      "source_title": "F.A.S.T.",
+      "sortable_title": "F.A.S.T.",
+      "source_release_id": null,
+      "runtime_min": null,
+      "release_date_utc": "2027-05-14T05:00:00Z",
+      "earliest_showing_utc": null,
+      "online_ticket_availability_date_utc": "2027-05-14T05:00:00Z",
+      "has_scheduled_showtimes": false,
+      "genre": "ACTION",
+      "mpaa_rating": null,
+      "starring_actors_raw": "BRANDON SKLENAR",
+      "directors_raw": "BEN RICHARDSON",
+      "synopsis": "A former special forces commando is tapped by the DEA to lead a black op strike team against CIA-protected drug dealers.",
+      "distributor_id": "2429",
+      "distributor_code": "WB",
+      "preferred_media_type": "Theatrical",
+      "available_for_a_list": true,
+      "slug": "f-a-s-t-79703",
+      "website_url": "https://www.amctheatres.com/movies/f-a-s-t-79703",
+      "showtimes_url": "https://www.amctheatres.com/movies/f-a-s-t-79703/showtimes",
+      "attribute_codes": [],
+      "media": {
+        "poster_url": null,
+        "hero_desktop_url": null,
+        "hero_mobile_url": null,
+        "trailer_hd_url": null,
+        "trailer_mp4_url": null
       },
       "presentation": {
         "category": "standard",
@@ -1280,7 +1361,9 @@
       "slug": "the-chosen-crucifixion-80516",
       "website_url": "https://www.amctheatres.com/movies/the-chosen-crucifixion-80516",
       "showtimes_url": "https://www.amctheatres.com/movies/the-chosen-crucifixion-80516/showtimes",
-      "attribute_codes": [],
+      "attribute_codes": [
+        "XL"
+      ],
       "media": {
         "poster_url": null,
         "hero_desktop_url": null,
@@ -1706,9 +1789,13 @@
       "website_url": "https://www.amctheatres.com/movies/the-beekeeper-2-82697",
       "showtimes_url": "https://www.amctheatres.com/movies/the-beekeeper-2-82697/showtimes",
       "attribute_codes": [
+        "AMCPRIME",
+        "BIGD",
         "CLOSEDCAPTION",
         "DESCRIPTIVEVIDEO",
         "DOLBYCINEMAATAMCPRIME",
+        "GDX",
+        "GXL",
         "OPENCAPTION",
         "XL"
       ],
@@ -2099,8 +2186,13 @@
       "website_url": "https://www.amctheatres.com/movies/the-rescue-82880",
       "showtimes_url": "https://www.amctheatres.com/movies/the-rescue-82880/showtimes",
       "attribute_codes": [
+        "AMCPRIME",
+        "BIGD",
         "CLOSEDCAPTION",
         "DESCRIPTIVEVIDEO",
+        "DOLBYCINEMAATAMCPRIME",
+        "GDX",
+        "GXL",
         "XL"
       ],
       "media": {
@@ -2252,7 +2344,11 @@
       "slug": "spaceballs-the-new-one-83417",
       "website_url": "https://www.amctheatres.com/movies/spaceballs-the-new-one-83417",
       "showtimes_url": "https://www.amctheatres.com/movies/spaceballs-the-new-one-83417/showtimes",
-      "attribute_codes": [],
+      "attribute_codes": [
+        "CLOSEDCAPTION",
+        "DESCRIPTIVEVIDEO",
+        "XL"
+      ],
       "media": {
         "poster_url": "https://amc-theatres-res.cloudinary.com/v1783954027/amc-cdn/content/general/bhcxjpehfjtmanjgisse.jpg",
         "hero_desktop_url": null,
@@ -2965,6 +3061,13 @@
       "website_url": "https://www.amctheatres.com/movies/slayground-84173",
       "showtimes_url": "https://www.amctheatres.com/movies/slayground-84173/showtimes",
       "attribute_codes": [
+        "AMCPRIME",
+        "BIGD",
+        "CLOSEDCAPTION",
+        "DESCRIPTIVEVIDEO",
+        "DOLBYCINEMAATAMCPRIME",
+        "GDX",
+        "GXL",
         "XL"
       ],
       "media": {
@@ -3406,52 +3509,6 @@
         "hero_mobile_url": null,
         "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6405407678112.mp4",
         "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6405407678112.mp4"
-      },
-      "presentation": {
-        "category": "concert_or_event",
-        "is_special_presentation": true,
-        "classifier_version": "1.0.0"
-      }
-    },
-    {
-      "source": "amc",
-      "source_film_id": "84284",
-      "source_title": "MET Opera: Carmen (2026 Encore)",
-      "sortable_title": "MET Opera: Carmen (2026 Encore)",
-      "source_release_id": "420791",
-      "runtime_min": 182,
-      "release_date_utc": "2026-11-14T06:00:00Z",
-      "earliest_showing_utc": "2026-11-14T13:00:00Z",
-      "online_ticket_availability_date_utc": "2026-11-14T06:00:00Z",
-      "has_scheduled_showtimes": true,
-      "genre": "OPERA",
-      "mpaa_rating": "NR",
-      "starring_actors_raw": "EL?NA GARANCA, ROBERTO ALAGNA",
-      "directors_raw": "Event Director, RICHARD EYRE",
-      "synopsis": "Bizet?s masterpiece of the seductress who lives by her own rules has had an impact far beyond the opera house. The opera?s melodic sweep is as irresistible as the title character herself, a force of nature who has become a defining female cultural figure. Carmen was a scandal at its premiere but soon after became a triumphal success and has remained one of the most frequently staged operas in the world.",
-      "distributor_id": "2449",
-      "distributor_code": "FAE",
-      "preferred_media_type": "Theatrical",
-      "available_for_a_list": false,
-      "slug": "met-opera-carmen-2026-encore-84284",
-      "website_url": "https://www.amctheatres.com/movies/met-opera-carmen-2026-encore-84284",
-      "showtimes_url": "https://www.amctheatres.com/movies/met-opera-carmen-2026-encore-84284/showtimes",
-      "attribute_codes": [
-        "ALTERNATIVECONTENT",
-        "EVENT",
-        "EXCLDISMAT",
-        "Fathom",
-        "NOALIST",
-        "NOGREENRED",
-        "NOTRAILER",
-        "NOTRAILERS"
-      ],
-      "media": {
-        "poster_url": "https://amc-theatres-res.cloudinary.com/v1783767841/amc-cdn/production/2/movies/84300/84284/Poster/420791R1.jpg",
-        "hero_desktop_url": null,
-        "hero_mobile_url": null,
-        "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6405406127112.mp4",
-        "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6405406127112.mp4"
       },
       "presentation": {
         "category": "concert_or_event",
@@ -4060,49 +4117,6 @@
       "presentation": {
         "category": "standard",
         "is_special_presentation": false,
-        "classifier_version": "1.0.0"
-      }
-    },
-    {
-      "source": "amc",
-      "source_film_id": "84430",
-      "source_title": "Festive Fun with Peppa Cinema Experience",
-      "sortable_title": "Festive Fun with Peppa Cinema Experience",
-      "source_release_id": "426278",
-      "runtime_min": 60,
-      "release_date_utc": "2026-11-14T06:00:00Z",
-      "earliest_showing_utc": "2026-11-14T08:30:00Z",
-      "online_ticket_availability_date_utc": "2026-11-14T06:00:00Z",
-      "has_scheduled_showtimes": true,
-      "genre": "ANIMATION",
-      "mpaa_rating": "NR",
-      "starring_actors_raw": null,
-      "directors_raw": "Event Director",
-      "synopsis": "Join Peppa Pig and her family at the cinema for a festive big-screen experience as they celebrate Evie's first Christmas! Share in the excitement of the holidays as the family of five reflect on treasured festive memories. From snowy adventures and holiday plays to decorating the tree, this hour-long cinema experience brings together 7 classic festive-themed Peppa Pig episodes and 4 brand-new songs that little ones can dance and sing along to. Filled with laughter, music and heartwarming moments, this special cinema experience is the perfect family day out during the holiday season. So grab your hats, scarves and gloves and enjoy the holiday magic along with your favorite piggies at the Festive Fun with Peppa Cinema Experience!",
-      "distributor_id": "2712",
-      "distributor_code": "TRL",
-      "preferred_media_type": "Theatrical",
-      "available_for_a_list": false,
-      "slug": "festive-fun-with-peppa-cinema-experience-84430",
-      "website_url": "https://www.amctheatres.com/movies/festive-fun-with-peppa-cinema-experience-84430",
-      "showtimes_url": "https://www.amctheatres.com/movies/festive-fun-with-peppa-cinema-experience-84430/showtimes",
-      "attribute_codes": [
-        "ALTERNATIVECONTENT",
-        "EVENT",
-        "EXCLDISMAT",
-        "NOALIST",
-        "NOGREENRED"
-      ],
-      "media": {
-        "poster_url": "https://amc-theatres-res.cloudinary.com/v1790371339/amc-cdn/content/general/puf4bhfxryb9ggoqvqw8.jpg",
-        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1791716809/amc-cdn/production/2/movies/84400/84430/MovieStills/426278R7.jpg",
-        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1791716809/amc-cdn/production/2/movies/84400/84430/MovieStills/426278R7.jpg",
-        "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6406589637112.mp4",
-        "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6406589637112.mp4"
-      },
-      "presentation": {
-        "category": "concert_or_event",
-        "is_special_presentation": true,
         "classifier_version": "1.0.0"
       }
     },
@@ -5712,7 +5726,8 @@
       "website_url": "https://www.amctheatres.com/movies/rose-84997",
       "showtimes_url": "https://www.amctheatres.com/movies/rose-84997/showtimes",
       "attribute_codes": [
-        "INTFILMS"
+        "INTFILMS",
+        "PRIVATE"
       ],
       "media": {
         "poster_url": "https://amc-theatres-res.cloudinary.com/v1793720159/amc-cdn/content/general/hrulpgmilh50kanapmdt.jpg",
@@ -6315,49 +6330,6 @@
     },
     {
       "source": "amc",
-      "source_film_id": "85175",
-      "source_title": "The Cat in the Hat: Sensory Friendly Screening",
-      "sortable_title": "Cat in the Hat, The: Sensory Friendly Screening",
-      "source_release_id": "427635",
-      "runtime_min": 114,
-      "release_date_utc": "2026-11-14T06:00:00Z",
-      "earliest_showing_utc": "2026-11-14T10:00:00Z",
-      "online_ticket_availability_date_utc": "2026-11-14T06:00:00Z",
-      "has_scheduled_showtimes": true,
-      "genre": null,
-      "mpaa_rating": "PG",
-      "starring_actors_raw": null,
-      "directors_raw": null,
-      "synopsis": "Meet the Cat in the Hat you don't know! In the wonderfully whimsical tradition of Dr. Seuss, THE CAT IN THE HAT, voiced by Bill Hader, comes to the big screen in his animated theatrical feature film debut, an all-new, epic adventure where mischief, magic and mayhem reign supreme.",
-      "distributor_id": "2429",
-      "distributor_code": "WB",
-      "preferred_media_type": "Theatrical",
-      "available_for_a_list": true,
-      "slug": "the-cat-in-the-hat-sensory-friendly-screening-85175",
-      "website_url": "https://www.amctheatres.com/movies/the-cat-in-the-hat-sensory-friendly-screening-85175",
-      "showtimes_url": "https://www.amctheatres.com/movies/the-cat-in-the-hat-sensory-friendly-screening-85175/showtimes",
-      "attribute_codes": [
-        "CLOSEDCAPTION",
-        "DESCRIPTIVEVIDEO",
-        "NOTRAILER",
-        "PRIVATE",
-        "SENSORYFRIENDLY"
-      ],
-      "media": {
-        "poster_url": "https://amc-theatres-res.cloudinary.com/v1790334285/amc-cdn/production/2/movies/85200/85175/Poster/358485R1.jpg",
-        "hero_desktop_url": null,
-        "hero_mobile_url": null,
-        "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6405615883112.mp4",
-        "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6405615883112.mp4"
-      },
-      "presentation": {
-        "category": "sensory_friendly",
-        "is_special_presentation": true,
-        "classifier_version": "1.0.0"
-      }
-    },
-    {
-      "source": "amc",
       "source_film_id": "85176",
       "source_title": "The Hunger Games: Sunrise on the Reaping: Sensory Friendly Screening",
       "sortable_title": "Hunger Games: Sunrise on the Reaping: Sensory Friendly Screening, The",
@@ -6688,50 +6660,6 @@
       "presentation": {
         "category": "standard",
         "is_special_presentation": false,
-        "classifier_version": "1.0.0"
-      }
-    },
-    {
-      "source": "amc",
-      "source_film_id": "85276",
-      "source_title": "UFC 334: Gane vs. Hokit",
-      "sortable_title": "UFC 334: Gane vs. Hokit",
-      "source_release_id": "426634",
-      "runtime_min": 270,
-      "release_date_utc": "2026-11-14T06:00:00Z",
-      "earliest_showing_utc": "2026-11-14T18:00:00Z",
-      "online_ticket_availability_date_utc": "2026-11-14T06:00:00Z",
-      "has_scheduled_showtimes": true,
-      "genre": "SPECIAL EVENTS",
-      "mpaa_rating": "NR",
-      "starring_actors_raw": null,
-      "directors_raw": "Event Director",
-      "synopsis": "Two undisputed championships. Four elite fighters. One massive night. Heavyweight champion Ciryl Gane puts his title on the line against undefeated American powerhouse Josh Hokit, whose rapid rise has taken him all the way to a shot at UFC gold.\n\nPlus, one of the most anticipated fights in women's MMA history finally becomes a reality. Bantamweight champion Kayla Harrison defends her crown against the returning Amanda Nunes, as the former two-division champion and one of the most decorated fighters in UFC history steps back into the Octagon looking to reclaim her throne.",
-      "distributor_id": null,
-      "distributor_code": null,
-      "preferred_media_type": "Theatrical",
-      "available_for_a_list": false,
-      "slug": "ufc-334-gane-vs-hokit-85276",
-      "website_url": "https://www.amctheatres.com/movies/ufc-334-gane-vs-hokit-85276",
-      "showtimes_url": "https://www.amctheatres.com/movies/ufc-334-gane-vs-hokit-85276/showtimes",
-      "attribute_codes": [
-        "DCDCLIVE",
-        "EVENT",
-        "EXCLDISMAT",
-        "NOALIST",
-        "NOTRAILER",
-        "XL"
-      ],
-      "media": {
-        "poster_url": "https://amc-theatres-res.cloudinary.com/v1793126040/amc-cdn/content/general/gbbab7y3an3ik4s0bdkj.jpg",
-        "hero_desktop_url": null,
-        "hero_mobile_url": null,
-        "trailer_hd_url": null,
-        "trailer_mp4_url": null
-      },
-      "presentation": {
-        "category": "concert_or_event",
-        "is_special_presentation": true,
         "classifier_version": "1.0.0"
       }
     },
@@ -7125,51 +7053,6 @@
         "hero_mobile_url": null,
         "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6406359366112.mp4",
         "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6406359366112.mp4"
-      },
-      "presentation": {
-        "category": "concert_or_event",
-        "is_special_presentation": true,
-        "classifier_version": "1.0.0"
-      }
-    },
-    {
-      "source": "amc",
-      "source_film_id": "85347",
-      "source_title": "League of Legends Worlds 26 - Finals in Cinema",
-      "sortable_title": "League of Legends Worlds 26 - Finals in Cinema",
-      "source_release_id": "423509",
-      "runtime_min": 300,
-      "release_date_utc": "2026-11-14T06:00:00Z",
-      "earliest_showing_utc": "2026-11-14T11:00:00Z",
-      "online_ticket_availability_date_utc": "2026-11-14T06:00:00Z",
-      "has_scheduled_showtimes": true,
-      "genre": "SPECIAL EVENTS",
-      "mpaa_rating": "NR",
-      "starring_actors_raw": null,
-      "directors_raw": "Event Director",
-      "synopsis": "The League of Legends World Championship Finals are back on the big screen! In this 2026 edition, 19 teams from around the world will compete for the title of World Champion, with the grand final broadcast live in theatres.",
-      "distributor_id": "3407",
-      "distributor_code": "POM",
-      "preferred_media_type": "Theatrical",
-      "available_for_a_list": false,
-      "slug": "league-of-legends-worlds-26-finals-in-cinema-85347",
-      "website_url": "https://www.amctheatres.com/movies/league-of-legends-worlds-26-finals-in-cinema-85347",
-      "showtimes_url": "https://www.amctheatres.com/movies/league-of-legends-worlds-26-finals-in-cinema-85347/showtimes",
-      "attribute_codes": [
-        "ALTERNATIVECONTENT",
-        "DCDCLIVE",
-        "EVENT",
-        "EXCLDISMAT",
-        "NOALIST",
-        "NOTRAILER",
-        "NOTRAILERS"
-      ],
-      "media": {
-        "poster_url": "https://amc-theatres-res.cloudinary.com/v1792593745/amc-cdn/content/general/znkoizlcgju5bjtzbxdm.jpg",
-        "hero_desktop_url": null,
-        "hero_mobile_url": null,
-        "trailer_hd_url": null,
-        "trailer_mp4_url": null
       },
       "presentation": {
         "category": "concert_or_event",
@@ -8064,6 +7947,7 @@
       "attribute_codes": [
         "4DX",
         "AMCPRIME",
+        "BIGD",
         "CLOSEDCAPTION",
         "DESCRIPTIVEVIDEO",
         "DOLBY3D",
@@ -8211,48 +8095,6 @@
       },
       "presentation": {
         "category": "concert_or_event",
-        "is_special_presentation": true,
-        "classifier_version": "1.0.0"
-      }
-    },
-    {
-      "source": "amc",
-      "source_film_id": "85474",
-      "source_title": "PAPER TIGER Q&A with Adam Driver, Miles Teller, and Filmmaker James Gray",
-      "sortable_title": "PAPER TIGER Q&A with Adam Driver, Miles Teller, and Filmmaker James Gray",
-      "source_release_id": "379340",
-      "runtime_min": 144,
-      "release_date_utc": "2026-11-14T06:00:00Z",
-      "earliest_showing_utc": "2026-11-14T18:30:00Z",
-      "online_ticket_availability_date_utc": "2026-11-14T06:00:00Z",
-      "has_scheduled_showtimes": true,
-      "genre": null,
-      "mpaa_rating": "R",
-      "starring_actors_raw": null,
-      "directors_raw": null,
-      "synopsis": "PAPER TIGER Q&A with Adam Driver, Miles Teller, and Filmmaker James Gray.",
-      "distributor_id": "2725",
-      "distributor_code": "NRL",
-      "preferred_media_type": "Theatrical",
-      "available_for_a_list": true,
-      "slug": "paper-tiger-q-a-with-filmmaker-james-gray-85474",
-      "website_url": "https://www.amctheatres.com/movies/paper-tiger-q-a-with-filmmaker-james-gray-85474",
-      "showtimes_url": "https://www.amctheatres.com/movies/paper-tiger-q-a-with-filmmaker-james-gray-85474/showtimes",
-      "attribute_codes": [
-        "CLOSEDCAPTION",
-        "DESCRIPTIVEVIDEO",
-        "INPERSNQA",
-        "XL"
-      ],
-      "media": {
-        "poster_url": "https://amc-theatres-res.cloudinary.com/v1792435004/amc-cdn/content/general/srwshzcxlss43e6sqiad.avif",
-        "hero_desktop_url": null,
-        "hero_mobile_url": null,
-        "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6407226057112.mp4",
-        "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6407226057112.mp4"
-      },
-      "presentation": {
-        "category": "q_and_a",
         "is_special_presentation": true,
         "classifier_version": "1.0.0"
       }
@@ -8652,11 +8494,15 @@
       "distributor_id": null,
       "distributor_code": null,
       "preferred_media_type": "Theatrical",
-      "available_for_a_list": true,
+      "available_for_a_list": false,
       "slug": "untitled-trafalgar-event-12-13-26-85500",
       "website_url": "https://www.amctheatres.com/movies/untitled-trafalgar-event-12-13-26-85500",
       "showtimes_url": "https://www.amctheatres.com/movies/untitled-trafalgar-event-12-13-26-85500/showtimes",
-      "attribute_codes": [],
+      "attribute_codes": [
+        "EXCLDISMAT",
+        "NOALIST",
+        "NOGREENRED"
+      ],
       "media": {
         "poster_url": null,
         "hero_desktop_url": null,
@@ -8694,6 +8540,7 @@
       "website_url": "https://www.amctheatres.com/movies/the-prestige-20th-anniversary-85502",
       "showtimes_url": "https://www.amctheatres.com/movies/the-prestige-20th-anniversary-85502/showtimes",
       "attribute_codes": [
+        "IMAX",
         "XL"
       ],
       "media": {
@@ -9614,133 +9461,6 @@
       "presentation": {
         "category": "standard",
         "is_special_presentation": false,
-        "classifier_version": "1.0.0"
-      }
-    },
-    {
-      "source": "amc",
-      "source_film_id": "85561",
-      "source_title": "Dune: Part One Reissue (2026)",
-      "sortable_title": "Dune: Part One Reissue (2026)",
-      "source_release_id": "428586",
-      "runtime_min": 166,
-      "release_date_utc": "2026-11-14T06:00:00Z",
-      "earliest_showing_utc": "2026-11-13T15:00:00Z",
-      "online_ticket_availability_date_utc": "2026-11-14T06:00:00Z",
-      "has_scheduled_showtimes": true,
-      "genre": null,
-      "mpaa_rating": "PG13",
-      "starring_actors_raw": null,
-      "directors_raw": null,
-      "synopsis": null,
-      "distributor_id": "2429",
-      "distributor_code": "WB",
-      "preferred_media_type": "Theatrical",
-      "available_for_a_list": true,
-      "slug": "dune-part-one-reissue-2026-85561",
-      "website_url": "https://www.amctheatres.com/movies/dune-part-one-reissue-2026-85561",
-      "showtimes_url": "https://www.amctheatres.com/movies/dune-part-one-reissue-2026-85561/showtimes",
-      "attribute_codes": [
-        "CLOSEDCAPTION",
-        "DESCRIPTIVEVIDEO",
-        "IMAX",
-        "PRIVATE"
-      ],
-      "media": {
-        "poster_url": "https://amc-theatres-res.cloudinary.com/v1793380125/amc-cdn/content/general/bf0qh4h9jf9zjrcbqsu8.png",
-        "hero_desktop_url": null,
-        "hero_mobile_url": null,
-        "trailer_hd_url": null,
-        "trailer_mp4_url": null
-      },
-      "presentation": {
-        "category": "standard",
-        "is_special_presentation": false,
-        "classifier_version": "1.0.0"
-      }
-    },
-    {
-      "source": "amc",
-      "source_film_id": "85562",
-      "source_title": "Dune: Part Two Reissue (2026)",
-      "sortable_title": "Dune: Part Two Reissue (2026)",
-      "source_release_id": "428585",
-      "runtime_min": 177,
-      "release_date_utc": "2026-11-14T06:00:00Z",
-      "earliest_showing_utc": "2026-11-14T10:30:00Z",
-      "online_ticket_availability_date_utc": "2026-11-14T06:00:00Z",
-      "has_scheduled_showtimes": true,
-      "genre": null,
-      "mpaa_rating": "PG13",
-      "starring_actors_raw": null,
-      "directors_raw": null,
-      "synopsis": null,
-      "distributor_id": "2429",
-      "distributor_code": "WB",
-      "preferred_media_type": "Theatrical",
-      "available_for_a_list": true,
-      "slug": "dune-part-two-reissue-2026-85562",
-      "website_url": "https://www.amctheatres.com/movies/dune-part-two-reissue-2026-85562",
-      "showtimes_url": "https://www.amctheatres.com/movies/dune-part-two-reissue-2026-85562/showtimes",
-      "attribute_codes": [
-        "CLOSEDCAPTION",
-        "DESCRIPTIVEVIDEO",
-        "IMAX",
-        "PRIVATE"
-      ],
-      "media": {
-        "poster_url": "https://amc-theatres-res.cloudinary.com/v1793380295/amc-cdn/content/general/ymgdyf6paxwpmmjtgprq.png",
-        "hero_desktop_url": null,
-        "hero_mobile_url": null,
-        "trailer_hd_url": null,
-        "trailer_mp4_url": null
-      },
-      "presentation": {
-        "category": "standard",
-        "is_special_presentation": false,
-        "classifier_version": "1.0.0"
-      }
-    },
-    {
-      "source": "amc",
-      "source_film_id": "85571",
-      "source_title": "Dune: Part One & Dune: Part Two Double Feature",
-      "sortable_title": "Dune: Part One & Dune: Part Two Double Feature",
-      "source_release_id": "428591",
-      "runtime_min": 342,
-      "release_date_utc": "2026-11-13T06:00:00Z",
-      "earliest_showing_utc": "1900-01-01T00:00:00Z",
-      "online_ticket_availability_date_utc": "2026-11-13T06:00:00Z",
-      "has_scheduled_showtimes": true,
-      "genre": null,
-      "mpaa_rating": null,
-      "starring_actors_raw": null,
-      "directors_raw": null,
-      "synopsis": null,
-      "distributor_id": "2429",
-      "distributor_code": "WB",
-      "preferred_media_type": "Theatrical",
-      "available_for_a_list": false,
-      "slug": "dune-part-one-dune-part-two-double-feature-85571",
-      "website_url": "https://www.amctheatres.com/movies/dune-part-one-dune-part-two-double-feature-85571",
-      "showtimes_url": "https://www.amctheatres.com/movies/dune-part-one-dune-part-two-double-feature-85571/showtimes",
-      "attribute_codes": [
-        "EXCLDISMAT",
-        "IMAX",
-        "INCLINTER",
-        "NOALIST",
-        "NOGREENRED"
-      ],
-      "media": {
-        "poster_url": "https://amc-theatres-res.cloudinary.com/v1793374180/amc-cdn/content/general/uopbrvcgogio5cwynnh6.jpg",
-        "hero_desktop_url": null,
-        "hero_mobile_url": null,
-        "trailer_hd_url": null,
-        "trailer_mp4_url": null
-      },
-      "presentation": {
-        "category": "marathon_or_multi_feature",
-        "is_special_presentation": true,
         "classifier_version": "1.0.0"
       }
     },
@@ -11016,7 +10736,7 @@
       "source_film_id": "85653",
       "source_title": "End Of The Century: The Story of the Ramones",
       "sortable_title": "End Of The Century: The Story of the Ramones (2003) (re)",
-      "source_release_id": null,
+      "source_release_id": "178610",
       "runtime_min": 90,
       "release_date_utc": "2026-12-11T06:00:00Z",
       "earliest_showing_utc": "2026-12-13T16:20:00Z",
@@ -11335,9 +11055,9 @@
       "source_release_id": null,
       "runtime_min": 132,
       "release_date_utc": "2026-12-04T06:00:00Z",
-      "earliest_showing_utc": null,
+      "earliest_showing_utc": "2026-12-03T14:00:00Z",
       "online_ticket_availability_date_utc": "2026-12-04T06:00:00Z",
-      "has_scheduled_showtimes": false,
+      "has_scheduled_showtimes": true,
       "genre": "ACTION",
       "mpaa_rating": "R",
       "starring_actors_raw": "Alan Rickman, BONNIE BEDELIA, Bruce Willis",
@@ -12183,6 +11903,125 @@
       "presentation": {
         "category": "standard",
         "is_special_presentation": false,
+        "classifier_version": "1.0.0"
+      }
+    },
+    {
+      "source": "amc",
+      "source_film_id": "85706",
+      "source_title": "Rayons et les ombres, Les",
+      "sortable_title": "Rayons et les ombres, Les",
+      "source_release_id": null,
+      "runtime_min": 199,
+      "release_date_utc": "2026-11-20T06:00:00Z",
+      "earliest_showing_utc": null,
+      "online_ticket_availability_date_utc": "2026-11-20T06:00:00Z",
+      "has_scheduled_showtimes": false,
+      "genre": "DRAMA",
+      "mpaa_rating": null,
+      "starring_actors_raw": "Jean Dujardin, NASTYA GOLUBEVA",
+      "directors_raw": "Xavier Giannoli",
+      "synopsis": "During the Second World War, the true story of Jean and Corinne Luchaire, a father and daughter caught up in the spiral of collaboration.",
+      "distributor_id": null,
+      "distributor_code": null,
+      "preferred_media_type": "Theatrical",
+      "available_for_a_list": true,
+      "slug": "rayons-et-les-ombres-les-85706",
+      "website_url": "https://www.amctheatres.com/movies/rayons-et-les-ombres-les-85706",
+      "showtimes_url": "https://www.amctheatres.com/movies/rayons-et-les-ombres-les-85706/showtimes",
+      "attribute_codes": [],
+      "media": {
+        "poster_url": null,
+        "hero_desktop_url": null,
+        "hero_mobile_url": null,
+        "trailer_hd_url": null,
+        "trailer_mp4_url": null
+      },
+      "presentation": {
+        "category": "standard",
+        "is_special_presentation": false,
+        "classifier_version": "1.0.0"
+      }
+    },
+    {
+      "source": "amc",
+      "source_film_id": "85708",
+      "source_title": "The Vile",
+      "sortable_title": "Vile, The",
+      "source_release_id": null,
+      "runtime_min": 97,
+      "release_date_utc": "2026-11-20T06:00:00Z",
+      "earliest_showing_utc": null,
+      "online_ticket_availability_date_utc": "2026-11-20T06:00:00Z",
+      "has_scheduled_showtimes": false,
+      "genre": "DRAMA",
+      "mpaa_rating": "NR",
+      "starring_actors_raw": "BDOOR MOHAMMAD, IMAN TARIK, SARAH TAIBAH",
+      "directors_raw": "MAJID AL ANSARI",
+      "synopsis": "Amani's peaceful life as a wife and mother shatters when her husband brings home a second wife, unleashing mysterious dark forces into their household.",
+      "distributor_id": null,
+      "distributor_code": null,
+      "preferred_media_type": "Theatrical",
+      "available_for_a_list": true,
+      "slug": "the-vile-85708",
+      "website_url": "https://www.amctheatres.com/movies/the-vile-85708",
+      "showtimes_url": "https://www.amctheatres.com/movies/the-vile-85708/showtimes",
+      "attribute_codes": [],
+      "media": {
+        "poster_url": null,
+        "hero_desktop_url": null,
+        "hero_mobile_url": null,
+        "trailer_hd_url": null,
+        "trailer_mp4_url": null
+      },
+      "presentation": {
+        "category": "standard",
+        "is_special_presentation": false,
+        "classifier_version": "1.0.0"
+      }
+    },
+    {
+      "source": "amc",
+      "source_film_id": "85710",
+      "source_title": "Doctor Who: Fan Event with BBC Special Introduction",
+      "sortable_title": "Doctor Who: Fan Event with BBC Special Introduction",
+      "source_release_id": null,
+      "runtime_min": 115,
+      "release_date_utc": "2026-11-23T06:00:00Z",
+      "earliest_showing_utc": null,
+      "online_ticket_availability_date_utc": "2026-11-23T06:00:00Z",
+      "has_scheduled_showtimes": false,
+      "genre": null,
+      "mpaa_rating": "NR",
+      "starring_actors_raw": null,
+      "directors_raw": null,
+      "synopsis": "Doctor Who: Fan Event with BBC Special Introduction. Celebrate Doctor Who Day with an exclusive big-screen event marking 20 years of the Tenth Doctor and Rose Tyler. Join us for a special Doctor Who fan event featuring an introduction from the BBC team ahead of a screening of Doctor Who: The Satan Pit. Attendees will receive exclusive Doctor Who: Battles in Time collectible cards while supplies last.\n\nFor the first time ever in cinemas, the acclaimed two-part adventure The Impossible Planet and The Satan Pit have been specially re-edited into a single movie-length presentation, created exclusively for theatrical audiences. Join the Doctor (David Tennant) and Rose (Billie Piper) as they travel to Sanctuary Base 6, a remote outpost perched on a planet orbiting a black hole. When an ancient force awakens beneath the surface, the crew find themselves trapped in a battle against an evil older than time itself.\n\nThis special Doctor Who Day screening also includes exclusive bonus material, featuring previously unseen content and a brand-new interview with a special guest, reflecting on the making of one of the most celebrated stories of the modern era – from encounters with the Ood to facing the terrifying Beast, alongside behind-the-scenes memories from the set.",
+      "distributor_id": "2449",
+      "distributor_code": "FAE",
+      "preferred_media_type": "Theatrical",
+      "available_for_a_list": false,
+      "slug": "doctor-who-fan-event-with-bbc-special-introduction-85710",
+      "website_url": "https://www.amctheatres.com/movies/doctor-who-fan-event-with-bbc-special-introduction-85710",
+      "showtimes_url": "https://www.amctheatres.com/movies/doctor-who-fan-event-with-bbc-special-introduction-85710/showtimes",
+      "attribute_codes": [
+        "CLOSEDCAPTION",
+        "EVENT",
+        "EXCLDISMAT",
+        "NOALIST",
+        "NOGREENRED",
+        "NOTRAILER",
+        "NOTRAILERS"
+      ],
+      "media": {
+        "poster_url": null,
+        "hero_desktop_url": null,
+        "hero_mobile_url": null,
+        "trailer_hd_url": null,
+        "trailer_mp4_url": null
+      },
+      "presentation": {
+        "category": "special_introduction",
+        "is_special_presentation": true,
         "classifier_version": "1.0.0"
       }
     }
