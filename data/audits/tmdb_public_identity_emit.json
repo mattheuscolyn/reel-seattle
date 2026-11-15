@@ -1,12 +1,12 @@
 {
   "catalog_path": "data/film_identity/film_identity_catalog.json",
   "collisions": 0,
-  "coverage_rate": 0.5603112840466926,
-  "generated_at": "2026-11-14T13:51:56+00:00",
+  "coverage_rate": 0.5795918367346938,
+  "generated_at": "2026-11-15T13:18:04+00:00",
   "index_size": 160,
   "invalid_identities": 0,
-  "mapping_misses": 113,
-  "non_null_film_id": 144,
+  "mapping_misses": 103,
+  "non_null_film_id": 142,
   "notes": [
     "Public film_id emits confirmed tmdb:<id> only; unmatched/program → null.",
     "Mapping key is source_identity_key (source|id|sid preferred).",
@@ -14,12 +14,12 @@
     "Saved/Seen/NI readers prefer filmId with showtimeFilmKey aliases (T-FILMID-03).",
     "Film Detail / Home / Search join enrichment by exact filmId only."
   ],
-  "null_film_id": 113,
+  "null_film_id": 103,
   "per_source": {
     "amc": {
-      "films": 100,
-      "null_film_id": 55,
-      "with_film_id": 45
+      "films": 95,
+      "null_film_id": 52,
+      "with_film_id": 43
     },
     "anderson_school": {
       "films": 2,
@@ -52,17 +52,26 @@
       "with_film_id": 22
     },
     "siff": {
-      "films": 60,
-      "null_film_id": 22,
+      "films": 53,
+      "null_film_id": 15,
       "with_film_id": 38
     }
+  },
+  "performance_identity": {
+    "ambiguous": 0,
+    "inherited_from_registry": 14,
+    "matched": 0,
+    "registry_path": "data/performance_identity/performance_identity_current.json",
+    "registry_persisted": false,
+    "registry_upserts": 0,
+    "unmatched_gi": 14
   },
   "repeated_canonical_across_films": 5,
   "schema_version": "1.0.0",
   "source_fallback_emitted": 0,
   "status": "ok",
-  "total_public_films": 257,
-  "unique_tmdb_ids": 139,
+  "total_public_films": 245,
+  "unique_tmdb_ids": 137,
   "warning_count": 0,
   "warnings": []
 }

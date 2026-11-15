@@ -1,48 +1,48 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-11-14T05:01:26-08:00",
+  "generated_at": "2026-11-15T05:28:50-08:00",
   "audit_kind": "film_pipeline_source_metadata",
   "logs_dir": "data/daily_logs",
   "sources": {
     "amc": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-14_amc.json",
-      "generated_at": "2026-11-14T04:49:28-08:00",
-      "record_count": 8179,
+      "latest_log": "data/daily_logs/2026-11-15_amc.json",
+      "generated_at": "2026-11-15T05:17:24-08:00",
+      "record_count": 7876,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 100,
-      "eligible_feature_count": 86,
+      "source_identity_count": 95,
+      "eligible_feature_count": 83,
       "title": {
-        "with_title": 100,
+        "with_title": 95,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 86,
+        "eligible_features_with_runtime": 83,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "source_catalog_join",
         "eligible_features_with_year": 0,
-        "eligible_features_missing_year": 86,
+        "eligible_features_missing_year": 83,
         "missing_feature_samples": [
           "Avengers: Doomsday",
           "Clayface",
-          "Forgotten Island",
           "Disney's Hexed",
           "The Cat in the Hat",
           "Dune: Part Three",
           "The Hunger Games: Sunrise on the Reaping",
           "Violent Night 2",
           "Street Fighter",
-          "Focker In-Law"
+          "Focker In-Law",
+          "ZERO A.D.: The Birth of Christ"
         ]
       },
       "cleanup": {
         "adapter_cleaned_identity_count": 0,
-        "matcher_cleaned_identity_count": 28,
+        "matcher_cleaned_identity_count": 27,
         "adapter_cleanup_samples": [],
         "matcher_cleanup_samples": [
           {
@@ -122,9 +122,9 @@
         "samples": []
       },
       "entity_kind_counts": {
-        "broadcast_event": 11,
-        "feature_film": 86,
-        "live_event": 2,
+        "broadcast_event": 10,
+        "feature_film": 83,
+        "live_event": 1,
         "mystery_screening": 1
       },
       "identities": [
@@ -151,22 +151,6 @@
           "matcher_title": "Clayface",
           "program_series": null,
           "runtime_min": 108,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:71470",
-          "source_title": "Forgotten Island",
-          "adapter_identity_title": null,
-          "matcher_title": "Forgotten Island",
-          "program_series": null,
-          "runtime_min": 109,
           "release_year": null,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
@@ -705,22 +689,6 @@
           ]
         },
         {
-          "source_identity_key": "id:84284",
-          "source_title": "MET Opera: Carmen (2026 Encore)",
-          "adapter_identity_title": null,
-          "matcher_title": "MET Opera: Carmen (2026 Encore)",
-          "program_series": null,
-          "runtime_min": 182,
-          "release_year": null,
-          "eligibility": "non_film",
-          "entity_kind": "broadcast_event",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
           "source_identity_key": "id:84290",
           "source_title": "MET Opera: Tosca (2027 Encore)",
           "adapter_identity_title": null,
@@ -1234,22 +1202,6 @@
           ]
         },
         {
-          "source_identity_key": "id:85175",
-          "source_title": "The Cat in the Hat: Sensory Friendly Screening",
-          "adapter_identity_title": null,
-          "matcher_title": "The Cat in the Hat",
-          "program_series": null,
-          "runtime_min": 114,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": true,
-          "normalization_rules": [
-            "presentation_segment"
-          ]
-        },
-        {
           "source_identity_key": "id:85176",
           "source_title": "The Hunger Games: Sunrise on the Reaping: Sensory Friendly Screening",
           "adapter_identity_title": null,
@@ -1330,22 +1282,6 @@
           ]
         },
         {
-          "source_identity_key": "id:85276",
-          "source_title": "UFC 334: Gane vs. Hokit",
-          "adapter_identity_title": null,
-          "matcher_title": "UFC 334: Gane vs. Hokit",
-          "program_series": null,
-          "runtime_min": 270,
-          "release_year": null,
-          "eligibility": "non_film",
-          "entity_kind": "live_event",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
           "source_identity_key": "id:85305",
           "source_title": "The Host 4K Re-Release",
           "adapter_identity_title": null,
@@ -1376,22 +1312,6 @@
           "normalization_rules": [
             "event_suffix",
             "presentation_trailing_atoms"
-          ]
-        },
-        {
-          "source_identity_key": "id:85347",
-          "source_title": "League of Legends Worlds 26 - Finals in Cinema",
-          "adapter_identity_title": null,
-          "matcher_title": "League of Legends Worlds 26 - Finals in Cinema",
-          "program_series": null,
-          "runtime_min": 300,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
           ]
         },
         {
@@ -1734,20 +1654,20 @@
     },
     "siff": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-14_siff.json",
-      "generated_at": "2026-11-14T04:48:49-08:00",
-      "record_count": 189,
+      "latest_log": "data/daily_logs/2026-11-15_siff.json",
+      "generated_at": "2026-11-15T05:16:36-08:00",
+      "record_count": 187,
       "malformed_record_count": 0,
       "warning_count": 7,
       "error_count": 0,
-      "source_identity_count": 60,
-      "eligible_feature_count": 58,
+      "source_identity_count": 53,
+      "eligible_feature_count": 52,
       "title": {
-        "with_title": 60,
+        "with_title": 53,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 57,
+        "eligible_features_with_runtime": 51,
         "eligible_features_missing_runtime": 1,
         "missing_feature_samples": [
           "Elsinore"
@@ -1755,7 +1675,7 @@
       },
       "release_year": {
         "strategy": "source_page_metadata",
-        "eligible_features_with_year": 58,
+        "eligible_features_with_year": 52,
         "eligible_features_missing_year": 0,
         "missing_feature_samples": []
       },
@@ -1878,7 +1798,7 @@
         ]
       },
       "series": {
-        "identity_count": 34,
+        "identity_count": 30,
         "samples": [
           {
             "source_title": "Cinema Italian Style 2026: A Year of School",
@@ -1923,9 +1843,8 @@
         ]
       },
       "entity_kind_counts": {
-        "feature_film": 58,
-        "multi_feature_program": 1,
-        "shorts_program": 1
+        "feature_film": 52,
+        "multi_feature_program": 1
       },
       "identities": [
         {
@@ -2057,6 +1976,22 @@
           ]
         },
         {
+          "source_identity_key": "id:cinema/in-theaters/hen",
+          "source_title": "Hen",
+          "adapter_identity_title": null,
+          "matcher_title": "Hen",
+          "program_series": null,
+          "runtime_min": 96,
+          "release_year": 2025,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
           "source_identity_key": "id:cinema/in-theaters/her-song",
           "source_title": "Her Song",
           "adapter_identity_title": null,
@@ -2153,54 +2088,6 @@
           ]
         },
         {
-          "source_identity_key": "id:cinema/in-theaters/romanian-film-festival-seattle-13th-edition/kontinental-25",
-          "source_title": "Romanian Film Festival Seattle: Kontinental '25",
-          "adapter_identity_title": null,
-          "matcher_title": "Romanian Film Festival Seattle: Kontinental '25",
-          "program_series": null,
-          "runtime_min": 109,
-          "release_year": 2025,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:cinema/in-theaters/romanian-film-festival-seattle-13th-edition/rmn",
-          "source_title": "Romanian Film Festival Seattle: R.M.N.",
-          "adapter_identity_title": null,
-          "matcher_title": "Romanian Film Festival Seattle: R.M.N.",
-          "program_series": null,
-          "runtime_min": 128,
-          "release_year": 2022,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:cinema/in-theaters/romanian-film-festival-seattle-13th-edition/the-last-transhumance",
-          "source_title": "Romanian Film Festival Seattle: The Last Transhumance",
-          "adapter_identity_title": null,
-          "matcher_title": "Romanian Film Festival Seattle: The Last Transhumance",
-          "program_series": null,
-          "runtime_min": 90,
-          "release_year": 2026,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
           "source_identity_key": "id:cinema/in-theaters/romanian-film-festival-seattle-13th-edition/the-wall",
           "source_title": "Romanian Film Festival Seattle: The Wall",
           "adapter_identity_title": null,
@@ -2224,22 +2111,6 @@
           "program_series": null,
           "runtime_min": 145,
           "release_year": 2025,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:cinema/in-theaters/romanian-film-festival-seattle-13th-edition/traffic",
-          "source_title": "Romanian Film Festival Seattle: Traffic",
-          "adapter_identity_title": null,
-          "matcher_title": "Romanian Film Festival Seattle: Traffic",
-          "program_series": null,
-          "runtime_min": 119,
-          "release_year": 2024,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
           "adapter_cleanup": false,
@@ -2633,76 +2504,12 @@
           ]
         },
         {
-          "source_identity_key": "id:programs-and-events/seattle-film-critics-society-pnw-awards-2026/again-again",
-          "source_title": "PNW Awards: Again Again",
-          "adapter_identity_title": null,
-          "matcher_title": "PNW Awards: Again Again",
-          "program_series": "Seattle Film Critics Society Pnw Awards",
-          "runtime_min": 99,
-          "release_year": 2026,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:programs-and-events/seattle-film-critics-society-pnw-awards-2026/powwow-people",
-          "source_title": "PNW Awards: Powwow People",
-          "adapter_identity_title": null,
-          "matcher_title": "PNW Awards: Powwow People",
-          "program_series": "Seattle Film Critics Society Pnw Awards",
-          "runtime_min": 88,
-          "release_year": 2025,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:programs-and-events/seattle-film-critics-society-pnw-awards-2026/short-film-nominee-showcase",
-          "source_title": "PNW Awards: Short Film Nominee Showcase",
-          "adapter_identity_title": null,
-          "matcher_title": "PNW Awards: Short Film Nominee Showcase",
-          "program_series": "Seattle Film Critics Society Pnw Awards",
-          "runtime_min": 86,
-          "release_year": 2026,
-          "eligibility": "non_film",
-          "entity_kind": "shorts_program",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
           "source_identity_key": "id:programs-and-events/seattle-film-critics-society-pnw-awards-2026/the-joyless-economy",
           "source_title": "PNW Awards: The Joyless Economy",
           "adapter_identity_title": null,
           "matcher_title": "PNW Awards: The Joyless Economy",
           "program_series": "Seattle Film Critics Society Pnw Awards",
           "runtime_min": 58,
-          "release_year": 2026,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:programs-and-events/seattle-film-critics-society-pnw-awards-2026/the-life-we-leave",
-          "source_title": "PNW Awards: The Life We Leave",
-          "adapter_identity_title": null,
-          "matcher_title": "PNW Awards: The Life We Leave",
-          "program_series": "Seattle Film Critics Society Pnw Awards",
-          "runtime_min": 87,
           "release_year": 2026,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
@@ -2895,8 +2702,8 @@
     },
     "beacon": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-14_beacon.json",
-      "generated_at": "2026-11-14T04:48:49-08:00",
+      "latest_log": "data/daily_logs/2026-11-15_beacon.json",
+      "generated_at": "2026-11-15T05:16:36-08:00",
       "record_count": 86,
       "malformed_record_count": 0,
       "warning_count": 0,
@@ -3747,8 +3554,8 @@
     },
     "nwff": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-14_nwff.json",
-      "generated_at": "2026-11-14T04:47:37-08:00",
+      "latest_log": "data/daily_logs/2026-11-15_nwff.json",
+      "generated_at": "2026-11-15T05:15:17-08:00",
       "record_count": 100,
       "malformed_record_count": 0,
       "warning_count": 0,
@@ -4443,8 +4250,8 @@
     },
     "central_cinema": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-14_central_cinema.json",
-      "generated_at": "2026-11-14T04:47:53-08:00",
+      "latest_log": "data/daily_logs/2026-11-15_central_cinema.json",
+      "generated_at": "2026-11-15T05:15:37-08:00",
       "record_count": 0,
       "malformed_record_count": 0,
       "warning_count": 0,
@@ -4481,8 +4288,8 @@
     },
     "grand_illusion": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-14_grand_illusion.json",
-      "generated_at": "2026-11-14T04:48:46-08:00",
+      "latest_log": "data/daily_logs/2026-11-15_grand_illusion.json",
+      "generated_at": "2026-11-15T05:16:33-08:00",
       "record_count": 14,
       "malformed_record_count": 0,
       "warning_count": 0,
@@ -4722,8 +4529,8 @@
     },
     "tasveer": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-14_tasveer.json",
-      "generated_at": "2026-11-14T04:48:47-08:00",
+      "latest_log": "data/daily_logs/2026-11-15_tasveer.json",
+      "generated_at": "2026-11-15T05:16:34-08:00",
       "record_count": 0,
       "malformed_record_count": 0,
       "warning_count": 0,
@@ -4760,9 +4567,9 @@
     },
     "anderson_school": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-14_anderson_school.json",
-      "generated_at": "2026-11-14T04:48:49-08:00",
-      "record_count": 48,
+      "latest_log": "data/daily_logs/2026-11-15_anderson_school.json",
+      "generated_at": "2026-11-15T05:16:35-08:00",
+      "record_count": 45,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
@@ -5117,27 +4924,27 @@
     },
     "majestic_bay": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-14_majestic_bay.json",
-      "generated_at": "2026-11-14T04:48:49-08:00",
-      "record_count": 99,
+      "latest_log": "data/daily_logs/2026-11-15_majestic_bay.json",
+      "generated_at": "2026-11-15T05:16:36-08:00",
+      "record_count": 90,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 18,
-      "eligible_feature_count": 18,
+      "source_identity_count": 16,
+      "eligible_feature_count": 16,
       "title": {
-        "with_title": 18,
+        "with_title": 16,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 18,
+        "eligible_features_with_runtime": 16,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "not_exposed_by_listing",
         "eligible_features_with_year": 0,
-        "eligible_features_missing_year": 18,
+        "eligible_features_missing_year": 16,
         "missing_feature_samples": [
           "Wildwood",
           "Star Trek IV: The Voyage Home",
@@ -5162,7 +4969,7 @@
         "samples": []
       },
       "entity_kind_counts": {
-        "feature_film": 18
+        "feature_film": 16
       },
       "identities": [
         {
@@ -5332,38 +5139,6 @@
           "matcher_title": "Dune: Part Three",
           "program_series": null,
           "runtime_min": 150,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:36794",
-          "source_title": "Wicker",
-          "adapter_identity_title": null,
-          "matcher_title": "Wicker",
-          "program_series": null,
-          "runtime_min": 105,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:36796",
-          "source_title": "Wicker",
-          "adapter_identity_title": null,
-          "matcher_title": "Wicker",
-          "program_series": null,
-          "runtime_min": 105,
           "release_year": null,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
