@@ -1,12 +1,12 @@
 {
   "catalog_path": "data/film_identity/film_identity_catalog.json",
   "collisions": 0,
-  "coverage_rate": 0.5795918367346938,
-  "generated_at": "2026-11-15T14:25:31+00:00",
+  "coverage_rate": 0.5889830508474576,
+  "generated_at": "2026-11-16T14:26:25+00:00",
   "index_size": 156,
   "invalid_identities": 0,
-  "mapping_misses": 103,
-  "non_null_film_id": 142,
+  "mapping_misses": 97,
+  "non_null_film_id": 139,
   "notes": [
     "Public film_id emits confirmed tmdb:<id> only; unmatched/program → null.",
     "Mapping key is source_identity_key (source|id|sid preferred).",
@@ -14,11 +14,11 @@
     "Saved/Seen/NI readers prefer filmId with showtimeFilmKey aliases (T-FILMID-03).",
     "Film Detail / Home / Search join enrichment by exact filmId only."
   ],
-  "null_film_id": 103,
+  "null_film_id": 97,
   "per_source": {
     "amc": {
-      "films": 95,
-      "null_film_id": 52,
+      "films": 94,
+      "null_film_id": 51,
       "with_film_id": 43
     },
     "anderson_school": {
@@ -37,9 +37,9 @@
       "with_film_id": 2
     },
     "grand_illusion": {
-      "films": 11,
+      "films": 10,
       "null_film_id": 5,
-      "with_film_id": 6
+      "with_film_id": 5
     },
     "majestic_bay": {
       "films": 12,
@@ -52,17 +52,26 @@
       "with_film_id": 22
     },
     "siff": {
-      "films": 53,
-      "null_film_id": 15,
-      "with_film_id": 38
+      "films": 46,
+      "null_film_id": 10,
+      "with_film_id": 36
     }
+  },
+  "performance_identity": {
+    "ambiguous": 0,
+    "inherited_from_registry": 13,
+    "matched": 0,
+    "registry_path": "data/performance_identity/performance_identity_current.json",
+    "registry_persisted": false,
+    "registry_upserts": 0,
+    "unmatched_gi": 13
   },
   "repeated_canonical_across_films": 5,
   "schema_version": "1.0.0",
   "source_fallback_emitted": 0,
   "status": "ok",
-  "total_public_films": 245,
-  "unique_tmdb_ids": 137,
+  "total_public_films": 236,
+  "unique_tmdb_ids": 134,
   "warning_count": 0,
   "warnings": []
 }
