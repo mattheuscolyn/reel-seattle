@@ -1,14 +1,14 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-11-16T06:37:28-08:00",
+  "generated_at": "2026-11-17T07:30:40-08:00",
   "source": "amc",
   "fetch": {
     "endpoint": "/movies/views/coming-soon",
     "url_template": "https://api.amctheatres.com/v2/movies/views/coming-soon?page-number={n}&page-size=100",
     "status": "success",
     "page_size": 100,
-    "pages_fetched": 4,
-    "reported_total": 302,
+    "pages_fetched": 3,
+    "reported_total": 299,
     "exhausted": true,
     "next_link_observed": true,
     "duplicate_ids_skipped": 0,
@@ -16,15 +16,15 @@
     "errors": []
   },
   "stats": {
-    "movies": 302,
-    "with_release_date": 302,
+    "movies": 299,
+    "with_release_date": 299,
     "without_release_date": 0,
     "earliest_release_date": "2026-11-06",
     "latest_release_date": "2027-05-19",
-    "with_scheduled_showtimes": 100,
-    "without_scheduled_showtimes": 202,
+    "with_scheduled_showtimes": 108,
+    "without_scheduled_showtimes": 191,
     "scheduled_showtimes_unknown": 0,
-    "special_presentations": 81
+    "special_presentations": 76
   },
   "movies": [
     {
@@ -50,7 +50,16 @@
       "slug": "the-nightingale-64314",
       "website_url": "https://www.amctheatres.com/movies/the-nightingale-64314",
       "showtimes_url": "https://www.amctheatres.com/movies/the-nightingale-64314/showtimes",
-      "attribute_codes": [],
+      "attribute_codes": [
+        "AMCPRIME",
+        "BIGD",
+        "CLOSEDCAPTION",
+        "DESCRIPTIVEVIDEO",
+        "DOLBYCINEMAATAMCPRIME",
+        "GDX",
+        "GXL",
+        "XL"
+      ],
       "media": {
         "poster_url": null,
         "hero_desktop_url": null,
@@ -476,8 +485,8 @@
       ],
       "media": {
         "poster_url": "https://amc-theatres-res.cloudinary.com/v1785856288/amc-cdn/content/general/qrs01kirjviebcjocv0n.jpg",
-        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1786532812/amc-cdn/production/2/movies/77300/77282/MovieStills/394392R3.jpg",
-        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1786532812/amc-cdn/production/2/movies/77300/77282/MovieStills/394392R3.jpg",
+        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1794571830/amc-cdn/production/2/movies/77300/77282/MovieStills/394392R9.jpg",
+        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1794571830/amc-cdn/production/2/movies/77300/77282/MovieStills/394392R9.jpg",
         "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6402832659112.mp4",
         "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6402832659112.mp4"
       },
@@ -510,7 +519,17 @@
       "slug": "godzilla-x-kong-supernova-77334",
       "website_url": "https://www.amctheatres.com/movies/godzilla-x-kong-supernova-77334",
       "showtimes_url": "https://www.amctheatres.com/movies/godzilla-x-kong-supernova-77334/showtimes",
-      "attribute_codes": [],
+      "attribute_codes": [
+        "AMCPRIME",
+        "BIGD",
+        "CLOSEDCAPTION",
+        "DESCRIPTIVEVIDEO",
+        "DOLBYCINEMAATAMCPRIME",
+        "GDX",
+        "GXL",
+        "IMAX",
+        "XL"
+      ],
       "media": {
         "poster_url": null,
         "hero_desktop_url": null,
@@ -591,11 +610,11 @@
         "XL"
       ],
       "media": {
-        "poster_url": null,
-        "hero_desktop_url": null,
-        "hero_mobile_url": null,
-        "trailer_hd_url": null,
-        "trailer_mp4_url": null
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1794398802/amc-cdn/production/2/movies/77500/77466/Poster/405169R1.jpg",
+        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1794398801/amc-cdn/production/2/movies/77500/77466/MovieStills/405169R6.jpg",
+        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1794398801/amc-cdn/production/2/movies/77500/77466/MovieStills/405169R6.jpg",
+        "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6408491173112.mp4",
+        "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6408491173112.mp4"
       },
       "presentation": {
         "category": "standard",
@@ -627,12 +646,17 @@
       "website_url": "https://www.amctheatres.com/movies/the-comeback-king-77575",
       "showtimes_url": "https://www.amctheatres.com/movies/the-comeback-king-77575/showtimes",
       "attribute_codes": [
+        "AMCPRIME",
+        "BIGD",
         "CLOSEDCAPTION",
         "DESCRIPTIVEVIDEO",
+        "DOLBYCINEMAATAMCPRIME",
+        "GDX",
+        "GXL",
         "XL"
       ],
       "media": {
-        "poster_url": null,
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1794053409/amc-cdn/production/2/movies/77600/77575/Poster/390920R1.jpg",
         "hero_desktop_url": null,
         "hero_mobile_url": null,
         "trailer_hd_url": null,
@@ -742,8 +766,13 @@
       "website_url": "https://www.amctheatres.com/movies/gatto-77771",
       "showtimes_url": "https://www.amctheatres.com/movies/gatto-77771/showtimes",
       "attribute_codes": [
+        "AMCPRIME",
+        "BIGD",
         "CLOSEDCAPTION",
         "DESCRIPTIVEVIDEO",
+        "DOLBYCINEMAATAMCPRIME",
+        "GDX",
+        "GXL",
         "PRIVATE",
         "XL"
       ],
@@ -766,11 +795,11 @@
       "source_title": "Jumanji: Open World",
       "sortable_title": "Jumanji: Open World",
       "source_release_id": "378863",
-      "runtime_min": null,
+      "runtime_min": 126,
       "release_date_utc": "2026-12-25T06:00:00Z",
-      "earliest_showing_utc": null,
+      "earliest_showing_utc": "2026-12-24T18:45:00Z",
       "online_ticket_availability_date_utc": "2026-12-25T06:00:00Z",
-      "has_scheduled_showtimes": false,
+      "has_scheduled_showtimes": true,
       "genre": "ACTION",
       "mpaa_rating": null,
       "starring_actors_raw": "Dwayne Johnson, Jack Black, Kevin Hart",
@@ -804,8 +833,8 @@
       ],
       "media": {
         "poster_url": "https://amc-theatres-res.cloudinary.com/v1792422460/amc-cdn/content/general/q6wpkur7pebq0apo40r1.jpg",
-        "hero_desktop_url": null,
-        "hero_mobile_url": null,
+        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1793880512/amc-cdn/production/2/movies/78600/78614/MovieStills/378863R3.jpg",
+        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1793880512/amc-cdn/production/2/movies/78600/78614/MovieStills/378863R3.jpg",
         "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6407545196112.mp4",
         "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6407545196112.mp4"
       },
@@ -839,17 +868,24 @@
       "website_url": "https://www.amctheatres.com/movies/ice-age-boiling-point-78770",
       "showtimes_url": "https://www.amctheatres.com/movies/ice-age-boiling-point-78770/showtimes",
       "attribute_codes": [
+        "AMCPRIME",
+        "BIGD",
         "CLOSEDCAPTION",
         "DESCRIPTIVEVIDEO",
+        "DOLBY3D",
+        "DOLBYCINEMAATAMCPRIME",
+        "GDX",
+        "GXL",
         "OPENCAPTION",
+        "PRIME3D",
         "PRIVATE",
         "REALD3D",
         "XL"
       ],
       "media": {
         "poster_url": "https://amc-theatres-res.cloudinary.com/v1780605674/amc-cdn/content/general/lmhb1muk6mechodkadjw.jpg",
-        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1784563175/amc-cdn/content/general/geroviwtxydc1ocfi8di.jpg",
-        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1784563175/amc-cdn/content/general/geroviwtxydc1ocfi8di.jpg",
+        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1794053164/amc-cdn/production/2/movies/78800/78770/MovieStills/379870R4.jpg",
+        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1794053164/amc-cdn/production/2/movies/78800/78770/MovieStills/379870R4.jpg",
         "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6397574538112.mp4",
         "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6397574538112.mp4"
       },
@@ -896,9 +932,9 @@
         "XL"
       ],
       "media": {
-        "poster_url": null,
-        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1784229136/amc-cdn/content/general/bba6xpjqoaqm8bb54esw.jpg",
-        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1784229136/amc-cdn/content/general/bba6xpjqoaqm8bb54esw.jpg",
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1794863683/amc-cdn/content/general/cdqftvgnwgnwgpva2k6v.jpg",
+        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1794571963/amc-cdn/production/2/movies/79100/79095/MovieStills/385161R9.jpg",
+        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1794571963/amc-cdn/production/2/movies/79100/79095/MovieStills/385161R9.jpg",
         "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6408343208112.mp4",
         "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6408343208112.mp4"
       },
@@ -973,7 +1009,15 @@
       "website_url": "https://www.amctheatres.com/movies/sonic-the-hedgehog-4-79288",
       "showtimes_url": "https://www.amctheatres.com/movies/sonic-the-hedgehog-4-79288/showtimes",
       "attribute_codes": [
-        "PRIVATE"
+        "AMCPRIME",
+        "BIGD",
+        "CLOSEDCAPTION",
+        "DESCRIPTIVEVIDEO",
+        "DOLBYCINEMAATAMCPRIME",
+        "GDX",
+        "GXL",
+        "PRIVATE",
+        "XL"
       ],
       "media": {
         "poster_url": null,
@@ -1043,7 +1087,7 @@
       "source_title": "The Angry Birds Movie 3",
       "sortable_title": "Angry Birds Movie 3, The",
       "source_release_id": "365700",
-      "runtime_min": 97,
+      "runtime_min": 98,
       "release_date_utc": "2026-12-23T06:00:00Z",
       "earliest_showing_utc": null,
       "online_ticket_availability_date_utc": "2026-12-23T06:00:00Z",
@@ -1118,8 +1162,8 @@
       ],
       "media": {
         "poster_url": "https://amc-theatres-res.cloudinary.com/v1788532367/amc-cdn/content/general/lxxdbdcataoeacuq6etm.jpg",
-        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1792148886/amc-cdn/production/2/movies/79600/79564/MovieStills/382379R5.jpg",
-        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1792148886/amc-cdn/production/2/movies/79600/79564/MovieStills/382379R5.jpg",
+        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1794571801/amc-cdn/production/2/movies/79600/79564/MovieStills/382379R7.jpg",
+        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1794571801/amc-cdn/production/2/movies/79600/79564/MovieStills/382379R7.jpg",
         "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6399805932112.mp4",
         "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6399805932112.mp4"
       },
@@ -1235,8 +1279,8 @@
       ],
       "media": {
         "poster_url": "https://amc-theatres-res.cloudinary.com/v1746666970/amc-cdn/production/2/movies/79900/79935/PosterDynamic/171288.jpg",
-        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1793809503/amc-cdn/content/general/sebtneytx7afnkh42jbe.jpg",
-        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1793809503/amc-cdn/content/general/sebtneytx7afnkh42jbe.jpg",
+        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1794485281/amc-cdn/production/2/movies/79900/79935/MovieStills/380002R9.jpg",
+        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1794485281/amc-cdn/production/2/movies/79900/79935/MovieStills/380002R9.jpg",
         "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6376459325112.mp4",
         "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6376459325112.mp4"
       },
@@ -1321,16 +1365,21 @@
       "website_url": "https://www.amctheatres.com/movies/remain-80301",
       "showtimes_url": "https://www.amctheatres.com/movies/remain-80301/showtimes",
       "attribute_codes": [
+        "AMCPRIME",
+        "BIGD",
         "CLOSEDCAPTION",
         "DESCRIPTIVEVIDEO",
+        "DOLBYCINEMAATAMCPRIME",
+        "GDX",
+        "GXL",
         "XL"
       ],
       "media": {
-        "poster_url": "https://amc-theatres-res.cloudinary.com/v1793890138/amc-cdn/content/general/jzamz1zdhr6wjqbzv3tc.jpg",
-        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1793890179/amc-cdn/content/general/bhz56sbjjrlppqbjgbyb.jpg",
-        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1793890179/amc-cdn/content/general/bhz56sbjjrlppqbjgbyb.jpg",
-        "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6404775871112.mp4",
-        "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6404775871112.mp4"
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1794860303/amc-cdn/content/general/oa9nb6scgxqq6vbuoirp.jpg",
+        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1794053158/amc-cdn/production/2/movies/80300/80301/MovieStills/375183R9.jpg",
+        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1794053158/amc-cdn/production/2/movies/80300/80301/MovieStills/375183R9.jpg",
+        "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6408466202112.mp4",
+        "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6408466202112.mp4"
       },
       "presentation": {
         "category": "standard",
@@ -1400,7 +1449,16 @@
       "slug": "k-pop-the-debut-80942",
       "website_url": "https://www.amctheatres.com/movies/k-pop-the-debut-80942",
       "showtimes_url": "https://www.amctheatres.com/movies/k-pop-the-debut-80942/showtimes",
-      "attribute_codes": [],
+      "attribute_codes": [
+        "AMCPRIME",
+        "BIGD",
+        "CLOSEDCAPTION",
+        "DESCRIPTIVEVIDEO",
+        "DOLBYCINEMAATAMCPRIME",
+        "GDX",
+        "GXL",
+        "XL"
+      ],
       "media": {
         "poster_url": null,
         "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1769014867/amc-cdn/content/general/pflyzcf69s6s1pljfxud.jpg",
@@ -1636,7 +1694,11 @@
       "slug": "cocomelon-the-movie-82072",
       "website_url": "https://www.amctheatres.com/movies/cocomelon-the-movie-82072",
       "showtimes_url": "https://www.amctheatres.com/movies/cocomelon-the-movie-82072/showtimes",
-      "attribute_codes": [],
+      "attribute_codes": [
+        "CLOSEDCAPTION",
+        "DESCRIPTIVEVIDEO",
+        "XL"
+      ],
       "media": {
         "poster_url": "https://amc-theatres-res.cloudinary.com/v1786113997/amc-cdn/content/general/ya5qot7p9dyymb1dhnha.jpg",
         "hero_desktop_url": null,
@@ -1715,8 +1777,8 @@
       ],
       "media": {
         "poster_url": "https://amc-theatres-res.cloudinary.com/v1791919286/amc-cdn/content/general/pkqobueftsu6iwtd4fao.jpg",
-        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1791919305/amc-cdn/content/general/t1ckhvnjkrtokvkgxasf.jpg",
-        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1791919305/amc-cdn/content/general/t1ckhvnjkrtokvkgxasf.jpg",
+        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1794053492/amc-cdn/production/2/movies/82500/82510/MovieStills/379126R2.jpg",
+        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1794053492/amc-cdn/production/2/movies/82500/82510/MovieStills/379126R2.jpg",
         "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6407089314112.mp4",
         "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6407089314112.mp4"
       },
@@ -1866,7 +1928,7 @@
       "source_release_id": "410306",
       "runtime_min": 105,
       "release_date_utc": "2026-12-06T06:00:00Z",
-      "earliest_showing_utc": "2026-12-06T16:00:00Z",
+      "earliest_showing_utc": "2026-12-06T13:45:00Z",
       "online_ticket_availability_date_utc": "2026-12-06T06:00:00Z",
       "has_scheduled_showtimes": true,
       "genre": "DRAMA",
@@ -1913,7 +1975,7 @@
       "source_release_id": "410305",
       "runtime_min": 140,
       "release_date_utc": "2026-11-22T06:00:00Z",
-      "earliest_showing_utc": "2026-11-22T14:00:00Z",
+      "earliest_showing_utc": "2026-11-22T10:45:00Z",
       "online_ticket_availability_date_utc": "2026-11-22T06:00:00Z",
       "has_scheduled_showtimes": true,
       "genre": "DRAMA",
@@ -2079,7 +2141,7 @@
       "source_title": "Mr. Irrelevant",
       "sortable_title": "Mr. Irrelevant",
       "source_release_id": "377984",
-      "runtime_min": null,
+      "runtime_min": 125,
       "release_date_utc": "2026-12-25T06:00:00Z",
       "earliest_showing_utc": null,
       "online_ticket_availability_date_utc": "2026-12-25T06:00:00Z",
@@ -2121,7 +2183,7 @@
       "source_film_id": "82877",
       "source_title": "NMIXX (EPISODE 1: ZERO FRONTIER) FINALE LIVE VIEWING",
       "sortable_title": "NMIXX (EPISODE 1: ZERO FRONTIER) FINALE LIVE VIEWING",
-      "source_release_id": null,
+      "source_release_id": "429046",
       "runtime_min": 210,
       "release_date_utc": "2026-12-02T06:00:00Z",
       "earliest_showing_utc": "2026-12-02T19:00:00Z",
@@ -2131,7 +2193,7 @@
       "mpaa_rating": null,
       "starring_actors_raw": null,
       "directors_raw": null,
-      "synopsis": null,
+      "synopsis": "Follows girl group NMIXX as they bring their first world tour to an unforgettable finale, broadcast live to cinemas worldwide for fans to experience together.",
       "distributor_id": null,
       "distributor_code": null,
       "preferred_media_type": "Theatrical",
@@ -2196,11 +2258,11 @@
         "XL"
       ],
       "media": {
-        "poster_url": null,
-        "hero_desktop_url": null,
-        "hero_mobile_url": null,
-        "trailer_hd_url": null,
-        "trailer_mp4_url": null
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1794053513/amc-cdn/production/2/movies/82900/82880/Poster/385657R1.jpg",
+        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1794053512/amc-cdn/production/2/movies/82900/82880/MovieStills/385657R6.jpg",
+        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1794053512/amc-cdn/production/2/movies/82900/82880/MovieStills/385657R6.jpg",
+        "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6408492646112.mp4",
+        "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6408492646112.mp4"
       },
       "presentation": {
         "category": "standard",
@@ -2231,7 +2293,11 @@
       "slug": "the-revenge-of-la-llorona-83306",
       "website_url": "https://www.amctheatres.com/movies/the-revenge-of-la-llorona-83306",
       "showtimes_url": "https://www.amctheatres.com/movies/the-revenge-of-la-llorona-83306/showtimes",
-      "attribute_codes": [],
+      "attribute_codes": [
+        "CLOSEDCAPTION",
+        "DESCRIPTIVEVIDEO",
+        "XL"
+      ],
       "media": {
         "poster_url": null,
         "hero_desktop_url": null,
@@ -2306,7 +2372,10 @@
       "website_url": "https://www.amctheatres.com/movies/live-like-that-83313",
       "showtimes_url": "https://www.amctheatres.com/movies/live-like-that-83313/showtimes",
       "attribute_codes": [
-        "PRIVATE"
+        "CLOSEDCAPTION",
+        "DESCRIPTIVEVIDEO",
+        "PRIVATE",
+        "XL"
       ],
       "media": {
         "poster_url": "https://amc-theatres-res.cloudinary.com/v1790878333/amc-cdn/content/general/bxgaajcicnohkqutnkw0.jpg",
@@ -2370,9 +2439,9 @@
       "source_release_id": "386447",
       "runtime_min": 120,
       "release_date_utc": "2026-12-04T06:00:00Z",
-      "earliest_showing_utc": null,
+      "earliest_showing_utc": "2026-12-03T17:00:00Z",
       "online_ticket_availability_date_utc": "2026-12-04T06:00:00Z",
-      "has_scheduled_showtimes": false,
+      "has_scheduled_showtimes": true,
       "genre": "SUSPENSE",
       "mpaa_rating": "R",
       "starring_actors_raw": "Dermot Mulroney, John Travolta, Robert Carlyle",
@@ -2413,7 +2482,7 @@
       "source_release_id": "390322",
       "runtime_min": 110,
       "release_date_utc": "2026-11-26T06:00:00Z",
-      "earliest_showing_utc": "2026-11-24T12:00:00Z",
+      "earliest_showing_utc": "2026-11-23T12:00:00Z",
       "online_ticket_availability_date_utc": "2026-11-26T06:00:00Z",
       "has_scheduled_showtimes": true,
       "genre": "DRAMA",
@@ -2509,6 +2578,7 @@
       "website_url": "https://www.amctheatres.com/movies/narnia-the-magician-s-nephew-83830",
       "showtimes_url": "https://www.amctheatres.com/movies/narnia-the-magician-s-nephew-83830/showtimes",
       "attribute_codes": [
+        "IMAX",
         "PRIVATE",
         "XL"
       ],
@@ -2752,7 +2822,7 @@
         "XL"
       ],
       "media": {
-        "poster_url": null,
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1794053372/amc-cdn/production/2/movies/84000/83951/Poster/379600R1.jpg",
         "hero_desktop_url": null,
         "hero_mobile_url": null,
         "trailer_hd_url": null,
@@ -2769,12 +2839,12 @@
       "source_film_id": "83952",
       "source_title": "Above the Below",
       "sortable_title": "Above the Below",
-      "source_release_id": null,
+      "source_release_id": "366812",
       "runtime_min": 87,
       "release_date_utc": "2026-12-04T06:00:00Z",
-      "earliest_showing_utc": null,
+      "earliest_showing_utc": "2026-12-03T16:00:00Z",
       "online_ticket_availability_date_utc": "2026-12-04T06:00:00Z",
-      "has_scheduled_showtimes": false,
+      "has_scheduled_showtimes": true,
       "genre": "SUSPENSE",
       "mpaa_rating": "R",
       "starring_actors_raw": "Idris Elba",
@@ -2795,10 +2865,10 @@
       ],
       "media": {
         "poster_url": "https://amc-theatres-res.cloudinary.com/v1793996216/amc-cdn/content/general/dg8msaorrhg3suxaxsep.jpg",
-        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1793996309/amc-cdn/content/general/ll1lsozsfu076vzzyvge.jpg",
-        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1793996309/amc-cdn/content/general/ll1lsozsfu076vzzyvge.jpg",
-        "trailer_hd_url": null,
-        "trailer_mp4_url": null
+        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1794917315/amc-cdn/production/2/movies/84000/83952/MovieStills/366812R6.jpg",
+        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1794917315/amc-cdn/production/2/movies/84000/83952/MovieStills/366812R6.jpg",
+        "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6408492929112.mp4",
+        "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6408492929112.mp4"
       },
       "presentation": {
         "category": "standard",
@@ -2910,8 +2980,8 @@
       ],
       "media": {
         "poster_url": null,
-        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1793816420/amc-cdn/content/general/ese4tunm1vwcknc0rtuh.jpg",
-        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1793816420/amc-cdn/content/general/ese4tunm1vwcknc0rtuh.jpg",
+        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1794053561/amc-cdn/production/2/movies/84000/84029/MovieStills/405538R2.jpg",
+        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1794053561/amc-cdn/production/2/movies/84000/84029/MovieStills/405538R2.jpg",
         "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6407918472112.mp4",
         "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6407918472112.mp4"
       },
@@ -2924,26 +2994,26 @@
     {
       "source": "amc",
       "source_film_id": "84068",
-      "source_title": "Untitled Music Event Film (2/5/27)",
-      "sortable_title": "Untitled Music Event Film (2/5/27)",
+      "source_title": "Twice: This Is For... You",
+      "sortable_title": "Twice: This Is For... You",
       "source_release_id": null,
       "runtime_min": null,
       "release_date_utc": "2027-02-05T06:00:00Z",
       "earliest_showing_utc": null,
       "online_ticket_availability_date_utc": "2027-02-05T06:00:00Z",
       "has_scheduled_showtimes": false,
-      "genre": null,
+      "genre": "ROCK/POP CONCERT",
       "mpaa_rating": null,
       "starring_actors_raw": null,
-      "directors_raw": null,
+      "directors_raw": "Event Director",
       "synopsis": null,
       "distributor_id": "2465",
       "distributor_code": "BSM",
       "preferred_media_type": "Theatrical",
       "available_for_a_list": true,
-      "slug": "untitled-music-event-film-2-5-27-84068",
-      "website_url": "https://www.amctheatres.com/movies/untitled-music-event-film-2-5-27-84068",
-      "showtimes_url": "https://www.amctheatres.com/movies/untitled-music-event-film-2-5-27-84068/showtimes",
+      "slug": "twice-this-is-for-you-84068",
+      "website_url": "https://www.amctheatres.com/movies/twice-this-is-for-you-84068",
+      "showtimes_url": "https://www.amctheatres.com/movies/twice-this-is-for-you-84068/showtimes",
       "attribute_codes": [],
       "media": {
         "poster_url": null,
@@ -2953,8 +3023,8 @@
         "trailer_mp4_url": null
       },
       "presentation": {
-        "category": "concert_or_event",
-        "is_special_presentation": true,
+        "category": "standard",
+        "is_special_presentation": false,
         "classifier_version": "1.0.0"
       }
     },
@@ -2981,7 +3051,9 @@
       "slug": "wishful-thinking-84084",
       "website_url": "https://www.amctheatres.com/movies/wishful-thinking-84084",
       "showtimes_url": "https://www.amctheatres.com/movies/wishful-thinking-84084/showtimes",
-      "attribute_codes": [],
+      "attribute_codes": [
+        "XL"
+      ],
       "media": {
         "poster_url": null,
         "hero_desktop_url": null,
@@ -3000,12 +3072,12 @@
       "source_film_id": "84118",
       "source_title": "Flavia Girl Detective",
       "sortable_title": "Flavia Girl Detective",
-      "source_release_id": null,
+      "source_release_id": "413526",
       "runtime_min": 97,
       "release_date_utc": "2026-12-04T06:00:00Z",
-      "earliest_showing_utc": null,
+      "earliest_showing_utc": "2026-12-03T17:00:00Z",
       "online_ticket_availability_date_utc": "2026-12-04T06:00:00Z",
-      "has_scheduled_showtimes": false,
+      "has_scheduled_showtimes": true,
       "genre": "FAMILY",
       "mpaa_rating": "PG13",
       "starring_actors_raw": "Jonathan Pryce, Martin Freeman, MOLLY BELLE WRIGHT",
@@ -3025,7 +3097,7 @@
         "XL"
       ],
       "media": {
-        "poster_url": null,
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1794863654/amc-cdn/content/general/sfahvvxultrykwi3fqxp.jpg",
         "hero_desktop_url": null,
         "hero_mobile_url": null,
         "trailer_hd_url": null,
@@ -3115,8 +3187,8 @@
         "poster_url": "https://amc-theatres-res.cloudinary.com/v1793816568/amc-cdn/content/general/bevubzn9gu0x5k5ldwfs.jpg",
         "hero_desktop_url": null,
         "hero_mobile_url": null,
-        "trailer_hd_url": null,
-        "trailer_mp4_url": null
+        "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6408491843112.mp4",
+        "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6408491843112.mp4"
       },
       "presentation": {
         "category": "standard",
@@ -3282,14 +3354,14 @@
     {
       "source": "amc",
       "source_film_id": "84260",
-      "source_title": "Sathyavin Savithri",
+      "source_title": "Sathyavan Savithri",
       "sortable_title": "Sathyavin Savithri",
       "source_release_id": "420481",
       "runtime_min": 135,
       "release_date_utc": "2026-11-20T06:00:00Z",
-      "earliest_showing_utc": "1900-01-01T00:00:00Z",
+      "earliest_showing_utc": "2026-11-19T18:00:00Z",
       "online_ticket_availability_date_utc": "2026-11-20T06:00:00Z",
-      "has_scheduled_showtimes": false,
+      "has_scheduled_showtimes": true,
       "genre": "DRAMA",
       "mpaa_rating": "NR",
       "starring_actors_raw": "CHARUKESH, MADHUSUDHANAN, SHILPA MANJUNATH",
@@ -3299,9 +3371,9 @@
       "distributor_code": "ATU",
       "preferred_media_type": "Theatrical",
       "available_for_a_list": true,
-      "slug": "sathyavin-savithri-84260",
-      "website_url": "https://www.amctheatres.com/movies/sathyavin-savithri-84260",
-      "showtimes_url": "https://www.amctheatres.com/movies/sathyavin-savithri-84260/showtimes",
+      "slug": "sathyavan-savithri-84260",
+      "website_url": "https://www.amctheatres.com/movies/sathyavan-savithri-84260",
+      "showtimes_url": "https://www.amctheatres.com/movies/sathyavan-savithri-84260/showtimes",
       "attribute_codes": [
         "AMCPRIME",
         "INTFILMS",
@@ -3913,11 +3985,11 @@
         "XL"
       ],
       "media": {
-        "poster_url": null,
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1794053302/amc-cdn/production/2/movies/84300/84315/Poster/394960R1.jpg",
         "hero_desktop_url": null,
         "hero_mobile_url": null,
-        "trailer_hd_url": null,
-        "trailer_mp4_url": null
+        "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6408491375112.mp4",
+        "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6408491375112.mp4"
       },
       "presentation": {
         "category": "standard",
@@ -3957,8 +4029,8 @@
         "poster_url": "https://amc-theatres-res.cloudinary.com/v1794339315/amc-cdn/content/general/o3rpggkmbnetlzqx75dy.jpg",
         "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1794339374/amc-cdn/content/general/ybzsuhrrp5dc84ox9nwr.jpg",
         "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1794339374/amc-cdn/content/general/ybzsuhrrp5dc84ox9nwr.jpg",
-        "trailer_hd_url": null,
-        "trailer_mp4_url": null
+        "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6408491943112.mp4",
+        "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6408491943112.mp4"
       },
       "presentation": {
         "category": "standard",
@@ -4072,8 +4144,8 @@
       ],
       "media": {
         "poster_url": "https://amc-theatres-res.cloudinary.com/v1792423495/amc-cdn/content/general/sbarcckb6x5eboezp4zm.png",
-        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1792494463/amc-cdn/production/2/movies/84400/84355/MovieStills/389667R3.jpg",
-        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1792494463/amc-cdn/production/2/movies/84400/84355/MovieStills/389667R3.jpg",
+        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1793880473/amc-cdn/production/2/movies/84400/84355/MovieStills/389667R9.jpg",
+        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1793880473/amc-cdn/production/2/movies/84400/84355/MovieStills/389667R9.jpg",
         "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6407100888112.mp4",
         "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6407100888112.mp4"
       },
@@ -4192,11 +4264,11 @@
         "XL"
       ],
       "media": {
-        "poster_url": null,
-        "hero_desktop_url": null,
-        "hero_mobile_url": null,
-        "trailer_hd_url": null,
-        "trailer_mp4_url": null
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1794854098/amc-cdn/content/general/eocvmvgybvcrstyq6iij.jpg",
+        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1794917188/amc-cdn/production/2/movies/84400/84449/MovieStills/380964R9.jpg",
+        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1794917188/amc-cdn/production/2/movies/84400/84449/MovieStills/380964R9.jpg",
+        "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6408492837112.mp4",
+        "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6408492837112.mp4"
       },
       "presentation": {
         "category": "standard",
@@ -4314,11 +4386,11 @@
         "XL"
       ],
       "media": {
-        "poster_url": null,
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1794053514/amc-cdn/production/2/movies/84500/84501/Poster/386001R1.jpg",
         "hero_desktop_url": null,
         "hero_mobile_url": null,
-        "trailer_hd_url": null,
-        "trailer_mp4_url": null
+        "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6408491376112.mp4",
+        "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6408491376112.mp4"
       },
       "presentation": {
         "category": "standard",
@@ -4356,8 +4428,8 @@
         "poster_url": null,
         "hero_desktop_url": null,
         "hero_mobile_url": null,
-        "trailer_hd_url": null,
-        "trailer_mp4_url": null
+        "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6408492443112.mp4",
+        "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6408492443112.mp4"
       },
       "presentation": {
         "category": "standard",
@@ -4399,8 +4471,8 @@
       ],
       "media": {
         "poster_url": "https://amc-theatres-res.cloudinary.com/v1793293158/amc-cdn/content/general/wzkectt20asjjilfwzsg.jpg",
-        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1789556784/amc-cdn/production/2/movies/84500/84505/MovieStills/389075R7.jpg",
-        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1789556784/amc-cdn/production/2/movies/84500/84505/MovieStills/389075R7.jpg",
+        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1794571973/amc-cdn/production/2/movies/84500/84505/MovieStills/389075R9.jpg",
+        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1794571973/amc-cdn/production/2/movies/84500/84505/MovieStills/389075R9.jpg",
         "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6407545198112.mp4",
         "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6407545198112.mp4"
       },
@@ -4928,10 +5000,10 @@
       ],
       "media": {
         "poster_url": "https://amc-theatres-res.cloudinary.com/v1794352188/amc-cdn/content/general/dibaoeqgmr61zzbddaby.jpg",
-        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1794352210/amc-cdn/content/general/eecapitmxt7v63rsi4qj.jpg",
-        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1794352210/amc-cdn/content/general/eecapitmxt7v63rsi4qj.jpg",
-        "trailer_hd_url": null,
-        "trailer_mp4_url": null
+        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1794572091/amc-cdn/production/2/movies/84700/84728/MovieStills/427960R8.jpg",
+        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1794572091/amc-cdn/production/2/movies/84700/84728/MovieStills/427960R8.jpg",
+        "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6408492356112.mp4",
+        "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6408492356112.mp4"
       },
       "presentation": {
         "category": "concert_or_event",
@@ -4945,7 +5017,7 @@
       "source_title": "Ink",
       "sortable_title": "Ink",
       "source_release_id": "398803",
-      "runtime_min": 116,
+      "runtime_min": 117,
       "release_date_utc": "2026-12-11T06:00:00Z",
       "earliest_showing_utc": "2026-12-10T17:00:00Z",
       "online_ticket_availability_date_utc": "2026-12-11T06:00:00Z",
@@ -5731,8 +5803,8 @@
       ],
       "media": {
         "poster_url": "https://amc-theatres-res.cloudinary.com/v1793720159/amc-cdn/content/general/hrulpgmilh50kanapmdt.jpg",
-        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1793720203/amc-cdn/content/general/iaa6sdfms3ss2jsvw1p9.jpg",
-        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1793720203/amc-cdn/content/general/iaa6sdfms3ss2jsvw1p9.jpg",
+        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1794398879/amc-cdn/production/2/movies/85000/84997/MovieStills/372070R9.jpg",
+        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1794398879/amc-cdn/production/2/movies/85000/84997/MovieStills/372070R9.jpg",
         "trailer_hd_url": null,
         "trailer_mp4_url": null
       },
@@ -5772,8 +5844,8 @@
       ],
       "media": {
         "poster_url": null,
-        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1790075587/amc-cdn/production/2/movies/85000/85018/MovieStills/393872R2.jpg",
-        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1790075587/amc-cdn/production/2/movies/85000/85018/MovieStills/393872R2.jpg",
+        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1793358611/amc-cdn/production/2/movies/85000/85018/MovieStills/393872R4.jpg",
+        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1793358611/amc-cdn/production/2/movies/85000/85018/MovieStills/393872R4.jpg",
         "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6404837357112.mp4",
         "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6404837357112.mp4"
       },
@@ -5791,9 +5863,9 @@
       "source_release_id": "428122",
       "runtime_min": 140,
       "release_date_utc": "2026-12-11T06:00:00Z",
-      "earliest_showing_utc": null,
+      "earliest_showing_utc": "2026-12-10T20:00:00Z",
       "online_ticket_availability_date_utc": "2026-12-11T06:00:00Z",
-      "has_scheduled_showtimes": false,
+      "has_scheduled_showtimes": true,
       "genre": null,
       "mpaa_rating": "NR",
       "starring_actors_raw": "AKSHAY LAGUSANI, KEYURI",
@@ -5900,10 +5972,10 @@
       ],
       "media": {
         "poster_url": "https://amc-theatres-res.cloudinary.com/v1793898402/amc-cdn/content/general/wrjavegugvlr7s8tjoda.jpg",
-        "hero_desktop_url": null,
-        "hero_mobile_url": null,
-        "trailer_hd_url": null,
-        "trailer_mp4_url": null
+        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1793444984/amc-cdn/production/2/movies/85100/85073/MovieStills/042160R9.jpg",
+        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1793444984/amc-cdn/production/2/movies/85100/85073/MovieStills/042160R9.jpg",
+        "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6408491087112.mp4",
+        "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6408491087112.mp4"
       },
       "presentation": {
         "category": "standard",
@@ -5986,8 +6058,8 @@
       ],
       "media": {
         "poster_url": "https://amc-theatres-res.cloudinary.com/v1793898372/amc-cdn/content/general/anszvagfuqeb6q1cvn6j.jpg",
-        "hero_desktop_url": null,
-        "hero_mobile_url": null,
+        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1793445102/amc-cdn/production/2/movies/85100/85075/MovieStills/040272R9.jpg",
+        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1793445102/amc-cdn/production/2/movies/85100/85075/MovieStills/040272R9.jpg",
         "trailer_hd_url": null,
         "trailer_mp4_url": null
       },
@@ -6027,8 +6099,8 @@
       ],
       "media": {
         "poster_url": "https://amc-theatres-res.cloudinary.com/v1793898244/amc-cdn/content/general/kvfufu3guwwj35wxjx4w.jpg",
-        "hero_desktop_url": null,
-        "hero_mobile_url": null,
+        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1793444980/amc-cdn/production/2/movies/85100/85076/MovieStills/041057R9.jpg",
+        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1793444980/amc-cdn/production/2/movies/85100/85076/MovieStills/041057R9.jpg",
         "trailer_hd_url": null,
         "trailer_mp4_url": null
       },
@@ -6070,8 +6142,8 @@
       ],
       "media": {
         "poster_url": "https://amc-theatres-res.cloudinary.com/v1793898197/amc-cdn/content/general/ajeyd5ghiipsohdzbpaq.jpg",
-        "hero_desktop_url": null,
-        "hero_mobile_url": null,
+        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1793444971/amc-cdn/production/2/movies/85100/85077/MovieStills/010485R9.jpg",
+        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1793444971/amc-cdn/production/2/movies/85100/85077/MovieStills/010485R9.jpg",
         "trailer_hd_url": null,
         "trailer_mp4_url": null
       },
@@ -6113,8 +6185,8 @@
         "poster_url": "https://amc-theatres-res.cloudinary.com/v1793898282/amc-cdn/content/general/a9abj1dwalxsix04izcw.jpg",
         "hero_desktop_url": null,
         "hero_mobile_url": null,
-        "trailer_hd_url": null,
-        "trailer_mp4_url": null
+        "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6408492444112.mp4",
+        "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6408492444112.mp4"
       },
       "presentation": {
         "category": "standard",
@@ -6154,10 +6226,10 @@
       ],
       "media": {
         "poster_url": null,
-        "hero_desktop_url": null,
-        "hero_mobile_url": null,
-        "trailer_hd_url": null,
-        "trailer_mp4_url": null
+        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1793445032/amc-cdn/production/2/movies/85100/85085/MovieStills/394477R9.jpg",
+        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1793445032/amc-cdn/production/2/movies/85100/85085/MovieStills/394477R9.jpg",
+        "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6408491753112.mp4",
+        "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6408491753112.mp4"
       },
       "presentation": {
         "category": "standard",
@@ -6238,8 +6310,8 @@
         "poster_url": "https://amc-theatres-res.cloudinary.com/v1793634830/amc-cdn/content/general/fyliainow5mulnxt16e3.jpg",
         "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1793638284/amc-cdn/content/general/nqrge7cea3tpjkezgces.jpg",
         "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1793638284/amc-cdn/content/general/nqrge7cea3tpjkezgces.jpg",
-        "trailer_hd_url": null,
-        "trailer_mp4_url": null
+        "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6408493430112.mp4",
+        "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6408493430112.mp4"
       },
       "presentation": {
         "category": "concert_or_event",
@@ -6271,6 +6343,7 @@
       "website_url": "https://www.amctheatres.com/movies/rehearsals-for-a-revolution-85123",
       "showtimes_url": "https://www.amctheatres.com/movies/rehearsals-for-a-revolution-85123/showtimes",
       "attribute_codes": [
+        "AMCARTISANFILMS",
         "CLOSEDCAPTION",
         "DESCRIPTIVEVIDEO",
         "OPENCAPTION",
@@ -6278,10 +6351,10 @@
       ],
       "media": {
         "poster_url": null,
-        "hero_desktop_url": null,
-        "hero_mobile_url": null,
-        "trailer_hd_url": null,
-        "trailer_mp4_url": null
+        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1793445047/amc-cdn/production/2/movies/85100/85123/MovieStills/415690R4.jpg",
+        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1793445047/amc-cdn/production/2/movies/85100/85123/MovieStills/415690R4.jpg",
+        "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6408492931112.mp4",
+        "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6408492931112.mp4"
       },
       "presentation": {
         "category": "standard",
@@ -6336,7 +6409,7 @@
       "source_release_id": "427507",
       "runtime_min": 158,
       "release_date_utc": "2026-11-25T06:00:00Z",
-      "earliest_showing_utc": "2026-11-25T13:35:00Z",
+      "earliest_showing_utc": "2026-11-25T10:00:00Z",
       "online_ticket_availability_date_utc": "2026-11-25T06:00:00Z",
       "has_scheduled_showtimes": true,
       "genre": null,
@@ -6401,8 +6474,8 @@
       ],
       "media": {
         "poster_url": "https://amc-theatres-res.cloudinary.com/v1790334579/amc-cdn/production/2/movies/85200/85177/Poster/404123R1.jpg",
-        "hero_desktop_url": null,
-        "hero_mobile_url": null,
+        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1793880730/amc-cdn/production/2/movies/85200/85177/MovieStills/404123R9.jpg",
+        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1793880730/amc-cdn/production/2/movies/85200/85177/MovieStills/404123R9.jpg",
         "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6405615982112.mp4",
         "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6405615982112.mp4"
       },
@@ -6443,8 +6516,8 @@
       ],
       "media": {
         "poster_url": "https://amc-theatres-res.cloudinary.com/v1790334323/amc-cdn/production/2/movies/85200/85178/Poster/394392R1.jpg",
-        "hero_desktop_url": null,
-        "hero_mobile_url": null,
+        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1794571999/amc-cdn/production/2/movies/85200/85178/MovieStills/394392R9.jpg",
+        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1794571999/amc-cdn/production/2/movies/85200/85178/MovieStills/394392R9.jpg",
         "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6405616178112.mp4",
         "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6405616178112.mp4"
       },
@@ -6498,50 +6571,13 @@
     },
     {
       "source": "amc",
-      "source_film_id": "85190",
-      "source_title": "Dive in Wonderland",
-      "sortable_title": "Dive in Wonderland",
-      "source_release_id": "394679",
-      "runtime_min": 97,
-      "release_date_utc": "2026-11-16T06:00:00Z",
-      "earliest_showing_utc": "1900-01-01T00:00:00Z",
-      "online_ticket_availability_date_utc": "2026-11-16T06:00:00Z",
-      "has_scheduled_showtimes": true,
-      "genre": "ANIMATION",
-      "mpaa_rating": "NR",
-      "starring_actors_raw": "MAIKA PUGH, NANOKA HARA",
-      "directors_raw": "TOSHIYA SHINOHARA",
-      "synopsis": "Feature length anime inspired by Lewis Carroll's timeless novels. In-crisis university student Rise (Nanoka Hara) tumbles into Wonderland and meets Alice (Maika Pugh) The two have curious adventures in a whimsical, nonsensical world.",
-      "distributor_id": "2420",
-      "distributor_code": "SON",
-      "preferred_media_type": "Theatrical",
-      "available_for_a_list": true,
-      "slug": "alice-in-wonderland-dive-in-wonderland-85190",
-      "website_url": "https://www.amctheatres.com/movies/alice-in-wonderland-dive-in-wonderland-85190",
-      "showtimes_url": "https://www.amctheatres.com/movies/alice-in-wonderland-dive-in-wonderland-85190/showtimes",
-      "attribute_codes": [],
-      "media": {
-        "poster_url": "https://amc-theatres-res.cloudinary.com/v1790614333/amc-cdn/content/general/wo8zrbautaioq15gbtvz.png",
-        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1790614577/amc-cdn/content/general/coif9yjwpw6lsuxwou2j.png",
-        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1790614577/amc-cdn/content/general/coif9yjwpw6lsuxwou2j.png",
-        "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6405872422112.mp4",
-        "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6405872422112.mp4"
-      },
-      "presentation": {
-        "category": "standard",
-        "is_special_presentation": false,
-        "classifier_version": "1.0.0"
-      }
-    },
-    {
-      "source": "amc",
       "source_film_id": "85227",
       "source_title": "Doctor Who: The Satan Pit",
       "sortable_title": "Doctor Who: The Satan Pit",
       "source_release_id": "262730",
       "runtime_min": 115,
       "release_date_utc": "2026-11-23T06:00:00Z",
-      "earliest_showing_utc": "2026-11-23T16:30:00Z",
+      "earliest_showing_utc": "2026-11-23T16:15:00Z",
       "online_ticket_availability_date_utc": "2026-11-23T06:00:00Z",
       "has_scheduled_showtimes": true,
       "genre": "SCIENCE FICTION",
@@ -6791,7 +6827,7 @@
       "source_release_id": "416489",
       "runtime_min": 165,
       "release_date_utc": "2026-11-27T06:00:00Z",
-      "earliest_showing_utc": "2026-11-26T17:00:00Z",
+      "earliest_showing_utc": "2026-11-26T15:00:00Z",
       "online_ticket_availability_date_utc": "2026-11-27T06:00:00Z",
       "has_scheduled_showtimes": true,
       "genre": "ROMANCE",
@@ -6870,12 +6906,12 @@
       "source_film_id": "85318",
       "source_title": "The Gallerist",
       "sortable_title": "Gallerist, The",
-      "source_release_id": null,
+      "source_release_id": "378989",
       "runtime_min": 94,
       "release_date_utc": "2026-12-04T06:00:00Z",
-      "earliest_showing_utc": null,
+      "earliest_showing_utc": "2026-12-03T16:00:00Z",
       "online_ticket_availability_date_utc": "2026-12-04T06:00:00Z",
-      "has_scheduled_showtimes": false,
+      "has_scheduled_showtimes": true,
       "genre": "COMEDY",
       "mpaa_rating": "R",
       "starring_actors_raw": "JENNA ORTEGA, Natalie Portman, STERLING K. BROWN",
@@ -6896,11 +6932,11 @@
         "XL"
       ],
       "media": {
-        "poster_url": null,
-        "hero_desktop_url": null,
-        "hero_mobile_url": null,
-        "trailer_hd_url": null,
-        "trailer_mp4_url": null
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1794863702/amc-cdn/content/general/w1872mwdsg6mngjkyrzb.jpg",
+        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1794917511/amc-cdn/production/2/movies/85300/85318/MovieStills/378989R7.jpg",
+        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1794917511/amc-cdn/production/2/movies/85300/85318/MovieStills/378989R7.jpg",
+        "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6408492742112.mp4",
+        "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6408492742112.mp4"
       },
       "presentation": {
         "category": "standard",
@@ -7157,7 +7193,9 @@
       "slug": "babies-85352",
       "website_url": "https://www.amctheatres.com/movies/babies-85352",
       "showtimes_url": "https://www.amctheatres.com/movies/babies-85352/showtimes",
-      "attribute_codes": [],
+      "attribute_codes": [
+        "XL"
+      ],
       "media": {
         "poster_url": null,
         "hero_desktop_url": null,
@@ -7238,8 +7276,8 @@
       ],
       "media": {
         "poster_url": "https://amc-theatres-res.cloudinary.com/v1792605982/amc-cdn/content/general/buipcg6vftsxuq7v7iwk.jpg",
-        "hero_desktop_url": null,
-        "hero_mobile_url": null,
+        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1794856450/amc-cdn/content/general/kokxeng8knuiuuzlsh4u.jpg",
+        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1794856450/amc-cdn/content/general/kokxeng8knuiuuzlsh4u.jpg",
         "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6407195506112.mp4",
         "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6407195506112.mp4"
       },
@@ -7280,8 +7318,8 @@
       ],
       "media": {
         "poster_url": "https://amc-theatres-res.cloudinary.com/v1793726628/amc-cdn/content/general/w7fwhvmovd6edkukhghj.jpg",
-        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1793727088/amc-cdn/content/general/af3zreog6qdw5tpp1k2z.jpg",
-        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1793727088/amc-cdn/content/general/af3zreog6qdw5tpp1k2z.jpg",
+        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1794398969/amc-cdn/production/2/movies/85400/85360/MovieStills/359753R2.jpg",
+        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1794398969/amc-cdn/production/2/movies/85400/85360/MovieStills/359753R2.jpg",
         "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6407858236112.mp4",
         "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6407858236112.mp4"
       },
@@ -7443,8 +7481,8 @@
       ],
       "media": {
         "poster_url": "https://amc-theatres-res.cloudinary.com/v1791889623/amc-cdn/production/2/movies/85400/85376/Poster/380002R1.jpg",
-        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1793823506/amc-cdn/content/general/zgcyuy6pifxvazobobbx.jpg",
-        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1793823506/amc-cdn/content/general/zgcyuy6pifxvazobobbx.jpg",
+        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1794485588/amc-cdn/production/2/movies/85400/85376/MovieStills/380002R9.jpg",
+        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1794485588/amc-cdn/production/2/movies/85400/85376/MovieStills/380002R9.jpg",
         "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6406741816112.mp4",
         "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6406741816112.mp4"
       },
@@ -7459,7 +7497,7 @@
       "source_film_id": "85379",
       "source_title": "Hail Mary",
       "sortable_title": "Hail Mary",
-      "source_release_id": null,
+      "source_release_id": "427080",
       "runtime_min": 174,
       "release_date_utc": "2026-11-26T06:00:00Z",
       "earliest_showing_utc": null,
@@ -7498,7 +7536,7 @@
       "source_film_id": "85387",
       "source_title": "Bunker",
       "sortable_title": "Bunker",
-      "source_release_id": null,
+      "source_release_id": "391811",
       "runtime_min": null,
       "release_date_utc": "2027-01-15T06:00:00Z",
       "earliest_showing_utc": null,
@@ -7521,8 +7559,8 @@
       ],
       "media": {
         "poster_url": null,
-        "hero_desktop_url": null,
-        "hero_mobile_url": null,
+        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1794917731/amc-cdn/production/2/movies/85400/85387/MovieStills/391811R3.jpg",
+        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1794917731/amc-cdn/production/2/movies/85400/85387/MovieStills/391811R3.jpg",
         "trailer_hd_url": null,
         "trailer_mp4_url": null
       },
@@ -7899,7 +7937,7 @@
       "mpaa_rating": null,
       "starring_actors_raw": null,
       "directors_raw": "VARIOUS DIRECTORS",
-      "synopsis": "The Oscar-Nominated Shorts will be in theaters on February 20, 2026.Showcasing the best short films from around the world, the 2026 Oscar-Nominated Shorts includes three feature-length programs, one for each Academy Award Short Film category: Animated, Documentary and Live Action.",
+      "synopsis": "The Oscar-Nominated Shorts will be in theaters on February 19, 2027. Showcasing the best short films from around the world, the 2027 Oscar-Nominated Shorts includes three feature-length programs, one for each Academy Award Short Film category: Animated, Documentary and Live Action.",
       "distributor_id": "2273",
       "distributor_code": "RSA",
       "preferred_media_type": "Theatrical",
@@ -8004,8 +8042,8 @@
       ],
       "media": {
         "poster_url": "https://amc-theatres-res.cloudinary.com/v1792423651/amc-cdn/content/general/op1jivlidhuckdznt50l.png",
-        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1792434148/amc-cdn/content/general/xdz4jkk8yvt6giak7gq7.jpg",
-        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1792434148/amc-cdn/content/general/xdz4jkk8yvt6giak7gq7.jpg",
+        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1793880481/amc-cdn/production/2/movies/85400/85448/MovieStills/389667R9.jpg",
+        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1793880481/amc-cdn/production/2/movies/85400/85448/MovieStills/389667R9.jpg",
         "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6407226336112.mp4",
         "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6407226336112.mp4"
       },
@@ -8044,8 +8082,8 @@
       ],
       "media": {
         "poster_url": "https://amc-theatres-res.cloudinary.com/v1792423621/amc-cdn/content/general/vcr6zimua4ocyw1w0vwn.png",
-        "hero_desktop_url": null,
-        "hero_mobile_url": null,
+        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1793880578/amc-cdn/production/2/movies/85400/85449/MovieStills/389667R9.jpg",
+        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1793880578/amc-cdn/production/2/movies/85400/85449/MovieStills/389667R9.jpg",
         "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6407228102112.mp4",
         "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6407228102112.mp4"
       },
@@ -8060,7 +8098,7 @@
       "source_film_id": "85452",
       "source_title": "Andrew Lloyd Webber's Starlight Express - Live On Stage",
       "sortable_title": "Andrew Lloyd Webber's Starlight Express - Live On Stage",
-      "source_release_id": null,
+      "source_release_id": "426891",
       "runtime_min": null,
       "release_date_utc": "2026-11-30T06:00:00Z",
       "earliest_showing_utc": "2026-11-30T19:30:00Z",
@@ -8090,8 +8128,8 @@
         "poster_url": "https://amc-theatres-res.cloudinary.com/v1794424214/amc-cdn/content/general/ufhhkyscmeibggeuc8a8.jpg",
         "hero_desktop_url": null,
         "hero_mobile_url": null,
-        "trailer_hd_url": null,
-        "trailer_mp4_url": null
+        "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6408491755112.mp4",
+        "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6408491755112.mp4"
       },
       "presentation": {
         "category": "concert_or_event",
@@ -8104,7 +8142,7 @@
       "source_film_id": "85481",
       "source_title": "Mysaa",
       "sortable_title": "Mysaa",
-      "source_release_id": null,
+      "source_release_id": "396079",
       "runtime_min": 157,
       "release_date_utc": "2026-11-27T06:00:00Z",
       "earliest_showing_utc": null,
@@ -8128,7 +8166,7 @@
         "XL"
       ],
       "media": {
-        "poster_url": null,
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1794917401/amc-cdn/production/2/movies/85500/85481/Poster/396079R1.jpg",
         "hero_desktop_url": null,
         "hero_mobile_url": null,
         "trailer_hd_url": null,
@@ -8540,6 +8578,7 @@
       "website_url": "https://www.amctheatres.com/movies/the-prestige-20th-anniversary-85502",
       "showtimes_url": "https://www.amctheatres.com/movies/the-prestige-20th-anniversary-85502/showtimes",
       "attribute_codes": [
+        "DOLBYCINEMAATAMCPRIME",
         "IMAX",
         "XL"
       ],
@@ -8591,10 +8630,10 @@
       ],
       "media": {
         "poster_url": "https://amc-theatres-res.cloudinary.com/v1794352109/amc-cdn/content/general/ieeeenqt8mshokfjv0bn.jpg",
-        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1794352142/amc-cdn/content/general/ddwpohgpurx3jhwyfe8s.jpg",
-        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1794352142/amc-cdn/content/general/ddwpohgpurx3jhwyfe8s.jpg",
-        "trailer_hd_url": null,
-        "trailer_mp4_url": null
+        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1794572071/amc-cdn/production/2/movies/85500/85503/MovieStills/427961R8.jpg",
+        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1794572071/amc-cdn/production/2/movies/85500/85503/MovieStills/427961R8.jpg",
+        "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6408491269112.mp4",
+        "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6408491269112.mp4"
       },
       "presentation": {
         "category": "concert_or_event",
@@ -9020,9 +9059,9 @@
         "NOTRAILERS"
       ],
       "media": {
-        "poster_url": null,
-        "hero_desktop_url": null,
-        "hero_mobile_url": null,
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1794842449/amc-cdn/content/general/xtsdtbmzyiv7xfwt0cn3.jpg",
+        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1794842638/amc-cdn/content/general/pre8wx4oo1rc2r7djkxq.tiff",
+        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1794842638/amc-cdn/content/general/pre8wx4oo1rc2r7djkxq.tiff",
         "trailer_hd_url": null,
         "trailer_mp4_url": null
       },
@@ -9044,18 +9083,20 @@
       "online_ticket_availability_date_utc": "2026-12-04T06:00:00Z",
       "has_scheduled_showtimes": false,
       "genre": "COMEDY",
-      "mpaa_rating": null,
+      "mpaa_rating": "R",
       "starring_actors_raw": "Emily Browning, Jai Courtney, OLIVIA COLMAN",
       "directors_raw": "DARIO RUSSO",
       "synopsis": "In this darkly comic folktale, an affable foxhunter encounters a talking Fox who offers him an opportunity to transform his fiancee into the perfect woman.",
-      "distributor_id": null,
-      "distributor_code": null,
+      "distributor_id": "3073",
+      "distributor_code": "FFF",
       "preferred_media_type": "Theatrical",
       "available_for_a_list": true,
       "slug": "the-fox-85530",
       "website_url": "https://www.amctheatres.com/movies/the-fox-85530",
       "showtimes_url": "https://www.amctheatres.com/movies/the-fox-85530/showtimes",
-      "attribute_codes": [],
+      "attribute_codes": [
+        "XL"
+      ],
       "media": {
         "poster_url": null,
         "hero_desktop_url": null,
@@ -9111,7 +9152,7 @@
       "source_film_id": "85535",
       "source_title": "Sanjog",
       "sortable_title": "Sanjog",
-      "source_release_id": null,
+      "source_release_id": "428328",
       "runtime_min": 126,
       "release_date_utc": "2026-11-27T06:00:00Z",
       "earliest_showing_utc": null,
@@ -9168,7 +9209,9 @@
       "slug": "bedford-park-85536",
       "website_url": "https://www.amctheatres.com/movies/bedford-park-85536",
       "showtimes_url": "https://www.amctheatres.com/movies/bedford-park-85536/showtimes",
-      "attribute_codes": [],
+      "attribute_codes": [
+        "XL"
+      ],
       "media": {
         "poster_url": null,
         "hero_desktop_url": null,
@@ -9187,12 +9230,12 @@
       "source_film_id": "85537",
       "source_title": "Chakkven",
       "sortable_title": "Chakkven",
-      "source_release_id": null,
+      "source_release_id": "428327",
       "runtime_min": 143,
       "release_date_utc": "2026-11-20T06:00:00Z",
-      "earliest_showing_utc": null,
+      "earliest_showing_utc": "2026-11-20T12:00:00Z",
       "online_ticket_availability_date_utc": "2026-11-20T06:00:00Z",
-      "has_scheduled_showtimes": false,
+      "has_scheduled_showtimes": true,
       "genre": "ACTION",
       "mpaa_rating": "NR",
       "starring_actors_raw": "HARPREET BAINS, KARTAR CHEEMA, VISHAL BRAR",
@@ -9255,9 +9298,9 @@
         "NOTRAILERS"
       ],
       "media": {
-        "poster_url": null,
-        "hero_desktop_url": null,
-        "hero_mobile_url": null,
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1794842862/amc-cdn/content/general/kvvk68nuwd9vfjuavc8p.jpg",
+        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1794843034/amc-cdn/content/general/jz4iq7i5v90cwzvmymea.jpg",
+        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1794843034/amc-cdn/content/general/jz4iq7i5v90cwzvmymea.jpg",
         "trailer_hd_url": null,
         "trailer_mp4_url": null
       },
@@ -9282,7 +9325,7 @@
       "mpaa_rating": "NR",
       "starring_actors_raw": "Dhanush, MAMMOOTY",
       "directors_raw": "RAJKUMAR PERIASAMY",
-      "synopsis": "Om: Chapter 1 ? Udhiram (The Blood Wood) is an upcoming pan-Indian action-drama thriller inspired by socio-political and historical events. The narrative follows a protagonist played by Dhanush who attempts to rescue impoverished Tamil woodcutters cornered by police in the Tiruvannamalai forests, leading into a broader conflict involving red sandalwood smuggling and an international criminal mastermind portrayed by Mammootty.",
+      "synopsis": "Om: Chapter 1 - Udhiram (The Blood Wood) is an upcoming pan-Indian action-drama thriller inspired by socio-political and historical events. The narrative follows a protagonist played by Dhanush who attempts to rescue impoverished Tamil woodcutters cornered by police in the Tiruvannamalai forests, leading into a broader conflict involving red sandalwood smuggling and an international criminal mastermind portrayed by Mammootty.",
       "distributor_id": "2481",
       "distributor_code": "PTI",
       "preferred_media_type": "Theatrical",
@@ -9295,7 +9338,7 @@
         "INTFILMS"
       ],
       "media": {
-        "poster_url": null,
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1794744835/amc-cdn/production/2/movies/85500/85543/Poster/420761R1.jpg",
         "hero_desktop_url": null,
         "hero_mobile_url": null,
         "trailer_hd_url": null,
@@ -9352,7 +9395,7 @@
       "source_release_id": "409965",
       "runtime_min": 160,
       "release_date_utc": "2026-11-20T06:00:00Z",
-      "earliest_showing_utc": "2026-11-19T20:00:00Z",
+      "earliest_showing_utc": "2026-11-19T16:30:00Z",
       "online_ticket_availability_date_utc": "2026-11-20T06:00:00Z",
       "has_scheduled_showtimes": true,
       "genre": "COMEDY",
@@ -9418,9 +9461,9 @@
         "XL"
       ],
       "media": {
-        "poster_url": null,
-        "hero_desktop_url": null,
-        "hero_mobile_url": null,
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1794839488/amc-cdn/content/general/goca1dsskkh4xfpehrpr.jpg",
+        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1794839548/amc-cdn/content/general/y0acdfhlabyed52o4l4r.jpg",
+        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1794839548/amc-cdn/content/general/y0acdfhlabyed52o4l4r.jpg",
         "trailer_hd_url": null,
         "trailer_mp4_url": null
       },
@@ -9549,45 +9592,6 @@
     },
     {
       "source": "amc",
-      "source_film_id": "85572",
-      "source_title": "All of a Sudden Intro with Director Ryusuke Hamaguchi and Cast",
-      "sortable_title": "All of a Sudden Intro with Director Ryusuke Hamaguchi and Cast",
-      "source_release_id": "392089",
-      "runtime_min": 196,
-      "release_date_utc": "2026-11-17T06:00:00Z",
-      "earliest_showing_utc": "2026-11-17T19:00:00Z",
-      "online_ticket_availability_date_utc": "2026-11-17T06:00:00Z",
-      "has_scheduled_showtimes": true,
-      "genre": null,
-      "mpaa_rating": "NR",
-      "starring_actors_raw": null,
-      "directors_raw": null,
-      "synopsis": "All of a Sudden Intro with Director Ryusuke Hamaguchi and Cast",
-      "distributor_id": "2725",
-      "distributor_code": "NRL",
-      "preferred_media_type": "Theatrical",
-      "available_for_a_list": true,
-      "slug": "all-of-a-sudden-intro-with-director-ryusuke-hamaguchi-and-cast-85572",
-      "website_url": "https://www.amctheatres.com/movies/all-of-a-sudden-intro-with-director-ryusuke-hamaguchi-and-cast-85572",
-      "showtimes_url": "https://www.amctheatres.com/movies/all-of-a-sudden-intro-with-director-ryusuke-hamaguchi-and-cast-85572/showtimes",
-      "attribute_codes": [
-        "INPERSNINT"
-      ],
-      "media": {
-        "poster_url": "https://amc-theatres-res.cloudinary.com/v1793203200/amc-cdn/content/general/i2miqtrm7fx9scit9gtj.avif",
-        "hero_desktop_url": null,
-        "hero_mobile_url": null,
-        "trailer_hd_url": null,
-        "trailer_mp4_url": null
-      },
-      "presentation": {
-        "category": "special_introduction",
-        "is_special_presentation": true,
-        "classifier_version": "1.0.0"
-      }
-    },
-    {
-      "source": "amc",
       "source_film_id": "85574",
       "source_title": "November 1963 Early Access Screening with Director Roland Joffe",
       "sortable_title": "November 1963 Early Access Screening with Director Roland Joffe",
@@ -9616,8 +9620,8 @@
         "poster_url": "https://amc-theatres-res.cloudinary.com/v1793222870/amc-cdn/content/general/vz2c6msett3y9owkykni.avif",
         "hero_desktop_url": null,
         "hero_mobile_url": null,
-        "trailer_hd_url": null,
-        "trailer_mp4_url": null
+        "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6408491271112.mp4",
+        "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6408491271112.mp4"
       },
       "presentation": {
         "category": "standard",
@@ -9633,9 +9637,9 @@
       "source_release_id": "428117",
       "runtime_min": 134,
       "release_date_utc": "2026-11-20T06:00:00Z",
-      "earliest_showing_utc": null,
+      "earliest_showing_utc": "2026-11-20T20:15:00Z",
       "online_ticket_availability_date_utc": "2026-11-20T06:00:00Z",
-      "has_scheduled_showtimes": false,
+      "has_scheduled_showtimes": true,
       "genre": "HORROR",
       "mpaa_rating": "NR",
       "starring_actors_raw": "DHANVEER SINGH, NIKEET DHILLON",
@@ -9661,89 +9665,6 @@
       "presentation": {
         "category": "standard",
         "is_special_presentation": false,
-        "classifier_version": "1.0.0"
-      }
-    },
-    {
-      "source": "amc",
-      "source_film_id": "85583",
-      "source_title": "AMC Screen Unseen: November 16",
-      "sortable_title": "AMC Screen Unseen: November 16",
-      "source_release_id": "353146",
-      "runtime_min": 114,
-      "release_date_utc": "2026-11-16T06:00:00Z",
-      "earliest_showing_utc": "1900-01-01T00:00:00Z",
-      "online_ticket_availability_date_utc": "2026-11-16T06:00:00Z",
-      "has_scheduled_showtimes": true,
-      "genre": null,
-      "mpaa_rating": "PG",
-      "starring_actors_raw": null,
-      "directors_raw": null,
-      "synopsis": "AMC Screen Unseen, where guests can watch a never-before-seen film. We will share the movie’s MPA rating ahead of time, but the feature presentation will remain a mystery until showtime. Share your reaction after the movie with #AMCScreenUnseen on Instagram, Facebook, TikTok, Threads and X.",
-      "distributor_id": "2717",
-      "distributor_code": "DIS",
-      "preferred_media_type": "Theatrical",
-      "available_for_a_list": true,
-      "slug": "amc-screen-unseen-november-16-85583",
-      "website_url": "https://www.amctheatres.com/movies/amc-screen-unseen-november-16-85583",
-      "showtimes_url": "https://www.amctheatres.com/movies/amc-screen-unseen-november-16-85583/showtimes",
-      "attribute_codes": [
-        "XL"
-      ],
-      "media": {
-        "poster_url": "https://amc-theatres-res.cloudinary.com/v1793210940/amc-cdn/content/general/c9vwamsow19bsjt9zpgz.jpg",
-        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1793211059/amc-cdn/content/general/jrevp5rtvemcecwztwwq.jpg",
-        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1793211059/amc-cdn/content/general/jrevp5rtvemcecwztwwq.jpg",
-        "trailer_hd_url": null,
-        "trailer_mp4_url": null
-      },
-      "presentation": {
-        "category": "mystery_screening",
-        "is_special_presentation": true,
-        "classifier_version": "1.0.0"
-      }
-    },
-    {
-      "source": "amc",
-      "source_film_id": "85586",
-      "source_title": "Elsinore Q&A with Andrew Scott",
-      "sortable_title": "Elsinore Q&A with Andrew Scott",
-      "source_release_id": "408276",
-      "runtime_min": 134,
-      "release_date_utc": "2026-11-17T06:00:00Z",
-      "earliest_showing_utc": "2026-11-23T19:00:00Z",
-      "online_ticket_availability_date_utc": "2026-11-17T06:00:00Z",
-      "has_scheduled_showtimes": true,
-      "genre": null,
-      "mpaa_rating": "R",
-      "starring_actors_raw": null,
-      "directors_raw": null,
-      "synopsis": "Elsinore Q&A with Andrew Scott.",
-      "distributor_id": "2180",
-      "distributor_code": "FCS",
-      "preferred_media_type": "Theatrical",
-      "available_for_a_list": true,
-      "slug": "elsinore-q-a-with-andrew-scott-85586",
-      "website_url": "https://www.amctheatres.com/movies/elsinore-q-a-with-andrew-scott-85586",
-      "showtimes_url": "https://www.amctheatres.com/movies/elsinore-q-a-with-andrew-scott-85586/showtimes",
-      "attribute_codes": [
-        "AMCARTISANFILMS",
-        "CLOSEDCAPTION",
-        "DESCRIPTIVEVIDEO",
-        "DOLBYCINEMAATAMCPRIME",
-        "INPERSNQA",
-        "XL"
-      ],
-      "media": {
-        "poster_url": "https://amc-theatres-res.cloudinary.com/v1793222913/amc-cdn/content/general/er7b8nufg1aiuyd3aigy.avif",
-        "hero_desktop_url": null,
-        "hero_mobile_url": null,
-        "trailer_hd_url": null,
-        "trailer_mp4_url": null
-      },
-      "presentation": {
-        "category": "q_and_a",
-        "is_special_presentation": true,
         "classifier_version": "1.0.0"
       }
     },
@@ -9784,11 +9705,11 @@
         "XL"
       ],
       "media": {
-        "poster_url": null,
-        "hero_desktop_url": null,
-        "hero_mobile_url": null,
-        "trailer_hd_url": null,
-        "trailer_mp4_url": null
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1793707654/amc-cdn/production/2/movies/85600/85592/Poster/359371R1.jpg",
+        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1793707652/amc-cdn/production/2/movies/85600/85592/MovieStills/359371R5.jpg",
+        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1793707652/amc-cdn/production/2/movies/85600/85592/MovieStills/359371R5.jpg",
+        "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6408491847112.mp4",
+        "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6408491847112.mp4"
       },
       "presentation": {
         "category": "standard",
@@ -9877,7 +9798,7 @@
       "source_film_id": "85597",
       "source_title": "Prince 3121 Las Vegas Live",
       "sortable_title": "Prince 3121 Las Vegas Live",
-      "source_release_id": null,
+      "source_release_id": "428674",
       "runtime_min": 115,
       "release_date_utc": "2026-12-03T06:00:00Z",
       "earliest_showing_utc": "2026-12-03T19:30:00Z",
@@ -9919,7 +9840,7 @@
       "source_film_id": "85598",
       "source_title": "Cosmic Samson",
       "sortable_title": "Cosmic Samson",
-      "source_release_id": null,
+      "source_release_id": "428667",
       "runtime_min": 157,
       "release_date_utc": "2026-11-27T06:00:00Z",
       "earliest_showing_utc": null,
@@ -9941,7 +9862,7 @@
         "INTFILMS"
       ],
       "media": {
-        "poster_url": null,
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1794917825/amc-cdn/production/2/movies/85600/85598/Poster/428667R1.jpg",
         "hero_desktop_url": null,
         "hero_mobile_url": null,
         "trailer_hd_url": null,
@@ -10255,8 +10176,8 @@
       ],
       "media": {
         "poster_url": "https://amc-theatres-res.cloudinary.com/v1793727287/amc-cdn/content/general/ha61qxlllvpsegpqe9ko.jpg",
-        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1793727690/amc-cdn/content/general/d1nf0pmji2gvhwjduuma.jpg",
-        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1793727690/amc-cdn/content/general/d1nf0pmji2gvhwjduuma.jpg",
+        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1793966808/amc-cdn/production/2/movies/85600/85612/MovieStills/359753R2.jpg",
+        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1793966808/amc-cdn/production/2/movies/85600/85612/MovieStills/359753R2.jpg",
         "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6407858714112.mp4",
         "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6407858714112.mp4"
       },
@@ -10295,8 +10216,8 @@
       ],
       "media": {
         "poster_url": "https://amc-theatres-res.cloudinary.com/v1793727240/amc-cdn/content/general/psn3w6vovhfx4fxamhly.jpg",
-        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1793727831/amc-cdn/content/general/cwizxmt7csemv0vzbbaa.jpg",
-        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1793727831/amc-cdn/content/general/cwizxmt7csemv0vzbbaa.jpg",
+        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1793966721/amc-cdn/production/2/movies/85600/85613/MovieStills/359753R2.jpg",
+        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1793966721/amc-cdn/production/2/movies/85600/85613/MovieStills/359753R2.jpg",
         "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6407860671112.mp4",
         "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6407860671112.mp4"
       },
@@ -10350,7 +10271,7 @@
       "source_film_id": "85615",
       "source_title": "AMC Scream Unseen: December 21",
       "sortable_title": "AMC Scream Unseen: December 21",
-      "source_release_id": null,
+      "source_release_id": "353146",
       "runtime_min": 115,
       "release_date_utc": "2026-12-21T06:00:00Z",
       "earliest_showing_utc": "2026-12-21T19:00:00Z",
@@ -10386,47 +10307,6 @@
     },
     {
       "source": "amc",
-      "source_film_id": "85622",
-      "source_title": "Josephine: Early Access Screening",
-      "sortable_title": "Josephine: Early Access Screening",
-      "source_release_id": "373739",
-      "runtime_min": 114,
-      "release_date_utc": "2026-11-17T06:00:00Z",
-      "earliest_showing_utc": "2026-11-17T19:00:00Z",
-      "online_ticket_availability_date_utc": "2026-11-17T06:00:00Z",
-      "has_scheduled_showtimes": true,
-      "genre": null,
-      "mpaa_rating": "R",
-      "starring_actors_raw": null,
-      "directors_raw": null,
-      "synopsis": "After 8-year-old Josephine accidentally witnesses a crime in Golden Gate Park, she acts out in search of a way to regain control of her safety, while adults are helpless to console her.",
-      "distributor_id": "2229",
-      "distributor_code": "VAR",
-      "preferred_media_type": "Theatrical",
-      "available_for_a_list": true,
-      "slug": "josephine-early-access-screening-85622",
-      "website_url": "https://www.amctheatres.com/movies/josephine-early-access-screening-85622",
-      "showtimes_url": "https://www.amctheatres.com/movies/josephine-early-access-screening-85622/showtimes",
-      "attribute_codes": [
-        "AMCARTISANFILMS",
-        "CLOSEDCAPTION",
-        "EVENT"
-      ],
-      "media": {
-        "poster_url": "https://amc-theatres-res.cloudinary.com/v1793822899/amc-cdn/content/general/fpmezm4onpqgm8ezezyd.jpg",
-        "hero_desktop_url": null,
-        "hero_mobile_url": null,
-        "trailer_hd_url": null,
-        "trailer_mp4_url": null
-      },
-      "presentation": {
-        "category": "concert_or_event",
-        "is_special_presentation": true,
-        "classifier_version": "1.0.0"
-      }
-    },
-    {
-      "source": "amc",
       "source_film_id": "85630",
       "source_title": "The Departed: 20th Anniversary",
       "sortable_title": "Departed: 20th Anniversary, The",
@@ -10455,8 +10335,8 @@
       ],
       "media": {
         "poster_url": "https://amc-theatres-res.cloudinary.com/v1793890733/amc-cdn/content/general/eqjxy58cnmiuc3mdj1kr.jpg",
-        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1793890810/amc-cdn/content/general/aozzqols88gb2nxkxtgb.jpg",
-        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1793890810/amc-cdn/content/general/aozzqols88gb2nxkxtgb.jpg",
+        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1794312502/amc-cdn/production/2/movies/85600/85630/MovieStills/054582R8.jpg",
+        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1794312502/amc-cdn/production/2/movies/85600/85630/MovieStills/054582R8.jpg",
         "trailer_hd_url": null,
         "trailer_mp4_url": null
       },
@@ -10498,8 +10378,8 @@
         "poster_url": "https://amc-theatres-res.cloudinary.com/v1793812938/amc-cdn/content/general/elxnu6egn5oifbisghof.avif",
         "hero_desktop_url": null,
         "hero_mobile_url": null,
-        "trailer_hd_url": null,
-        "trailer_mp4_url": null
+        "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6408493238112.mp4",
+        "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6408493238112.mp4"
       },
       "presentation": {
         "category": "q_and_a",
@@ -10611,10 +10491,10 @@
       ],
       "media": {
         "poster_url": null,
-        "hero_desktop_url": null,
-        "hero_mobile_url": null,
-        "trailer_hd_url": null,
-        "trailer_mp4_url": null
+        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1794399023/amc-cdn/production/2/movies/85600/85646/MovieStills/393872R4.jpg",
+        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1794399023/amc-cdn/production/2/movies/85600/85646/MovieStills/393872R4.jpg",
+        "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6408492545112.mp4",
+        "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6408492545112.mp4"
       },
       "presentation": {
         "category": "q_and_a",
@@ -10714,14 +10594,16 @@
       "starring_actors_raw": "GIBIN GOPINATH, JAYASURIYA, NYLA USHA",
       "directors_raw": "JITHIN K. JOSE",
       "synopsis": "The film centers on a determined police officer who falls into a highly complex, dark investigation that crosses paths with centuries-old secret rituals, obscure traditions, and hidden occult forces. What begins as a localized investigation quickly extends beyond the borders of Kerala, unraveling ancient history and forgotten, esoteric supernatural beliefs (including unconventional practices like Vipareetha Aaraadhana) spanning globally.",
-      "distributor_id": null,
-      "distributor_code": null,
+      "distributor_id": "2481",
+      "distributor_code": "PTI",
       "preferred_media_type": "Theatrical",
       "available_for_a_list": true,
       "slug": "maayan-mayan-85651",
       "website_url": "https://www.amctheatres.com/movies/maayan-mayan-85651",
       "showtimes_url": "https://www.amctheatres.com/movies/maayan-mayan-85651/showtimes",
-      "attribute_codes": [],
+      "attribute_codes": [
+        "INTFILMS"
+      ],
       "media": {
         "poster_url": null,
         "hero_desktop_url": null,
@@ -10914,7 +10796,7 @@
         "EVENT"
       ],
       "media": {
-        "poster_url": null,
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1794312626/amc-cdn/production/2/movies/85700/85659/Poster/007337R1.jpg",
         "hero_desktop_url": null,
         "hero_mobile_url": null,
         "trailer_hd_url": null,
@@ -10954,7 +10836,7 @@
         "TREATASR"
       ],
       "media": {
-        "poster_url": null,
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1794399256/amc-cdn/production/2/movies/85700/85660/Poster/403590R1.jpg",
         "hero_desktop_url": null,
         "hero_mobile_url": null,
         "trailer_hd_url": null,
@@ -10962,49 +10844,6 @@
       },
       "presentation": {
         "category": "concert_or_event",
-        "is_special_presentation": true,
-        "classifier_version": "1.0.0"
-      }
-    },
-    {
-      "source": "amc",
-      "source_film_id": "85661",
-      "source_title": "ELSINORE Q&A with Andrew Scott, Joe Locke, Simon Stone, & Stephen Beresford",
-      "sortable_title": "ELSINORE Q&A with Andrew Scott, Joe Locke, Simon Stone, & Stephen Beresford",
-      "source_release_id": "408276",
-      "runtime_min": 134,
-      "release_date_utc": "2026-11-17T06:00:00Z",
-      "earliest_showing_utc": "2026-11-17T19:15:00Z",
-      "online_ticket_availability_date_utc": "2026-11-17T06:00:00Z",
-      "has_scheduled_showtimes": true,
-      "genre": null,
-      "mpaa_rating": "R",
-      "starring_actors_raw": null,
-      "directors_raw": null,
-      "synopsis": "ELSINORE Q&A with Andrew Scott, Joe Locke, Simon Stone, & Stephen Beresford.",
-      "distributor_id": "2180",
-      "distributor_code": "FCS",
-      "preferred_media_type": "Theatrical",
-      "available_for_a_list": true,
-      "slug": "elsinore-q-a-with-andrew-scott-joe-locke-simon-stone-stephen-beresford-85661",
-      "website_url": "https://www.amctheatres.com/movies/elsinore-q-a-with-andrew-scott-joe-locke-simon-stone-stephen-beresford-85661",
-      "showtimes_url": "https://www.amctheatres.com/movies/elsinore-q-a-with-andrew-scott-joe-locke-simon-stone-stephen-beresford-85661/showtimes",
-      "attribute_codes": [
-        "AMCARTISANFILMS",
-        "CLOSEDCAPTION",
-        "DESCRIPTIVEVIDEO",
-        "DOLBYCINEMAATAMCPRIME",
-        "INPERSNQA"
-      ],
-      "media": {
-        "poster_url": "https://amc-theatres-res.cloudinary.com/v1794246222/amc-cdn/content/general/i8hvwtdmfits68y5qzli.avif",
-        "hero_desktop_url": null,
-        "hero_mobile_url": null,
-        "trailer_hd_url": null,
-        "trailer_mp4_url": null
-      },
-      "presentation": {
-        "category": "q_and_a",
         "is_special_presentation": true,
         "classifier_version": "1.0.0"
       }
@@ -11053,7 +10892,7 @@
       "source_film_id": "85669",
       "source_title": "Haindava",
       "sortable_title": "Haindava",
-      "source_release_id": null,
+      "source_release_id": "428499",
       "runtime_min": 165,
       "release_date_utc": "2026-11-27T06:00:00Z",
       "earliest_showing_utc": null,
@@ -11093,7 +10932,7 @@
       "source_film_id": "85671",
       "source_title": "Die Hard",
       "sortable_title": "Die Hard (RE26)",
-      "source_release_id": null,
+      "source_release_id": "11548",
       "runtime_min": 132,
       "release_date_utc": "2026-12-04T06:00:00Z",
       "earliest_showing_utc": "2026-12-03T14:00:00Z",
@@ -11115,9 +10954,9 @@
         "4DX"
       ],
       "media": {
-        "poster_url": null,
-        "hero_desktop_url": null,
-        "hero_mobile_url": null,
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1794917148/amc-cdn/production/2/movies/85700/85671/Poster/011548R1.jpg",
+        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1794917146/amc-cdn/production/2/movies/85700/85671/MovieStills/011548R9.jpg",
+        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1794917146/amc-cdn/production/2/movies/85700/85671/MovieStills/011548R9.jpg",
         "trailer_hd_url": null,
         "trailer_mp4_url": null
       },
@@ -11171,12 +11010,12 @@
       "source_film_id": "85674",
       "source_title": "Appakutty",
       "sortable_title": "Appakutty",
-      "source_release_id": null,
+      "source_release_id": "427577",
       "runtime_min": 134,
       "release_date_utc": "2026-11-20T06:00:00Z",
-      "earliest_showing_utc": null,
+      "earliest_showing_utc": "2026-11-20T15:05:00Z",
       "online_ticket_availability_date_utc": "2026-11-20T06:00:00Z",
-      "has_scheduled_showtimes": false,
+      "has_scheduled_showtimes": true,
       "genre": "DRAMA",
       "mpaa_rating": "NR",
       "starring_actors_raw": "LITHANYA, PREETHI ASRANI, VIJAY ANTONY",
@@ -11359,12 +11198,12 @@
       "source_film_id": "85688",
       "source_title": "Bachelor Party D'eux",
       "sortable_title": "Bachelor Party D'eux",
-      "source_release_id": null,
+      "source_release_id": "427478",
       "runtime_min": 160,
       "release_date_utc": "2026-11-20T06:00:00Z",
-      "earliest_showing_utc": null,
+      "earliest_showing_utc": "2026-11-20T14:30:00Z",
       "online_ticket_availability_date_utc": "2026-11-20T06:00:00Z",
-      "has_scheduled_showtimes": false,
+      "has_scheduled_showtimes": true,
       "genre": "ACTION",
       "mpaa_rating": "NR",
       "starring_actors_raw": "Kunchacko Boban, SHINE TOM CHACKO, SREENATH BHASI",
@@ -11548,12 +11387,12 @@
       "source_film_id": "85695",
       "source_title": "The Odyssey",
       "sortable_title": "Odyssey, The (RE26)",
-      "source_release_id": null,
+      "source_release_id": "377232",
       "runtime_min": 172,
       "release_date_utc": "2026-12-11T06:00:00Z",
-      "earliest_showing_utc": null,
+      "earliest_showing_utc": "2026-12-11T11:15:00Z",
       "online_ticket_availability_date_utc": "2026-12-11T06:00:00Z",
-      "has_scheduled_showtimes": false,
+      "has_scheduled_showtimes": true,
       "genre": null,
       "mpaa_rating": "R",
       "starring_actors_raw": null,
@@ -11582,11 +11421,11 @@
         "XL"
       ],
       "media": {
-        "poster_url": null,
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1794917689/amc-cdn/production/2/movies/85700/85695/Poster/377232R1.jpg",
         "hero_desktop_url": null,
         "hero_mobile_url": null,
-        "trailer_hd_url": null,
-        "trailer_mp4_url": null
+        "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6408491672112.mp4",
+        "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6408491672112.mp4"
       },
       "presentation": {
         "category": "standard",
@@ -11665,6 +11504,55 @@
         "hero_mobile_url": null,
         "trailer_hd_url": null,
         "trailer_mp4_url": null
+      },
+      "presentation": {
+        "category": "standard",
+        "is_special_presentation": false,
+        "classifier_version": "1.0.0"
+      }
+    },
+    {
+      "source": "amc",
+      "source_film_id": "85698",
+      "source_title": "Spider-Man: (Brand New) Brand New Day",
+      "sortable_title": "Spider-Man: (Brand New) Brand New Day",
+      "source_release_id": "374538",
+      "runtime_min": 152,
+      "release_date_utc": "2026-12-04T06:00:00Z",
+      "earliest_showing_utc": "2026-12-04T10:45:00Z",
+      "online_ticket_availability_date_utc": "2026-12-04T06:00:00Z",
+      "has_scheduled_showtimes": true,
+      "genre": null,
+      "mpaa_rating": "PG13",
+      "starring_actors_raw": null,
+      "directors_raw": null,
+      "synopsis": "It's a BRAND NEW DAY for Peter Parker. Fighting crime full-time as Spider-Man in a world that doesn’t remember him -- and the \npressure of seeing his old friends move on without him -- sparks a change in Peter he may not have the power to control. But that \ntransformation might also be the only thing that can stop a shocking new threat to the city and those he loves - a  powerful \nvillain no one can even see. The world may have forgotten Peter Parker, but he hasn’t forgotten them.",
+      "distributor_id": "2420",
+      "distributor_code": "SON",
+      "preferred_media_type": "Theatrical",
+      "available_for_a_list": true,
+      "slug": "spider-man-brand-new-brand-new-day-85698",
+      "website_url": "https://www.amctheatres.com/movies/spider-man-brand-new-brand-new-day-85698",
+      "showtimes_url": "https://www.amctheatres.com/movies/spider-man-brand-new-brand-new-day-85698/showtimes",
+      "attribute_codes": [
+        "4DX",
+        "AMCPRIME",
+        "BIGD",
+        "CLOSEDCAPTION",
+        "DESCRIPTIVEVIDEO",
+        "DOLBYCINEMAATAMCPRIME",
+        "GDX",
+        "GXL",
+        "OPENCAPTION",
+        "SCREENX",
+        "XL"
+      ],
+      "media": {
+        "poster_url": null,
+        "hero_desktop_url": null,
+        "hero_mobile_url": null,
+        "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6408491177112.mp4",
+        "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6408491177112.mp4"
       },
       "presentation": {
         "category": "standard",
@@ -11987,9 +11875,9 @@
       "source_release_id": null,
       "runtime_min": 115,
       "release_date_utc": "2026-11-23T06:00:00Z",
-      "earliest_showing_utc": null,
+      "earliest_showing_utc": "2026-11-23T19:00:00Z",
       "online_ticket_availability_date_utc": "2026-11-23T06:00:00Z",
-      "has_scheduled_showtimes": false,
+      "has_scheduled_showtimes": true,
       "genre": null,
       "mpaa_rating": "NR",
       "starring_actors_raw": null,
@@ -12012,7 +11900,7 @@
         "NOTRAILERS"
       ],
       "media": {
-        "poster_url": null,
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1794851468/amc-cdn/content/general/kpbntep9zxqa8qyseall.avif",
         "hero_desktop_url": null,
         "hero_mobile_url": null,
         "trailer_hd_url": null,
@@ -12040,14 +11928,16 @@
       "starring_actors_raw": "JOEMON JYOTHIR, SAIJU KURUP",
       "directors_raw": "AAMIR PALLIKKAL",
       "synopsis": "Set against an NSS camp backdrop, the story captures the energy, camaraderie, and nostalgia of campus life while exploring themes of friendship, music, and romance among young students discovering themselves.",
-      "distributor_id": null,
-      "distributor_code": null,
+      "distributor_id": "3057",
+      "distributor_code": "UDL",
       "preferred_media_type": "Theatrical",
       "available_for_a_list": true,
       "slug": "prempaatta-85711",
       "website_url": "https://www.amctheatres.com/movies/prempaatta-85711",
       "showtimes_url": "https://www.amctheatres.com/movies/prempaatta-85711/showtimes",
-      "attribute_codes": [],
+      "attribute_codes": [
+        "INTFILMS"
+      ],
       "media": {
         "poster_url": null,
         "hero_desktop_url": null,
@@ -12114,14 +12004,16 @@
       "starring_actors_raw": "NAGA DURGA, PRIYADARSHI",
       "directors_raw": "VAMSI REDDY DONDAPATI",
       "synopsis": "Srinivas searches for his ideal partner and finds Srilatha. Their love story blossoms into marriage with heartwarming romantic moments, but happiness turns to heartbreak when a divorce paper threatens their relationship.",
-      "distributor_id": null,
-      "distributor_code": null,
+      "distributor_id": "2988",
+      "distributor_code": "PCL",
       "preferred_media_type": "Theatrical",
       "available_for_a_list": true,
       "slug": "idupu-kayitham-85713",
       "website_url": "https://www.amctheatres.com/movies/idupu-kayitham-85713",
       "showtimes_url": "https://www.amctheatres.com/movies/idupu-kayitham-85713/showtimes",
-      "attribute_codes": [],
+      "attribute_codes": [
+        "INTFILMS"
+      ],
       "media": {
         "poster_url": null,
         "hero_desktop_url": null,
@@ -12197,7 +12089,7 @@
       "showtimes_url": "https://www.amctheatres.com/movies/crunchyroll-anime-nights-sneak-peek-december-2026-85717/showtimes",
       "attribute_codes": [],
       "media": {
-        "poster_url": null,
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1794863741/amc-cdn/content/general/xomdhrjj9lq6ybvx9lrv.png",
         "hero_desktop_url": null,
         "hero_mobile_url": null,
         "trailer_hd_url": null,
@@ -12269,6 +12161,80 @@
       "slug": "the-flood-end-of-all-mankind-85720",
       "website_url": "https://www.amctheatres.com/movies/the-flood-end-of-all-mankind-85720",
       "showtimes_url": "https://www.amctheatres.com/movies/the-flood-end-of-all-mankind-85720/showtimes",
+      "attribute_codes": [],
+      "media": {
+        "poster_url": null,
+        "hero_desktop_url": null,
+        "hero_mobile_url": null,
+        "trailer_hd_url": null,
+        "trailer_mp4_url": null
+      },
+      "presentation": {
+        "category": "standard",
+        "is_special_presentation": false,
+        "classifier_version": "1.0.0"
+      }
+    },
+    {
+      "source": "amc",
+      "source_film_id": "85723",
+      "source_title": "The Holiday - 20th Anniversary",
+      "sortable_title": "Holiday - 20th Anniversary, The",
+      "source_release_id": null,
+      "runtime_min": null,
+      "release_date_utc": "2026-12-11T06:00:00Z",
+      "earliest_showing_utc": null,
+      "online_ticket_availability_date_utc": "2026-12-11T06:00:00Z",
+      "has_scheduled_showtimes": false,
+      "genre": "COMEDY",
+      "mpaa_rating": null,
+      "starring_actors_raw": "Cameron Diaz, Kate Winslet",
+      "directors_raw": "NANCY MEYERS",
+      "synopsis": "Iris (Kate Winslet) is in love with a man who is about to marry another woman. Across the globe, Amanda (Cameron Diaz), realizes the man she lives with has been unfaithful. Two women who have never met and live 6000 miles apart, find themselves in the exact same place. They meet online at a home exchange website and impulsively switch homes for the holiday. Iris moves into Amanda's L.A. house in sunny California as Amanda arrives in the snow covered English countryside. Shortly after arriving at their destinations, both women find the last thing either wants or expects: a new romance. Amanda is charmed by Iris' handsome brother Graham (Jude Law) and Iris, with inspiration provided by legendary screenwriter Arthur (Eli Wallach), mends her heart when she meets film composer Miles (Jack Black).",
+      "distributor_id": "2420",
+      "distributor_code": "SON",
+      "preferred_media_type": "Theatrical",
+      "available_for_a_list": true,
+      "slug": "the-holiday-20th-anniversary-85723",
+      "website_url": "https://www.amctheatres.com/movies/the-holiday-20th-anniversary-85723",
+      "showtimes_url": "https://www.amctheatres.com/movies/the-holiday-20th-anniversary-85723/showtimes",
+      "attribute_codes": [],
+      "media": {
+        "poster_url": null,
+        "hero_desktop_url": null,
+        "hero_mobile_url": null,
+        "trailer_hd_url": null,
+        "trailer_mp4_url": null
+      },
+      "presentation": {
+        "category": "anniversary_or_rerelease",
+        "is_special_presentation": true,
+        "classifier_version": "1.0.0"
+      }
+    },
+    {
+      "source": "amc",
+      "source_film_id": "85726",
+      "source_title": "Jet Lag: The Game - Hide + Seek Italy",
+      "sortable_title": "Jet Lag: The Game - Hide + Seek Italy",
+      "source_release_id": null,
+      "runtime_min": 90,
+      "release_date_utc": "2026-12-05T06:00:00Z",
+      "earliest_showing_utc": null,
+      "online_ticket_availability_date_utc": "2026-12-05T06:00:00Z",
+      "has_scheduled_showtimes": false,
+      "genre": "ADVENTURE",
+      "mpaa_rating": "NR",
+      "starring_actors_raw": null,
+      "directors_raw": "Event Director",
+      "synopsis": "The boys face off in a 6-day game of Hide and Seek across Italy, exploring its scenic seaside towns, medieval mountain villages, and rolling Roman hills. But this season is no vacation ? the classic Hide + Seek format has been elevated to ?Expert Mode,? removing the game?s most power questions and introducing new mechanics to punish the seekers for making mistakes. In the season premiere, Ben and Adam grapple with new Expert Mode questions as Sam relaxes on the beach.",
+      "distributor_id": null,
+      "distributor_code": null,
+      "preferred_media_type": "Theatrical",
+      "available_for_a_list": true,
+      "slug": "jet-lag-the-game-hide-seek-italy-85726",
+      "website_url": "https://www.amctheatres.com/movies/jet-lag-the-game-hide-seek-italy-85726",
+      "showtimes_url": "https://www.amctheatres.com/movies/jet-lag-the-game-hide-seek-italy-85726/showtimes",
       "attribute_codes": [],
       "media": {
         "poster_url": null,

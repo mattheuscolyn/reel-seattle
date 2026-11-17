@@ -1,32 +1,32 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-11-16T06:37:27-08:00",
+  "generated_at": "2026-11-17T07:30:39-08:00",
   "audit_kind": "film_pipeline_source_metadata",
   "logs_dir": "data/daily_logs",
   "sources": {
     "amc": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-16_amc.json",
-      "generated_at": "2026-11-16T06:25:41-08:00",
-      "record_count": 7521,
+      "latest_log": "data/daily_logs/2026-11-17_amc.json",
+      "generated_at": "2026-11-17T07:18:53-08:00",
+      "record_count": 7762,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 94,
-      "eligible_feature_count": 82,
+      "source_identity_count": 92,
+      "eligible_feature_count": 81,
       "title": {
-        "with_title": 94,
+        "with_title": 92,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 82,
+        "eligible_features_with_runtime": 81,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "source_catalog_join",
         "eligible_features_with_year": 0,
-        "eligible_features_missing_year": 82,
+        "eligible_features_missing_year": 81,
         "missing_feature_samples": [
           "Avengers: Doomsday",
           "Clayface",
@@ -123,9 +123,8 @@
       },
       "entity_kind_counts": {
         "broadcast_event": 10,
-        "feature_film": 82,
-        "live_event": 1,
-        "mystery_screening": 1
+        "feature_film": 81,
+        "live_event": 1
       },
       "identities": [
         {
@@ -774,7 +773,7 @@
           "adapter_identity_title": null,
           "matcher_title": "La Bola Negra",
           "program_series": null,
-          "runtime_min": 155,
+          "runtime_min": 159,
           "release_year": null,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
@@ -1234,22 +1233,6 @@
           ]
         },
         {
-          "source_identity_key": "id:85190",
-          "source_title": "Dive in Wonderland",
-          "adapter_identity_title": null,
-          "matcher_title": "Dive in Wonderland",
-          "program_series": null,
-          "runtime_min": 97,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
           "source_identity_key": "id:85227",
           "source_title": "Doctor Who: The Satan Pit",
           "adapter_identity_title": null,
@@ -1411,22 +1394,6 @@
           ]
         },
         {
-          "source_identity_key": "id:85458",
-          "source_title": "Heated Rivalry: Episode 3 & 4",
-          "adapter_identity_title": null,
-          "matcher_title": "Heated Rivalry: Episode 3 & 4",
-          "program_series": null,
-          "runtime_min": 91,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
           "source_identity_key": "id:85459",
           "source_title": "Heated Rivalry: Episode 5 & 6",
           "adapter_identity_title": null,
@@ -1507,6 +1474,22 @@
           ]
         },
         {
+          "source_identity_key": "id:85550",
+          "source_title": "The Rings of Power S3 Ep7 - Forging the One Ring",
+          "adapter_identity_title": null,
+          "matcher_title": "The Rings of Power S3 Ep7 - Forging the One Ring",
+          "program_series": null,
+          "runtime_min": 73,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
           "source_identity_key": "id:85561",
           "source_title": "Dune: Part One Reissue (2026)",
           "adapter_identity_title": null,
@@ -1548,22 +1531,6 @@
           "release_year": null,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:85583",
-          "source_title": "AMC Screen Unseen: November 16",
-          "adapter_identity_title": null,
-          "matcher_title": "AMC Screen Unseen: November 16",
-          "program_series": null,
-          "runtime_min": 114,
-          "release_year": null,
-          "eligibility": "non_film",
-          "entity_kind": "mystery_screening",
           "adapter_cleanup": false,
           "matcher_cleanup": false,
           "normalization_rules": [
@@ -1638,20 +1605,20 @@
     },
     "siff": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-16_siff.json",
-      "generated_at": "2026-11-16T06:24:54-08:00",
-      "record_count": 174,
+      "latest_log": "data/daily_logs/2026-11-17_siff.json",
+      "generated_at": "2026-11-17T07:18:14-08:00",
+      "record_count": 204,
       "malformed_record_count": 0,
       "warning_count": 7,
       "error_count": 0,
-      "source_identity_count": 46,
-      "eligible_feature_count": 45,
+      "source_identity_count": 48,
+      "eligible_feature_count": 47,
       "title": {
-        "with_title": 46,
+        "with_title": 48,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 44,
+        "eligible_features_with_runtime": 46,
         "eligible_features_missing_runtime": 1,
         "missing_feature_samples": [
           "Elsinore"
@@ -1659,7 +1626,7 @@
       },
       "release_year": {
         "strategy": "source_page_metadata",
-        "eligible_features_with_year": 45,
+        "eligible_features_with_year": 47,
         "eligible_features_missing_year": 0,
         "missing_feature_samples": []
       },
@@ -1827,7 +1794,7 @@
         ]
       },
       "entity_kind_counts": {
-        "feature_film": 45,
+        "feature_film": 47,
         "multi_feature_program": 1
       },
       "identities": [
@@ -1870,6 +1837,22 @@
           "matcher_title": "Christmas Pop-Up",
           "program_series": null,
           "runtime_min": 93,
+          "release_year": 2026,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:cinema/in-theaters/club-kid",
+          "source_title": "Club Kid",
+          "adapter_identity_title": null,
+          "matcher_title": "Club Kid",
+          "program_series": null,
+          "runtime_min": 122,
           "release_year": 2026,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
@@ -2001,6 +1984,22 @@
           "release_year": 2026,
           "eligibility": "non_film",
           "entity_kind": "multi_feature_program",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:cinema/in-theaters/paper-tiger",
+          "source_title": "Paper Tiger",
+          "adapter_identity_title": null,
+          "matcher_title": "Paper Tiger",
+          "program_series": null,
+          "runtime_min": 114,
+          "release_year": 2026,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
           "adapter_cleanup": false,
           "matcher_cleanup": false,
           "normalization_rules": [
@@ -2574,20 +2573,20 @@
     },
     "beacon": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-16_beacon.json",
-      "generated_at": "2026-11-16T06:24:54-08:00",
-      "record_count": 85,
+      "latest_log": "data/daily_logs/2026-11-17_beacon.json",
+      "generated_at": "2026-11-17T07:18:14-08:00",
+      "record_count": 84,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 49,
-      "eligible_feature_count": 47,
+      "source_identity_count": 48,
+      "eligible_feature_count": 46,
       "title": {
-        "with_title": 49,
+        "with_title": 48,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 46,
+        "eligible_features_with_runtime": 45,
         "eligible_features_missing_runtime": 1,
         "missing_feature_samples": [
           "?????? CINEMA"
@@ -2595,7 +2594,7 @@
       },
       "release_year": {
         "strategy": "source_page_when_published",
-        "eligible_features_with_year": 43,
+        "eligible_features_with_year": 42,
         "eligible_features_missing_year": 4,
         "missing_feature_samples": [
           "?????? CINEMA",
@@ -2633,7 +2632,7 @@
         ]
       },
       "entity_kind_counts": {
-        "feature_film": 47,
+        "feature_film": 46,
         "multi_feature_program": 1,
         "mystery_screening": 1
       },
@@ -3359,22 +3358,6 @@
           ]
         },
         {
-          "source_identity_key": "id:the-strange-love-of-martha-ivers",
-          "source_title": "THE STRANGE LOVE OF MARTHA IVERS",
-          "adapter_identity_title": null,
-          "matcher_title": "The Strange Love Of Martha Ivers",
-          "program_series": null,
-          "runtime_min": 116,
-          "release_year": 1946,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
           "source_identity_key": "id:tv-party-the-box-of-delights",
           "source_title": "TV PARTY: THE BOX OF DELIGHTS",
           "adapter_identity_title": "THE BOX OF DELIGHTS",
@@ -3426,9 +3409,9 @@
     },
     "nwff": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-16_nwff.json",
-      "generated_at": "2026-11-16T06:23:39-08:00",
-      "record_count": 95,
+      "latest_log": "data/daily_logs/2026-11-17_nwff.json",
+      "generated_at": "2026-11-17T07:17:00-08:00",
+      "record_count": 98,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
@@ -3863,6 +3846,22 @@
           ]
         },
         {
+          "source_identity_key": "id:tokyo-godfathers",
+          "source_title": "Tokyo Godfathers",
+          "adapter_identity_title": null,
+          "matcher_title": "Tokyo Godfathers",
+          "program_series": null,
+          "runtime_min": 92,
+          "release_year": 2003,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
           "source_identity_key": "id:tokyo-story",
           "source_title": "Tokyo Story",
           "adapter_identity_title": null,
@@ -4071,22 +4070,6 @@
           ]
         },
         {
-          "source_identity_key": "id:you-sorta-know-its-gonna-end",
-          "source_title": "You Sorta Know It's Gonna End",
-          "adapter_identity_title": null,
-          "matcher_title": "You Sorta Know It's Gonna End",
-          "program_series": null,
-          "runtime_min": 62,
-          "release_year": 2025,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
           "source_identity_key": "id:zero-patience",
           "source_title": "Zero Patience",
           "adapter_identity_title": null,
@@ -4122,8 +4105,8 @@
     },
     "central_cinema": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-16_central_cinema.json",
-      "generated_at": "2026-11-16T06:24:00-08:00",
+      "latest_log": "data/daily_logs/2026-11-17_central_cinema.json",
+      "generated_at": "2026-11-17T07:17:19-08:00",
       "record_count": 0,
       "malformed_record_count": 0,
       "warning_count": 0,
@@ -4160,8 +4143,8 @@
     },
     "grand_illusion": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-16_grand_illusion.json",
-      "generated_at": "2026-11-16T06:24:50-08:00",
+      "latest_log": "data/daily_logs/2026-11-17_grand_illusion.json",
+      "generated_at": "2026-11-17T07:18:11-08:00",
       "record_count": 13,
       "malformed_record_count": 0,
       "warning_count": 0,
@@ -4385,8 +4368,8 @@
     },
     "tasveer": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-16_tasveer.json",
-      "generated_at": "2026-11-16T06:24:50-08:00",
+      "latest_log": "data/daily_logs/2026-11-17_tasveer.json",
+      "generated_at": "2026-11-17T07:18:12-08:00",
       "record_count": 0,
       "malformed_record_count": 0,
       "warning_count": 0,
@@ -4423,9 +4406,9 @@
     },
     "anderson_school": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-16_anderson_school.json",
-      "generated_at": "2026-11-16T06:24:53-08:00",
-      "record_count": 42,
+      "latest_log": "data/daily_logs/2026-11-17_anderson_school.json",
+      "generated_at": "2026-11-17T07:18:13-08:00",
+      "record_count": 40,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
@@ -4780,27 +4763,27 @@
     },
     "majestic_bay": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-16_majestic_bay.json",
-      "generated_at": "2026-11-16T06:24:54-08:00",
-      "record_count": 82,
+      "latest_log": "data/daily_logs/2026-11-17_majestic_bay.json",
+      "generated_at": "2026-11-17T07:18:14-08:00",
+      "record_count": 78,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 14,
-      "eligible_feature_count": 14,
+      "source_identity_count": 13,
+      "eligible_feature_count": 13,
       "title": {
-        "with_title": 14,
+        "with_title": 13,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 14,
+        "eligible_features_with_runtime": 13,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "not_exposed_by_listing",
         "eligible_features_with_year": 0,
-        "eligible_features_missing_year": 14,
+        "eligible_features_missing_year": 13,
         "missing_feature_samples": [
           "Wildwood",
           "Star Trek IV: The Voyage Home",
@@ -4825,7 +4808,7 @@
         "samples": []
       },
       "entity_kind_counts": {
-        "feature_film": 14
+        "feature_film": 13
       },
       "identities": [
         {
@@ -4995,22 +4978,6 @@
           "matcher_title": "Dune: Part Three",
           "program_series": null,
           "runtime_min": 150,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:36808",
-          "source_title": "Wicker",
-          "adapter_identity_title": null,
-          "matcher_title": "Wicker",
-          "program_series": null,
-          "runtime_min": 105,
           "release_year": null,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
