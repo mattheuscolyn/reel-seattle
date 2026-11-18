@@ -1,12 +1,12 @@
 {
   "catalog_path": "data/film_identity/film_identity_catalog.json",
   "collisions": 0,
-  "coverage_rate": 0.5708154506437768,
-  "generated_at": "2026-11-18T14:55:52+00:00",
-  "index_size": 151,
+  "coverage_rate": 0.5879828326180258,
+  "generated_at": "2026-11-18T16:03:13+00:00",
+  "index_size": 149,
   "invalid_identities": 0,
-  "mapping_misses": 100,
-  "non_null_film_id": 133,
+  "mapping_misses": 96,
+  "non_null_film_id": 137,
   "notes": [
     "Public film_id emits confirmed tmdb:<id> only; unmatched/program → null.",
     "Mapping key is source_identity_key (source|id|sid preferred).",
@@ -14,12 +14,12 @@
     "Saved/Seen/NI readers prefer filmId with showtimeFilmKey aliases (T-FILMID-03).",
     "Film Detail / Home / Search join enrichment by exact filmId only."
   ],
-  "null_film_id": 100,
+  "null_film_id": 96,
   "per_source": {
     "amc": {
       "films": 94,
-      "null_film_id": 51,
-      "with_film_id": 43
+      "null_film_id": 49,
+      "with_film_id": 45
     },
     "anderson_school": {
       "films": 2,
@@ -43,8 +43,8 @@
     },
     "majestic_bay": {
       "films": 12,
-      "null_film_id": 3,
-      "with_film_id": 9
+      "null_film_id": 4,
+      "with_film_id": 8
     },
     "nwff": {
       "films": 30,
@@ -58,25 +58,16 @@
     },
     "tasveer": {
       "films": 5,
-      "null_film_id": 3,
-      "with_film_id": 2
+      "null_film_id": 1,
+      "with_film_id": 4
     }
   },
-  "performance_identity": {
-    "ambiguous": 0,
-    "inherited_from_registry": 13,
-    "matched": 0,
-    "registry_path": "data/performance_identity/performance_identity_current.json",
-    "registry_persisted": false,
-    "registry_upserts": 0,
-    "unmatched_gi": 13
-  },
-  "repeated_canonical_across_films": 4,
+  "repeated_canonical_across_films": 3,
   "schema_version": "1.0.0",
   "source_fallback_emitted": 0,
   "status": "ok",
   "total_public_films": 233,
-  "unique_tmdb_ids": 129,
+  "unique_tmdb_ids": 134,
   "warning_count": 0,
   "warnings": []
 }
