@@ -1,6 +1,6 @@
 {
   "schema_version": "1.1.0",
-  "generated_at": "2026-11-17T07:24:05-08:00",
+  "generated_at": "2026-11-18T07:00:11-08:00",
   "timezone": "America/Los_Angeles",
   "week": {
     "start_date": "2026-11-16",
@@ -12,14 +12,14 @@
     "description": "Citywide opening_date is the earliest non-canceled scheduled Date across enabled Seattle theaters after collapsing variants to parent film identity. A film is a member when week_start <= opening_date <= week_end (Pacific Monday–Sunday). Current showtimes join visibility metadata only. opening_type is soft QA classification (theatrical/repertory/event/limited) and does not affect membership."
   },
   "stats": {
-    "entry_count": 44,
+    "entry_count": 45,
     "low_confidence_count": 0,
     "override_applied_count": 0,
     "earliest_opening_date": "2026-11-16",
     "latest_opening_date": "2026-11-22",
     "opening_type_counts": {
       "limited": 27,
-      "theatrical": 6,
+      "theatrical": 7,
       "event": 4,
       "repertory": 7
     }
@@ -68,7 +68,7 @@
         "siff-cinema-uptown"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 4,
+      "visible_showtime_count": 0,
       "engagement_days": 2,
       "historical_screening_count": 4,
       "opening_type": "theatrical",
@@ -130,7 +130,7 @@
         "northwest-film-forum"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 2,
+      "visible_showtime_count": 0,
       "engagement_days": 1,
       "historical_screening_count": 1,
       "opening_type": "limited",
@@ -161,7 +161,7 @@
         "siff-film-center"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 2,
+      "visible_showtime_count": 0,
       "engagement_days": 1,
       "historical_screening_count": 1,
       "opening_type": "limited",
@@ -192,7 +192,7 @@
         "amc-pacific-place-11"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 15,
+      "visible_showtime_count": 14,
       "engagement_days": 8,
       "historical_screening_count": 8,
       "opening_type": "event",
@@ -224,7 +224,7 @@
         "siff-cinema-uptown"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 2,
+      "visible_showtime_count": 0,
       "engagement_days": 1,
       "historical_screening_count": 1,
       "opening_type": "limited",
@@ -255,7 +255,7 @@
         "the-beacon"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 4,
+      "visible_showtime_count": 2,
       "engagement_days": 2,
       "historical_screening_count": 2,
       "opening_type": "repertory",
@@ -444,9 +444,9 @@
         "amc-woodinville-12"
       ],
       "theater_count_on_opening_date": 4,
-      "visible_showtime_count": 1827,
-      "engagement_days": 22,
-      "historical_screening_count": 922,
+      "visible_showtime_count": 2423,
+      "engagement_days": 29,
+      "historical_screening_count": 1220,
       "opening_type": "event",
       "confidence": "high",
       "evidence": {
@@ -456,7 +456,7 @@
           "hunger-games-sunrise-on-the-reaping-early-access",
           "hunger-games-sunrise-on-the-reaping-sensory-friendly-screening"
         ],
-        "distinct_scheduled_dates": 22,
+        "distinct_scheduled_dates": 29,
         "bootstrap_theater_ids": [],
         "mature_theater_ids": [
           "amc-alderwood-mall-16",
@@ -511,7 +511,7 @@
     {
       "showtime_film_key": "club-kid",
       "parent_film_key": "club-kid",
-      "film_id": null,
+      "film_id": "tmdb:1585239",
       "film_title": "Club Kid",
       "opening_date": "2026-11-19",
       "theaters_on_opening_date": [
@@ -521,17 +521,17 @@
         "amc-woodinville-12"
       ],
       "theater_count_on_opening_date": 4,
-      "visible_showtime_count": 268,
-      "engagement_days": 8,
-      "historical_screening_count": 134,
+      "visible_showtime_count": 450,
+      "engagement_days": 14,
+      "historical_screening_count": 225,
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
-        "identity_method": "showtime_film_key",
+        "identity_method": "film_id",
         "variant_showtime_film_keys": [
           "club-kid"
         ],
-        "distinct_scheduled_dates": 8,
+        "distinct_scheduled_dates": 14,
         "bootstrap_theater_ids": [],
         "mature_theater_ids": [
           "amc-alderwood-mall-16",
@@ -623,9 +623,9 @@
         "amc-woodinville-12"
       ],
       "theater_count_on_opening_date": 5,
-      "visible_showtime_count": 512,
+      "visible_showtime_count": 636,
       "engagement_days": 15,
-      "historical_screening_count": 256,
+      "historical_screening_count": 318,
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
@@ -640,7 +640,40 @@
           "amc-kent-station-14",
           "amc-pacific-place-11",
           "amc-southcenter-16",
-          "amc-woodinville-12"
+          "amc-woodinville-12",
+          "tasveer-film-center"
+        ],
+        "sources": [
+          "amc",
+          "tasveer"
+        ]
+      },
+      "override": null
+    },
+    {
+      "showtime_film_key": "om-chapter-1-udhiram",
+      "parent_film_key": "om-chapter-1-udhiram",
+      "film_id": null,
+      "film_title": "OM: Chapter 1 - Udhiram",
+      "opening_date": "2026-11-19",
+      "theaters_on_opening_date": [
+        "amc-southcenter-16"
+      ],
+      "theater_count_on_opening_date": 1,
+      "visible_showtime_count": 10,
+      "engagement_days": 5,
+      "historical_screening_count": 5,
+      "opening_type": "theatrical",
+      "confidence": "high",
+      "evidence": {
+        "identity_method": "showtime_film_key",
+        "variant_showtime_film_keys": [
+          "om-chapter-1-udhiram"
+        ],
+        "distinct_scheduled_dates": 5,
+        "bootstrap_theater_ids": [],
+        "mature_theater_ids": [
+          "amc-southcenter-16"
         ],
         "sources": [
           "amc"
@@ -1136,9 +1169,9 @@
         "amc-woodinville-12"
       ],
       "theater_count_on_opening_date": 4,
-      "visible_showtime_count": 10,
+      "visible_showtime_count": 12,
       "engagement_days": 1,
-      "historical_screening_count": 5,
+      "historical_screening_count": 6,
       "opening_type": "limited",
       "confidence": "high",
       "evidence": {
