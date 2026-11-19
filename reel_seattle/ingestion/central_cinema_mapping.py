@@ -547,6 +547,7 @@ def map_central_cinema_contract_to_indie(
             "source_occurrence_url": occurrence_url,
             "ticket_url": ticket_canonical or ticket_url,
             "source_display_date": show_raw.get("source_display_date"),
+            "source_group_date_label": show_raw.get("source_group_date_label"),
             "year_rollover_inferred": show_raw.get("year_rollover_inferred"),
             "venue_proof": "canonical_central_site_page",
             "prototype_theater_id": CENTRAL_THEATER_ID,
