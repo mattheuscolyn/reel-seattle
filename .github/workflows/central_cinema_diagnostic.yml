@@ -38,3 +38,20 @@ jobs:
                   if node is None: break
                   print('parent',depth,'tag',node.name,'attrs',repr(node.attrs)[:350],'text',node.get_text(' ',strip=True)[:550],'html',str(node)[:1600])
           PY
+
+      - name: Live validate updated Central Cinema adapter
+        run: |
+          python -m pip install -r requirements-dev.txt
+          python - <<'PY'
+          from reel_seattle.adapters.central_cinema import fetch_central_cinema
+          result = fetch_central_cinema(sleep_seconds=0.35)
+          print("STATUS", result.contract.get("status"))
+          print("RESTATE_SAFE", result.restate_safe)
+          print("DISCOVERED", result.contract.get("stats", {}).get("discovered_programs"))
+          print("RECORDS", len(result.records))
+          print("REJECTED", result.contract.get("rejected_observations"))
+          for row in result.records[:12]:
+              print("SHOWTIME", row.title_raw, row.date_raw, row.time_raw, row.source_showtime_id)
+          assert result.restate_safe, "Live Central Cinema scrape still incomplete"
+          assert len(result.records) >= 5, "Unexpectedly few live showtimes"
+          PY
