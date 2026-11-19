@@ -1,6 +1,6 @@
 {
   "schema_version": "1.2.0",
-  "generated_at": "2026-11-19T07:14:52-08:00",
+  "generated_at": "2026-11-19T14:32:30-08:00",
   "timezone": "America/Los_Angeles",
   "window": {
     "start_date": "2026-11-19",
@@ -17,20 +17,20 @@
   "sources": {
     "amc_coming_soon_catalog": {
       "available": true,
-      "generated_at": "2026-11-19T07:14:49-08:00",
+      "generated_at": "2026-11-19T14:32:27-08:00",
       "fetch_status": "success",
-      "movies": 294
+      "movies": 297
     },
     "tmdb_us_theatrical": {
       "available": true,
-      "generated_at": "2026-11-19T07:14:49-08:00",
+      "generated_at": "2026-11-19T14:32:27-08:00",
       "fetch_status": "success",
-      "candidates": 190
+      "candidates": 186
     },
     "reel_seattle_showtimes": {
       "available": true,
-      "generated_at": "2026-11-19T07:02:19-08:00",
-      "published_window_end": "2027-10-26"
+      "generated_at": "2026-11-19T14:20:39-08:00",
+      "published_window_end": "2027-07-08"
     },
     "amc_theater_bookings": {
       "available": true,
@@ -38,72 +38,72 @@
     }
   },
   "stats": {
-    "entry_count": 386,
-    "user_visible_count": 111,
-    "hidden_count": 275,
+    "entry_count": 384,
+    "user_visible_count": 113,
+    "hidden_count": 271,
     "classification_counts": {
-      "confirmed_local": 126,
-      "amc_announced": 152,
-      "tmdb_only": 108
+      "confirmed_local": 127,
+      "amc_announced": 153,
+      "tmdb_only": 104
     },
     "relevance_tier_counts": {
-      "confirmed_local": 126,
+      "confirmed_local": 127,
       "locally_announced": 0,
       "strongly_expected": 13,
-      "weak_national_only": 139
+      "weak_national_only": 140
     },
     "evidence_counts": {
-      "amc_coming_soon_catalog": 186,
-      "amc_theater_booking": 35,
-      "tmdb_us_theatrical": 183,
-      "reel_seattle_scheduled": 126
+      "amc_coming_soon_catalog": 188,
+      "amc_theater_booking": 36,
+      "tmdb_us_theatrical": 179,
+      "reel_seattle_scheduled": 127
     },
     "presentation_kind_counts": {
       "event": 2,
-      "film": 366,
+      "film": 364,
       "other": 1,
       "placeholder": 6,
       "rental": 3,
       "rerelease": 8
     },
     "presentation_source_counts": {
-      "amc_catalog": 136,
+      "amc_catalog": 138,
       "confirmed_enrichment": 15,
       "fallback": 96,
-      "inferred_tmdb": 139
+      "inferred_tmdb": 135
     },
-    "entries_with_poster": 206,
+    "entries_with_poster": 204,
     "engagement_count": 44,
-    "synthetic_film_group_count": 31,
+    "synthetic_film_group_count": 30,
     "horizon_counts": {
-      "30_days": 81,
-      "60_days": 103,
-      "90_days": 111
+      "30_days": 83,
+      "60_days": 105,
+      "90_days": 113
     },
     "earliest_expected_release_date": "2026-11-19",
     "latest_expected_release_date": "2027-02-14",
     "entries_with_confirmed_film_id": 15,
-    "entries_without_confirmed_film_id": 371,
-    "entries_with_tmdb_id": 192,
+    "entries_without_confirmed_film_id": 369,
+    "entries_with_tmdb_id": 188,
     "ambiguous_identity_count": 0,
     "duplicate_film_id_count": 0,
     "duplicate_join_key_count": 0,
-    "merged_candidate_count": 539,
+    "merged_candidate_count": 537,
     "collapsed_event_variants": 0,
     "excluded_counts": {
-      "currently_available": 69,
-      "expected_release_date_outside_window": 84,
+      "currently_available": 71,
+      "expected_release_date_outside_window": 82,
       "no_expected_release_date": 0,
       "insufficient_evidence": 0,
       "presentation_filter": 10
     },
     "low_relevance_no_local_evidence_count": 47,
     "popularity_threshold": 5.0,
-    "local_programming_excluded_count": 20,
+    "local_programming_excluded_count": 19,
     "local_booking_kind_counts": {
-      "release_like": 24,
-      "local_programming": 20,
-      "ambiguous_retained": 74
+      "release_like": 25,
+      "local_programming": 19,
+      "ambiguous_retained": 75
     }
   },
   "entries": [
@@ -339,7 +339,7 @@
         "amc": null,
         "tmdb": {
           "tmdb_id": 1384528,
-          "original_title": "ஓ.ம்: Operation Mole",
+          "original_title": "ஓ.ம்: ஆபரேஷன் மோல்",
           "original_language": "ta",
           "popularity": 29.541,
           "vote_count": 0,
@@ -442,7 +442,7 @@
           "original_title": "Minotaure",
           "original_language": "fr",
           "popularity": 7.189,
-          "vote_count": 52,
+          "vote_count": 54,
           "poster_path": "/bM37B5CuMWrPyGPpNsKzTGict4Q.jpg",
           "backdrop_path": null,
           "overview": "When Gleb, a successful company director, finds himself under siege from mounting corporate pressures, an increasingly unstable world, and the discovery of his wife's affair, the collapse of his carefully ordered life accelerates toward violence.",
@@ -1601,92 +1601,6 @@
           "quality_flags": [
             "very_low_popularity",
             "no_votes_and_low_popularity"
-          ]
-        }
-      }
-    },
-    {
-      "film_id": null,
-      "title": "Hijos de la Oscuridad",
-      "join_key": "hijos-de-la-oscuridad",
-      "parent_film_keys": [
-        "hijos-de-la-oscuridad"
-      ],
-      "showtime_film_keys": [],
-      "tmdb_id": 1818770,
-      "amc_movie_id": null,
-      "amc_movie_ids": [],
-      "expected_release_date": "2026-11-20",
-      "expected_release_date_source": "tmdb_us_release_date",
-      "amc_catalog_release_date": null,
-      "tmdb_us_release_date": "2026-11-20",
-      "first_local_screening_date": null,
-      "first_local_screening_source": null,
-      "local_status": "not_announced",
-      "local_theater_ids": [],
-      "local_theaters": [],
-      "local_theater_count": 0,
-      "local_showtime_count": 0,
-      "evidence": {
-        "amc_coming_soon_catalog": false,
-        "amc_theater_booking": false,
-        "tmdb_us_theatrical": true,
-        "reel_seattle_scheduled": false
-      },
-      "classification": "tmdb_only",
-      "relevance_tier": null,
-      "user_visible": false,
-      "visibility_reason": "tmdb_only_analysis_only",
-      "exclusion_reason": "tmdb_only_analysis_only",
-      "tmdb_popularity": 0.775,
-      "local_evidence_strength": "none",
-      "relevance_reason": "tmdb_only_analysis_only",
-      "popularity_threshold_applied": null,
-      "local_booking_kind": null,
-      "engagements": [],
-      "presentation": {
-        "kind": "film",
-        "source": "fallback",
-        "poster_url": null,
-        "poster_path": null,
-        "backdrop_url": null,
-        "backdrop_path": null,
-        "overview": null,
-        "runtime_minutes": null,
-        "rating": null,
-        "release_year": 2026
-      },
-      "identity": {
-        "method": "tmdb_id",
-        "film_id_confirmed": false,
-        "tmdb_id_inferred": true,
-        "ambiguous": false,
-        "synthetic_film_group": false,
-        "variant_titles": [
-          "Hijos de la Oscuridad"
-        ],
-        "contributing_sources": [
-          "tmdb"
-        ]
-      },
-      "source_metadata": {
-        "amc": null,
-        "tmdb": {
-          "tmdb_id": 1818770,
-          "original_title": "Hijos de la Oscuridad",
-          "original_language": "es",
-          "popularity": 0.775,
-          "vote_count": 0,
-          "poster_path": null,
-          "backdrop_path": null,
-          "overview": null,
-          "has_poster": false,
-          "has_overview": false,
-          "quality_flags": [
-            "missing_poster",
-            "very_low_popularity",
-            "no_votes_and_low_popularity",
-            "missing_overview"
           ]
         }
       }
@@ -3743,7 +3657,7 @@
         "backdrop_url": null,
         "backdrop_path": null,
         "overview": "A small-town boy chasing big dreams in Mumbai turns tradition on its head when he moves into his wife's home along with his entire family - forcing two clashing households to learn what true love, respect actually is. YEH PREM MOL LIYA is set to release in theatres worldwide on November 27th, 2026.",
-        "runtime_minutes": 165,
+        "runtime_minutes": 173,
         "rating": "NR",
         "release_year": 2026
       },
@@ -3767,7 +3681,7 @@
           "has_scheduled_showtimes": true,
           "online_ticket_availability_date_utc": "2026-11-26T06:00:00Z",
           "earliest_showing_utc": "2026-11-26T15:00:00Z",
-          "runtime_min": 165,
+          "runtime_min": 173,
           "mpaa_rating": "NR",
           "genre": "ROMANCE",
           "slug": "yeh-prem-mol-liya-85304",
@@ -3940,6 +3854,93 @@
       },
       "source_metadata": {
         "amc": null,
+        "tmdb": null
+      }
+    },
+    {
+      "film_id": null,
+      "title": "Bhogi",
+      "join_key": "bhogi",
+      "parent_film_keys": [
+        "bhogi"
+      ],
+      "showtime_film_keys": [],
+      "tmdb_id": null,
+      "amc_movie_id": "85654",
+      "amc_movie_ids": [
+        "85654"
+      ],
+      "expected_release_date": "2026-11-27",
+      "expected_release_date_source": "amc_catalog_release_date",
+      "amc_catalog_release_date": "2026-11-27",
+      "tmdb_us_release_date": null,
+      "first_local_screening_date": null,
+      "first_local_screening_source": null,
+      "local_status": "not_announced",
+      "local_theater_ids": [],
+      "local_theaters": [],
+      "local_theater_count": 0,
+      "local_showtime_count": 0,
+      "evidence": {
+        "amc_coming_soon_catalog": true,
+        "amc_theater_booking": false,
+        "tmdb_us_theatrical": false,
+        "reel_seattle_scheduled": false
+      },
+      "classification": "amc_announced",
+      "relevance_tier": "weak_national_only",
+      "user_visible": false,
+      "visibility_reason": "weak_national_only",
+      "exclusion_reason": "weak_national_only",
+      "tmdb_popularity": null,
+      "local_evidence_strength": "weak",
+      "relevance_reason": "national_amc_without_tmdb",
+      "popularity_threshold_applied": null,
+      "local_booking_kind": null,
+      "engagements": [],
+      "presentation": {
+        "kind": "film",
+        "source": "amc_catalog",
+        "poster_url": null,
+        "poster_path": null,
+        "backdrop_url": null,
+        "backdrop_path": null,
+        "overview": "In the fictional village of Boggula Gutta, labourer Kammari Ganga is taken away by landlords, prompting fierce warnings about the consequences and his own rebellious response to those who wronged him.",
+        "runtime_minutes": 151,
+        "rating": "NR",
+        "release_year": 2026
+      },
+      "identity": {
+        "method": "amc_movie_id",
+        "film_id_confirmed": false,
+        "tmdb_id_inferred": false,
+        "ambiguous": false,
+        "synthetic_film_group": false,
+        "variant_titles": [
+          "Bhogi"
+        ],
+        "contributing_sources": [
+          "amc_catalog"
+        ]
+      },
+      "source_metadata": {
+        "amc": {
+          "amc_movie_id": "85654",
+          "source_title": "Bhogi",
+          "has_scheduled_showtimes": true,
+          "online_ticket_availability_date_utc": "2026-11-27T06:00:00Z",
+          "earliest_showing_utc": "2026-11-26T18:30:00Z",
+          "runtime_min": 151,
+          "mpaa_rating": "NR",
+          "genre": "ACTION",
+          "slug": "bhogi-85654",
+          "synopsis": "In the fictional village of Boggula Gutta, labourer Kammari Ganga is taken away by landlords, prompting fierce warnings about the consequences and his own rebellious response to those who wronged him.",
+          "poster_url": null,
+          "hero_desktop_url": null,
+          "hero_mobile_url": null,
+          "presentation_category": "standard",
+          "is_special_presentation": false
+        },
         "tmdb": null
       }
     },
@@ -4187,9 +4188,9 @@
         "amc": {
           "amc_movie_id": "85669",
           "source_title": "Haindava",
-          "has_scheduled_showtimes": true,
+          "has_scheduled_showtimes": false,
           "online_ticket_availability_date_utc": "2026-11-27T06:00:00Z",
-          "earliest_showing_utc": "2026-11-26T18:45:00Z",
+          "earliest_showing_utc": "1900-01-01T00:00:00Z",
           "runtime_min": 165,
           "mpaa_rating": "NR",
           "genre": "ACTION",
@@ -6307,7 +6308,7 @@
           "source_title": "Andrew Lloyd Webber's Starlight Express - Live On Stage",
           "has_scheduled_showtimes": true,
           "online_ticket_availability_date_utc": "2026-11-30T06:00:00Z",
-          "earliest_showing_utc": "2026-11-30T19:15:00Z",
+          "earliest_showing_utc": "2026-11-30T19:30:00Z",
           "runtime_min": null,
           "mpaa_rating": "NR",
           "genre": "Musical",
@@ -8529,8 +8530,8 @@
       "presentation": {
         "kind": "film",
         "source": "inferred_tmdb",
-        "poster_url": "https://image.tmdb.org/t/p/w500/oM39gmpBRjyKt9zJ71ae25nHSAT.jpg",
-        "poster_path": "/oM39gmpBRjyKt9zJ71ae25nHSAT.jpg",
+        "poster_url": "https://image.tmdb.org/t/p/w500/cXSdbJ6lskse6oDNCN617oh3YbF.jpg",
+        "poster_path": "/cXSdbJ6lskse6oDNCN617oh3YbF.jpg",
         "backdrop_url": "https://amc-theatres-res.cloudinary.com/v1793445032/amc-cdn/production/2/movies/85100/85085/MovieStills/394477R9.jpg",
         "backdrop_path": null,
         "overview": "The film follows 11-year-old Christophe in rural France, as he tries to live up to his rigid and distant father on the family farm. But the young boy starts to lean over and collapse without warning -- on the tractor, at school, at dinner... A doctor finds the solution: Christophe must wear an iron corset to keep himself upright. Forced to reinvent his life away from the farm, Christophe discovers a new passion for music, meets a new friend, and follows her into his first mischief. But will any of this really fix what is out of balance?",
@@ -8576,7 +8577,7 @@
           "original_language": "fr",
           "popularity": 2.583,
           "vote_count": 52,
-          "poster_path": "/oM39gmpBRjyKt9zJ71ae25nHSAT.jpg",
+          "poster_path": "/cXSdbJ6lskse6oDNCN617oh3YbF.jpg",
           "backdrop_path": null,
           "overview": "11-year-old Christophe tries to live up to his rigid and distant father on the family farm in rural France. But the young boy starts to lean over and collapse without warning — on the tractor, at school, at dinner... A doctor finds the solution: Christophe must wear an iron corset to keep himself upright. Forced to reinvent his life away from the farm, Christophe discovers a new passion for music, meets a new friend, and follows her into his first mischief.",
           "has_poster": true,
@@ -8871,6 +8872,109 @@
           "poster_url": "https://amc-theatres-res.cloudinary.com/v1793898244/amc-cdn/content/general/kvfufu3guwwj35wxjx4w.jpg",
           "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1793444980/amc-cdn/production/2/movies/85100/85076/MovieStills/041057R9.jpg",
           "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1793444980/amc-cdn/production/2/movies/85100/85076/MovieStills/041057R9.jpg",
+          "presentation_category": "standard",
+          "is_special_presentation": false
+        },
+        "tmdb": null
+      }
+    },
+    {
+      "film_id": null,
+      "title": "Spider-Man: (Brand New) Brand New Day",
+      "join_key": "spider-man-brand-new-brand-new-day",
+      "parent_film_keys": [
+        "spider-man-brand-new-brand-new-day"
+      ],
+      "showtime_film_keys": [
+        "spider-man-brand-new-brand-new-day"
+      ],
+      "tmdb_id": null,
+      "amc_movie_id": "85698",
+      "amc_movie_ids": [
+        "85698"
+      ],
+      "expected_release_date": "2026-12-04",
+      "expected_release_date_source": "reel_seattle_first_local_screening",
+      "amc_catalog_release_date": "2026-12-04",
+      "tmdb_us_release_date": null,
+      "first_local_screening_date": "2026-12-04",
+      "first_local_screening_source": "amc_theater_booking",
+      "local_status": "scheduled",
+      "local_theater_ids": [
+        "amc-alderwood-mall-16",
+        "amc-southcenter-16"
+      ],
+      "local_theaters": [
+        {
+          "theater_id": "amc-alderwood-mall-16",
+          "name": "AMC Alderwood Mall 16"
+        },
+        {
+          "theater_id": "amc-southcenter-16",
+          "name": "AMC Southcenter 16"
+        }
+      ],
+      "local_theater_count": 2,
+      "local_showtime_count": 24,
+      "evidence": {
+        "amc_coming_soon_catalog": true,
+        "amc_theater_booking": true,
+        "tmdb_us_theatrical": false,
+        "reel_seattle_scheduled": true
+      },
+      "classification": "confirmed_local",
+      "relevance_tier": "confirmed_local",
+      "user_visible": true,
+      "visibility_reason": null,
+      "exclusion_reason": null,
+      "tmdb_popularity": null,
+      "local_evidence_strength": "strong",
+      "relevance_reason": "confirmed_local_release_like",
+      "popularity_threshold_applied": null,
+      "local_booking_kind": "release_like",
+      "engagements": [],
+      "presentation": {
+        "kind": "film",
+        "source": "amc_catalog",
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1795018639/amc-cdn/content/general/ih7t1upilp1ew9ltf5ht.jpg",
+        "poster_path": null,
+        "backdrop_url": "https://amc-theatres-res.cloudinary.com/v1795019505/amc-cdn/content/general/k5z6fbj3fsoxktntwuuk.jpg",
+        "backdrop_path": null,
+        "overview": "It's a BRAND NEW DAY for Peter Parker. Fighting crime full-time as Spider-Man in a world that doesn’t remember him -- and the \npressure of seeing his old friends move on without him -- sparks a change in Peter he may not have the power to control. But that \ntransformation might also be the only thing that can stop a shocking new threat to the city and those he loves - a  powerful \nvillain no one can even see. The world may have forgotten Peter Parker, but he hasn’t forgotten them.",
+        "runtime_minutes": 152,
+        "rating": "PG13",
+        "release_year": 2026
+      },
+      "identity": {
+        "method": "amc_movie_id",
+        "film_id_confirmed": false,
+        "tmdb_id_inferred": false,
+        "ambiguous": false,
+        "synthetic_film_group": false,
+        "variant_titles": [
+          "Spider-Man: (Brand New) Brand New Day"
+        ],
+        "contributing_sources": [
+          "amc_booking",
+          "amc_catalog",
+          "reel_seattle"
+        ]
+      },
+      "source_metadata": {
+        "amc": {
+          "amc_movie_id": "85698",
+          "source_title": "Spider-Man: (Brand New) Brand New Day",
+          "has_scheduled_showtimes": true,
+          "online_ticket_availability_date_utc": "2026-12-04T06:00:00Z",
+          "earliest_showing_utc": "2026-12-04T10:45:00Z",
+          "runtime_min": 152,
+          "mpaa_rating": "PG13",
+          "genre": null,
+          "slug": "spider-man-brand-new-brand-new-day-85698",
+          "synopsis": "It's a BRAND NEW DAY for Peter Parker. Fighting crime full-time as Spider-Man in a world that doesn’t remember him -- and the \npressure of seeing his old friends move on without him -- sparks a change in Peter he may not have the power to control. But that \ntransformation might also be the only thing that can stop a shocking new threat to the city and those he loves - a  powerful \nvillain no one can even see. The world may have forgotten Peter Parker, but he hasn’t forgotten them.",
+          "poster_url": "https://amc-theatres-res.cloudinary.com/v1795018639/amc-cdn/content/general/ih7t1upilp1ew9ltf5ht.jpg",
+          "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1795019505/amc-cdn/content/general/k5z6fbj3fsoxktntwuuk.jpg",
+          "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1795019505/amc-cdn/content/general/k5z6fbj3fsoxktntwuuk.jpg",
           "presentation_category": "standard",
           "is_special_presentation": false
         },
@@ -10443,93 +10547,6 @@
     },
     {
       "film_id": null,
-      "title": "Spider-Man: (Brand New) Brand New Day",
-      "join_key": "spider-man-brand-new-brand-new-day",
-      "parent_film_keys": [
-        "spider-man-brand-new-brand-new-day"
-      ],
-      "showtime_film_keys": [],
-      "tmdb_id": null,
-      "amc_movie_id": "85698",
-      "amc_movie_ids": [
-        "85698"
-      ],
-      "expected_release_date": "2026-12-04",
-      "expected_release_date_source": "amc_catalog_release_date",
-      "amc_catalog_release_date": "2026-12-04",
-      "tmdb_us_release_date": null,
-      "first_local_screening_date": null,
-      "first_local_screening_source": null,
-      "local_status": "not_announced",
-      "local_theater_ids": [],
-      "local_theaters": [],
-      "local_theater_count": 0,
-      "local_showtime_count": 0,
-      "evidence": {
-        "amc_coming_soon_catalog": true,
-        "amc_theater_booking": false,
-        "tmdb_us_theatrical": false,
-        "reel_seattle_scheduled": false
-      },
-      "classification": "amc_announced",
-      "relevance_tier": "weak_national_only",
-      "user_visible": false,
-      "visibility_reason": "weak_national_only",
-      "exclusion_reason": "weak_national_only",
-      "tmdb_popularity": null,
-      "local_evidence_strength": "weak",
-      "relevance_reason": "national_amc_without_tmdb",
-      "popularity_threshold_applied": null,
-      "local_booking_kind": null,
-      "engagements": [],
-      "presentation": {
-        "kind": "film",
-        "source": "amc_catalog",
-        "poster_url": "https://amc-theatres-res.cloudinary.com/v1795018639/amc-cdn/content/general/ih7t1upilp1ew9ltf5ht.jpg",
-        "poster_path": null,
-        "backdrop_url": "https://amc-theatres-res.cloudinary.com/v1795019505/amc-cdn/content/general/k5z6fbj3fsoxktntwuuk.jpg",
-        "backdrop_path": null,
-        "overview": "It's a BRAND NEW DAY for Peter Parker. Fighting crime full-time as Spider-Man in a world that doesn’t remember him -- and the \npressure of seeing his old friends move on without him -- sparks a change in Peter he may not have the power to control. But that \ntransformation might also be the only thing that can stop a shocking new threat to the city and those he loves - a  powerful \nvillain no one can even see. The world may have forgotten Peter Parker, but he hasn’t forgotten them.",
-        "runtime_minutes": 152,
-        "rating": "PG13",
-        "release_year": 2026
-      },
-      "identity": {
-        "method": "amc_movie_id",
-        "film_id_confirmed": false,
-        "tmdb_id_inferred": false,
-        "ambiguous": false,
-        "synthetic_film_group": false,
-        "variant_titles": [
-          "Spider-Man: (Brand New) Brand New Day"
-        ],
-        "contributing_sources": [
-          "amc_catalog"
-        ]
-      },
-      "source_metadata": {
-        "amc": {
-          "amc_movie_id": "85698",
-          "source_title": "Spider-Man: (Brand New) Brand New Day",
-          "has_scheduled_showtimes": true,
-          "online_ticket_availability_date_utc": "2026-12-04T06:00:00Z",
-          "earliest_showing_utc": "2026-12-04T10:45:00Z",
-          "runtime_min": 152,
-          "mpaa_rating": "PG13",
-          "genre": null,
-          "slug": "spider-man-brand-new-brand-new-day-85698",
-          "synopsis": "It's a BRAND NEW DAY for Peter Parker. Fighting crime full-time as Spider-Man in a world that doesn’t remember him -- and the \npressure of seeing his old friends move on without him -- sparks a change in Peter he may not have the power to control. But that \ntransformation might also be the only thing that can stop a shocking new threat to the city and those he loves - a  powerful \nvillain no one can even see. The world may have forgotten Peter Parker, but he hasn’t forgotten them.",
-          "poster_url": "https://amc-theatres-res.cloudinary.com/v1795018639/amc-cdn/content/general/ih7t1upilp1ew9ltf5ht.jpg",
-          "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1795019505/amc-cdn/content/general/k5z6fbj3fsoxktntwuuk.jpg",
-          "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1795019505/amc-cdn/content/general/k5z6fbj3fsoxktntwuuk.jpg",
-          "presentation_category": "standard",
-          "is_special_presentation": false
-        },
-        "tmdb": null
-      }
-    },
-    {
-      "film_id": null,
       "title": "The Departed: 20th Anniversary",
       "join_key": "departed",
       "parent_film_keys": [
@@ -10606,7 +10623,7 @@
           "source_title": "The Departed: 20th Anniversary",
           "has_scheduled_showtimes": true,
           "online_ticket_availability_date_utc": "2026-12-04T06:00:00Z",
-          "earliest_showing_utc": "2026-12-04T13:00:00Z",
+          "earliest_showing_utc": "2026-12-04T12:30:00Z",
           "runtime_min": 152,
           "mpaa_rating": "R",
           "genre": null,
@@ -13616,9 +13633,9 @@
       ],
       "presentation": {
         "kind": "film",
-        "source": "inferred_tmdb",
-        "poster_url": "https://image.tmdb.org/t/p/w500/2bz0HPE8OFOqnyvl8sCdVDIg1KX.jpg",
-        "poster_path": "/2bz0HPE8OFOqnyvl8sCdVDIg1KX.jpg",
+        "source": "amc_catalog",
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1795120231/amc-cdn/content/general/wg4l1utymqgrqo3jnbfz.jpg",
+        "poster_path": null,
         "backdrop_url": "https://amc-theatres-res.cloudinary.com/v1793358611/amc-cdn/production/2/movies/85000/85018/MovieStills/393872R4.jpg",
         "backdrop_path": null,
         "overview": "In November 2023, amidst the height of a global AI boom, OpenAI co-founder Ilya Sutskever teamed with the company board to make one of the defining decisions that has drastically reshaped the company as we know it, the firing of current CEO Sam Altman. This controversial decision would lead to immense backlash, ultimately resulting in Altman's return five days later.",
@@ -13653,7 +13670,7 @@
           "genre": "DRAMA",
           "slug": "artificial-85018",
           "synopsis": null,
-          "poster_url": null,
+          "poster_url": "https://amc-theatres-res.cloudinary.com/v1795120231/amc-cdn/content/general/wg4l1utymqgrqo3jnbfz.jpg",
           "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1793358611/amc-cdn/production/2/movies/85000/85018/MovieStills/393872R4.jpg",
           "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1793358611/amc-cdn/production/2/movies/85000/85018/MovieStills/393872R4.jpg",
           "presentation_category": "standard",
@@ -15934,7 +15951,8 @@
       "tmdb_id": 1391239,
       "amc_movie_id": "84449",
       "amc_movie_ids": [
-        "84449"
+        "84449",
+        "85751"
       ],
       "expected_release_date": "2026-12-11",
       "expected_release_date_source": "amc_catalog_release_date",
@@ -15963,7 +15981,13 @@
       "relevance_reason": "amc_tmdb_proxy_meets_popularity",
       "popularity_threshold_applied": 5.0,
       "local_booking_kind": null,
-      "engagements": [],
+      "engagements": [
+        {
+          "kind": "q_and_a",
+          "title": "The Debut Q&A with Writer/Director/Songwriter Jesse Eisenberg",
+          "amc_movie_id": "85751"
+        }
+      ],
       "presentation": {
         "kind": "film",
         "source": "amc_catalog",
@@ -15983,7 +16007,8 @@
         "ambiguous": false,
         "synthetic_film_group": false,
         "variant_titles": [
-          "The Debut"
+          "The Debut",
+          "The Debut Q&A with Writer/Director/Songwriter Jesse Eisenberg"
         ],
         "contributing_sources": [
           "amc_catalog",
@@ -16021,6 +16046,93 @@
           "has_overview": true,
           "quality_flags": []
         }
+      }
+    },
+    {
+      "film_id": null,
+      "title": "Godzilla Minus Zero/Minus Color",
+      "join_key": "godzilla-minus-zero-minus-color",
+      "parent_film_keys": [
+        "godzilla-minus-zero-minus-color"
+      ],
+      "showtime_film_keys": [],
+      "tmdb_id": null,
+      "amc_movie_id": "85752",
+      "amc_movie_ids": [
+        "85752"
+      ],
+      "expected_release_date": "2026-12-11",
+      "expected_release_date_source": "amc_catalog_release_date",
+      "amc_catalog_release_date": "2026-12-11",
+      "tmdb_us_release_date": null,
+      "first_local_screening_date": null,
+      "first_local_screening_source": null,
+      "local_status": "not_announced",
+      "local_theater_ids": [],
+      "local_theaters": [],
+      "local_theater_count": 0,
+      "local_showtime_count": 0,
+      "evidence": {
+        "amc_coming_soon_catalog": true,
+        "amc_theater_booking": false,
+        "tmdb_us_theatrical": false,
+        "reel_seattle_scheduled": false
+      },
+      "classification": "amc_announced",
+      "relevance_tier": "weak_national_only",
+      "user_visible": false,
+      "visibility_reason": "weak_national_only",
+      "exclusion_reason": "weak_national_only",
+      "tmdb_popularity": null,
+      "local_evidence_strength": "weak",
+      "relevance_reason": "national_amc_without_tmdb",
+      "popularity_threshold_applied": null,
+      "local_booking_kind": null,
+      "engagements": [],
+      "presentation": {
+        "kind": "film",
+        "source": "fallback",
+        "poster_url": null,
+        "poster_path": null,
+        "backdrop_url": null,
+        "backdrop_path": null,
+        "overview": null,
+        "runtime_minutes": null,
+        "rating": null,
+        "release_year": 2026
+      },
+      "identity": {
+        "method": "amc_movie_id",
+        "film_id_confirmed": false,
+        "tmdb_id_inferred": false,
+        "ambiguous": false,
+        "synthetic_film_group": false,
+        "variant_titles": [
+          "Godzilla Minus Zero/Minus Color"
+        ],
+        "contributing_sources": [
+          "amc_catalog"
+        ]
+      },
+      "source_metadata": {
+        "amc": {
+          "amc_movie_id": "85752",
+          "source_title": "Godzilla Minus Zero/Minus Color",
+          "has_scheduled_showtimes": false,
+          "online_ticket_availability_date_utc": "2026-12-11T06:00:00Z",
+          "earliest_showing_utc": null,
+          "runtime_min": null,
+          "mpaa_rating": null,
+          "genre": null,
+          "slug": "godzilla-minus-zero-minus-color-85752",
+          "synopsis": null,
+          "poster_url": null,
+          "hero_desktop_url": null,
+          "hero_mobile_url": null,
+          "presentation_category": "standard",
+          "is_special_presentation": false
+        },
+        "tmdb": null
       }
     },
     {
@@ -17623,8 +17735,8 @@
       "presentation": {
         "kind": "film",
         "source": "inferred_tmdb",
-        "poster_url": "https://image.tmdb.org/t/p/w500/5pNmqh1lcCGfuXZTWLjMI1wQpVa.jpg",
-        "poster_path": "/5pNmqh1lcCGfuXZTWLjMI1wQpVa.jpg",
+        "poster_url": "https://image.tmdb.org/t/p/w500/fagy0gsiGr6HdrDs59pptyBic5F.jpg",
+        "poster_path": "/fagy0gsiGr6HdrDs59pptyBic5F.jpg",
         "backdrop_url": null,
         "backdrop_path": null,
         "overview": "In 1960, Fidel Castro comes to America to speak at the UN. He is invited by Malcolm X to stay in Harlem at the famous Hotel Theresa. Unsure of his intentions, the FBI, CIA and the Mafia, all attempt to eliminate him by any means necessary.",
@@ -17653,7 +17765,7 @@
           "original_language": "en",
           "popularity": 1.762,
           "vote_count": 0,
-          "poster_path": "/5pNmqh1lcCGfuXZTWLjMI1wQpVa.jpg",
+          "poster_path": "/fagy0gsiGr6HdrDs59pptyBic5F.jpg",
           "backdrop_path": null,
           "overview": "In 1960, Fidel Castro comes to America to speak at the UN. He is invited by Malcolm X to stay in Harlem at the famous Hotel Theresa. Unsure of his intentions, the FBI, CIA and the Mafia, all attempt to eliminate him by any means necessary.",
           "has_poster": true,
@@ -17739,96 +17851,6 @@
           "poster_path": "/e9AZm3kaUNK1GbdWqGJHQZMUTHE.jpg",
           "backdrop_path": null,
           "overview": "Rose Hobart haunts the cinema.",
-          "has_poster": true,
-          "has_overview": true,
-          "quality_flags": [
-            "very_low_popularity",
-            "no_votes_and_low_popularity"
-          ]
-        }
-      }
-    },
-    {
-      "film_id": null,
-      "title": "Samo Lives",
-      "join_key": "samos",
-      "parent_film_keys": [
-        "samos"
-      ],
-      "showtime_film_keys": [],
-      "tmdb_id": 923493,
-      "amc_movie_id": null,
-      "amc_movie_ids": [],
-      "expected_release_date": "2026-12-11",
-      "expected_release_date_source": "tmdb_us_release_date",
-      "amc_catalog_release_date": null,
-      "tmdb_us_release_date": "2026-12-11",
-      "first_local_screening_date": null,
-      "first_local_screening_source": null,
-      "local_status": "not_announced",
-      "local_theater_ids": [],
-      "local_theaters": [],
-      "local_theater_count": 0,
-      "local_showtime_count": 0,
-      "evidence": {
-        "amc_coming_soon_catalog": false,
-        "amc_theater_booking": false,
-        "tmdb_us_theatrical": true,
-        "reel_seattle_scheduled": false
-      },
-      "classification": "tmdb_only",
-      "relevance_tier": null,
-      "user_visible": false,
-      "visibility_reason": "tmdb_only_analysis_only",
-      "exclusion_reason": "tmdb_only_analysis_only",
-      "tmdb_popularity": 0.767,
-      "local_evidence_strength": "none",
-      "relevance_reason": "tmdb_only_analysis_only",
-      "popularity_threshold_applied": null,
-      "local_booking_kind": null,
-      "engagements": [
-        {
-          "kind": "other_engagement",
-          "title": "Samo Lives",
-          "amc_movie_id": null
-        }
-      ],
-      "presentation": {
-        "kind": "film",
-        "source": "inferred_tmdb",
-        "poster_url": "https://image.tmdb.org/t/p/w500/4bogKZqdE3PYXYrXeQCxIAZ7VVQ.jpg",
-        "poster_path": "/4bogKZqdE3PYXYrXeQCxIAZ7VVQ.jpg",
-        "backdrop_url": null,
-        "backdrop_path": null,
-        "overview": "A vibrant portrait of Jean-Michel Basquiat, the NYC artist who revolutionized 1980s art. From street graffiti to gallery stardom, his bold Neo-expressionist works left an indelible mark on the art world and beyond.",
-        "runtime_minutes": null,
-        "rating": null,
-        "release_year": 2026
-      },
-      "identity": {
-        "method": "tmdb_id",
-        "film_id_confirmed": false,
-        "tmdb_id_inferred": true,
-        "ambiguous": false,
-        "synthetic_film_group": true,
-        "variant_titles": [
-          "Samo Lives"
-        ],
-        "contributing_sources": [
-          "tmdb"
-        ]
-      },
-      "source_metadata": {
-        "amc": null,
-        "tmdb": {
-          "tmdb_id": 923493,
-          "original_title": "Samo Lives",
-          "original_language": "en",
-          "popularity": 0.767,
-          "vote_count": 0,
-          "poster_path": "/4bogKZqdE3PYXYrXeQCxIAZ7VVQ.jpg",
-          "backdrop_path": null,
-          "overview": "A vibrant portrait of Jean-Michel Basquiat, the NYC artist who revolutionized 1980s art. From street graffiti to gallery stardom, his bold Neo-expressionist works left an indelible mark on the art world and beyond.",
           "has_poster": true,
           "has_overview": true,
           "quality_flags": [
@@ -19350,6 +19372,84 @@
     },
     {
       "film_id": null,
+      "title": "Jawbreaker: A Film About Anti Cimex",
+      "join_key": "jawbreaker-a-film-about-anti-cimex",
+      "parent_film_keys": [
+        "jawbreaker-a-film-about-anti-cimex"
+      ],
+      "showtime_film_keys": [
+        "jawbreaker-a-film-about-anti-cimex"
+      ],
+      "tmdb_id": null,
+      "amc_movie_id": null,
+      "amc_movie_ids": [],
+      "expected_release_date": "2026-12-13",
+      "expected_release_date_source": "reel_seattle_first_local_screening",
+      "amc_catalog_release_date": null,
+      "tmdb_us_release_date": null,
+      "first_local_screening_date": "2026-12-13",
+      "first_local_screening_source": "reel_seattle_showtimes",
+      "local_status": "scheduled",
+      "local_theater_ids": [
+        "siff-film-center"
+      ],
+      "local_theaters": [
+        {
+          "theater_id": "siff-film-center",
+          "name": "SIFF Film Center"
+        }
+      ],
+      "local_theater_count": 1,
+      "local_showtime_count": 1,
+      "evidence": {
+        "amc_coming_soon_catalog": false,
+        "amc_theater_booking": false,
+        "tmdb_us_theatrical": false,
+        "reel_seattle_scheduled": true
+      },
+      "classification": "confirmed_local",
+      "relevance_tier": "confirmed_local",
+      "user_visible": true,
+      "visibility_reason": null,
+      "exclusion_reason": null,
+      "tmdb_popularity": null,
+      "local_evidence_strength": "strong",
+      "relevance_reason": "confirmed_local_ambiguous_retained",
+      "popularity_threshold_applied": null,
+      "local_booking_kind": "ambiguous_retained",
+      "engagements": [],
+      "presentation": {
+        "kind": "film",
+        "source": "fallback",
+        "poster_url": null,
+        "poster_path": null,
+        "backdrop_url": null,
+        "backdrop_path": null,
+        "overview": null,
+        "runtime_minutes": null,
+        "rating": null,
+        "release_year": 2026
+      },
+      "identity": {
+        "method": "join_key",
+        "film_id_confirmed": false,
+        "tmdb_id_inferred": false,
+        "ambiguous": false,
+        "synthetic_film_group": false,
+        "variant_titles": [
+          "Jawbreaker: A Film About Anti Cimex"
+        ],
+        "contributing_sources": [
+          "reel_seattle"
+        ]
+      },
+      "source_metadata": {
+        "amc": null,
+        "tmdb": null
+      }
+    },
+    {
+      "film_id": null,
       "title": "Nirvanna the Band the Show the Movie the 35mm print",
       "join_key": "nirvanna-the-band-the-show-the-movie-the-35mm-print",
       "parent_film_keys": [
@@ -19563,9 +19663,9 @@
       "presentation": {
         "kind": "film",
         "source": "amc_catalog",
-        "poster_url": null,
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1795102938/amc-cdn/content/general/tajljx00lgzrl4tvl35d.jpg",
         "poster_path": null,
-        "backdrop_url": null,
+        "backdrop_url": "https://amc-theatres-res.cloudinary.com/v1795102946/amc-cdn/content/general/lyk9nxgnxacjgbjjmovy.jpg",
         "backdrop_path": null,
         "overview": "RAYE is a songwriter, storyteller and occasional over-thinker. She writes about love, loss, faith, joy and the strange theatre of being human -- often all at once. One of the world's most celebrated artists, the South London-born singer-songwriter made history in 2024 when she won six BRIT Awards in a single night, the most by any artist ever. Her Mercury Prize-winning sophomore album, THIS MUSIC MAY CONTAIN HOPE. showcases her evolution as an independent artist, songwriter, composer, producer, and arranger. Now, leading with 11 nominations at the 2027 GRAMMY Awards -- matching the record for the most nominations received by a female artist in a single year -- RAYE has reached another extraordinary milestone. \nTHIS SYMPHONY MAY CONTAIN HOPE. comes to theatres as a four-act musical odyssey through the seasons of life. Going far beyond the conventional concert film, RAYE draws you into a world of breathtaking intensity, where every lyric carries weight, every crescendo hits deeper and every feeling sits impossibly close. Exhilarating, heartbreaking, joyful and profoundly moving, it's a cinematic experience that holds you on every word. \nJoined on stage by 117 musicians, RAYE performs THIS MUSIC MAY CONTAIN HOPE. in its entirety, reimagined through extraordinary orchestral arrangements. Filmed at London's iconic Royal Albert Hall in October 2026, the film captures a night that Rolling Stone UK described as \"a spectacular symphony of salvation,\" in a five-star review. Yet beneath the grandeur lies something deeply personal: a tangible connection between RAYE, the musicians and the audience, shared through moments of joy, heartbreak, hope and release. It's a family affair too, with RAYE joined on stage by her Grandad Michael, her sisters Amma, Absolutely and Katelyn, and her Grandma Agatha.\n\nBrought to life by award-winning director Rohan Blair-Mangat, alongside GRAMMY-nominated production company Aldgate Pictures, creative director Mikey Robbins, and musical director Pete Clements, THIS SYMPHONY MAY CONTAIN HOPE. is an immersive cinematic spectacle infused with big-band crescendos, theatrical storytelling, and the indescribable stage presence that is uniquely RAYE's.\n\nAt its heart, the film is a celebration of family, faith, resilience and the extraordinary power of connection. A triumph in every sense, it's a testament to an artist who continues to shatter expectations, carve her own path, and remind us that music is indeed medicine.",
         "runtime_minutes": null,
@@ -19597,9 +19697,9 @@
           "genre": "SPECIAL EVENTS",
           "slug": "this-symphony-may-contain-hope-85500",
           "synopsis": "RAYE is a songwriter, storyteller and occasional over-thinker. She writes about love, loss, faith, joy and the strange theatre of being human -- often all at once. One of the world's most celebrated artists, the South London-born singer-songwriter made history in 2024 when she won six BRIT Awards in a single night, the most by any artist ever. Her Mercury Prize-winning sophomore album, THIS MUSIC MAY CONTAIN HOPE. showcases her evolution as an independent artist, songwriter, composer, producer, and arranger. Now, leading with 11 nominations at the 2027 GRAMMY Awards -- matching the record for the most nominations received by a female artist in a single year -- RAYE has reached another extraordinary milestone. \nTHIS SYMPHONY MAY CONTAIN HOPE. comes to theatres as a four-act musical odyssey through the seasons of life. Going far beyond the conventional concert film, RAYE draws you into a world of breathtaking intensity, where every lyric carries weight, every crescendo hits deeper and every feeling sits impossibly close. Exhilarating, heartbreaking, joyful and profoundly moving, it's a cinematic experience that holds you on every word. \nJoined on stage by 117 musicians, RAYE performs THIS MUSIC MAY CONTAIN HOPE. in its entirety, reimagined through extraordinary orchestral arrangements. Filmed at London's iconic Royal Albert Hall in October 2026, the film captures a night that Rolling Stone UK described as \"a spectacular symphony of salvation,\" in a five-star review. Yet beneath the grandeur lies something deeply personal: a tangible connection between RAYE, the musicians and the audience, shared through moments of joy, heartbreak, hope and release. It's a family affair too, with RAYE joined on stage by her Grandad Michael, her sisters Amma, Absolutely and Katelyn, and her Grandma Agatha.\n\nBrought to life by award-winning director Rohan Blair-Mangat, alongside GRAMMY-nominated production company Aldgate Pictures, creative director Mikey Robbins, and musical director Pete Clements, THIS SYMPHONY MAY CONTAIN HOPE. is an immersive cinematic spectacle infused with big-band crescendos, theatrical storytelling, and the indescribable stage presence that is uniquely RAYE's.\n\nAt its heart, the film is a celebration of family, faith, resilience and the extraordinary power of connection. A triumph in every sense, it's a testament to an artist who continues to shatter expectations, carve her own path, and remind us that music is indeed medicine.",
-          "poster_url": null,
-          "hero_desktop_url": null,
-          "hero_mobile_url": null,
+          "poster_url": "https://amc-theatres-res.cloudinary.com/v1795102938/amc-cdn/content/general/tajljx00lgzrl4tvl35d.jpg",
+          "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1795102946/amc-cdn/content/general/lyk9nxgnxacjgbjjmovy.jpg",
+          "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1795102946/amc-cdn/content/general/lyk9nxgnxacjgbjjmovy.jpg",
           "presentation_category": "concert_or_event",
           "is_special_presentation": true
         },
@@ -19719,84 +19819,6 @@
           "presentation_category": "concert_or_event",
           "is_special_presentation": true
         },
-        "tmdb": null
-      }
-    },
-    {
-      "film_id": null,
-      "title": "Garfield Jazz Jam Session",
-      "join_key": "garfield-jazz-jam-session",
-      "parent_film_keys": [
-        "garfield-jazz-jam-session"
-      ],
-      "showtime_film_keys": [
-        "garfield-jazz-jam-session"
-      ],
-      "tmdb_id": null,
-      "amc_movie_id": null,
-      "amc_movie_ids": [],
-      "expected_release_date": "2026-12-14",
-      "expected_release_date_source": "reel_seattle_first_local_screening",
-      "amc_catalog_release_date": null,
-      "tmdb_us_release_date": null,
-      "first_local_screening_date": "2026-12-14",
-      "first_local_screening_source": "reel_seattle_showtimes",
-      "local_status": "scheduled",
-      "local_theater_ids": [
-        "central-cinema"
-      ],
-      "local_theaters": [
-        {
-          "theater_id": "central-cinema",
-          "name": "Central Cinema"
-        }
-      ],
-      "local_theater_count": 1,
-      "local_showtime_count": 3,
-      "evidence": {
-        "amc_coming_soon_catalog": false,
-        "amc_theater_booking": false,
-        "tmdb_us_theatrical": false,
-        "reel_seattle_scheduled": true
-      },
-      "classification": "confirmed_local",
-      "relevance_tier": "confirmed_local",
-      "user_visible": false,
-      "visibility_reason": "local_programming_not_upcoming_release",
-      "exclusion_reason": "local_programming_not_upcoming_release",
-      "tmdb_popularity": null,
-      "local_evidence_strength": "strong",
-      "relevance_reason": "confirmed_local_repertory_venue_programming",
-      "popularity_threshold_applied": null,
-      "local_booking_kind": "local_programming",
-      "engagements": [],
-      "presentation": {
-        "kind": "film",
-        "source": "fallback",
-        "poster_url": null,
-        "poster_path": null,
-        "backdrop_url": null,
-        "backdrop_path": null,
-        "overview": null,
-        "runtime_minutes": null,
-        "rating": null,
-        "release_year": 2026
-      },
-      "identity": {
-        "method": "join_key",
-        "film_id_confirmed": false,
-        "tmdb_id_inferred": false,
-        "ambiguous": false,
-        "synthetic_film_group": false,
-        "variant_titles": [
-          "Garfield Jazz Jam Session"
-        ],
-        "contributing_sources": [
-          "reel_seattle"
-        ]
-      },
-      "source_metadata": {
-        "amc": null,
         "tmdb": null
       }
     },
@@ -21452,7 +21474,7 @@
           "original_title": "La Gradiva",
           "original_language": "fr",
           "popularity": 5.654,
-          "vote_count": 54,
+          "vote_count": 55,
           "poster_path": "/y6AkOgTEPM9nTJUOeyvHqlf6Bgp.jpg",
           "backdrop_path": null,
           "overview": "Amid the ancient ruins of Pompeii, a group of French teenagers on a class trip to Naples grapple with anxiety and exhilaration ahead of their high school graduation.",
@@ -24997,174 +25019,6 @@
           "poster_path": "/uD8ScsbQgz6EsXU2GyvdyTbQEMe.jpg",
           "backdrop_path": null,
           "overview": "A girl just broke up with her boyfriend and needs to talk.",
-          "has_poster": true,
-          "has_overview": true,
-          "quality_flags": [
-            "very_low_popularity",
-            "no_votes_and_low_popularity"
-          ]
-        }
-      }
-    },
-    {
-      "film_id": null,
-      "title": "Limerence",
-      "join_key": "limerence",
-      "parent_film_keys": [
-        "limerence"
-      ],
-      "showtime_film_keys": [],
-      "tmdb_id": 1702398,
-      "amc_movie_id": null,
-      "amc_movie_ids": [],
-      "expected_release_date": "2026-12-31",
-      "expected_release_date_source": "tmdb_us_release_date",
-      "amc_catalog_release_date": null,
-      "tmdb_us_release_date": "2026-12-31",
-      "first_local_screening_date": null,
-      "first_local_screening_source": null,
-      "local_status": "not_announced",
-      "local_theater_ids": [],
-      "local_theaters": [],
-      "local_theater_count": 0,
-      "local_showtime_count": 0,
-      "evidence": {
-        "amc_coming_soon_catalog": false,
-        "amc_theater_booking": false,
-        "tmdb_us_theatrical": true,
-        "reel_seattle_scheduled": false
-      },
-      "classification": "tmdb_only",
-      "relevance_tier": null,
-      "user_visible": false,
-      "visibility_reason": "tmdb_only_analysis_only",
-      "exclusion_reason": "tmdb_only_analysis_only",
-      "tmdb_popularity": 0.24,
-      "local_evidence_strength": "none",
-      "relevance_reason": "tmdb_only_analysis_only",
-      "popularity_threshold_applied": null,
-      "local_booking_kind": null,
-      "engagements": [],
-      "presentation": {
-        "kind": "film",
-        "source": "inferred_tmdb",
-        "poster_url": "https://image.tmdb.org/t/p/w500/ZqMHbuXVDxQAcUrBjfvMUelmUd.jpg",
-        "poster_path": "/ZqMHbuXVDxQAcUrBjfvMUelmUd.jpg",
-        "backdrop_url": null,
-        "backdrop_path": null,
-        "overview": "Nora is an eccentric young woman with a debilitating infatuation with her newspaper delivery man — a man she has never even dared to speak to... Things begin to change when one fateful night, he appears to her in a dreamlike vision where he promises her everything she has ever longed for. Convinced this is her chance at true love, Nora decides to take a leap of faith in pursuit of her prince charming’s undivided affection.",
-        "runtime_minutes": null,
-        "rating": null,
-        "release_year": 2026
-      },
-      "identity": {
-        "method": "tmdb_id",
-        "film_id_confirmed": false,
-        "tmdb_id_inferred": true,
-        "ambiguous": false,
-        "synthetic_film_group": false,
-        "variant_titles": [
-          "Limerence"
-        ],
-        "contributing_sources": [
-          "tmdb"
-        ]
-      },
-      "source_metadata": {
-        "amc": null,
-        "tmdb": {
-          "tmdb_id": 1702398,
-          "original_title": "Limerence",
-          "original_language": "en",
-          "popularity": 0.24,
-          "vote_count": 0,
-          "poster_path": "/ZqMHbuXVDxQAcUrBjfvMUelmUd.jpg",
-          "backdrop_path": null,
-          "overview": "Nora is an eccentric young woman with a debilitating infatuation with her newspaper delivery man — a man she has never even dared to speak to... Things begin to change when one fateful night, he appears to her in a dreamlike vision where he promises her everything she has ever longed for. Convinced this is her chance at true love, Nora decides to take a leap of faith in pursuit of her prince charming’s undivided affection.",
-          "has_poster": true,
-          "has_overview": true,
-          "quality_flags": [
-            "very_low_popularity",
-            "no_votes_and_low_popularity"
-          ]
-        }
-      }
-    },
-    {
-      "film_id": null,
-      "title": "The Selling Stage",
-      "join_key": "selling-stage",
-      "parent_film_keys": [
-        "selling-stage"
-      ],
-      "showtime_film_keys": [],
-      "tmdb_id": 1673392,
-      "amc_movie_id": null,
-      "amc_movie_ids": [],
-      "expected_release_date": "2026-12-31",
-      "expected_release_date_source": "tmdb_us_release_date",
-      "amc_catalog_release_date": null,
-      "tmdb_us_release_date": "2026-12-31",
-      "first_local_screening_date": null,
-      "first_local_screening_source": null,
-      "local_status": "not_announced",
-      "local_theater_ids": [],
-      "local_theaters": [],
-      "local_theater_count": 0,
-      "local_showtime_count": 0,
-      "evidence": {
-        "amc_coming_soon_catalog": false,
-        "amc_theater_booking": false,
-        "tmdb_us_theatrical": true,
-        "reel_seattle_scheduled": false
-      },
-      "classification": "tmdb_only",
-      "relevance_tier": null,
-      "user_visible": false,
-      "visibility_reason": "tmdb_only_analysis_only",
-      "exclusion_reason": "tmdb_only_analysis_only",
-      "tmdb_popularity": 0.252,
-      "local_evidence_strength": "none",
-      "relevance_reason": "tmdb_only_analysis_only",
-      "popularity_threshold_applied": null,
-      "local_booking_kind": null,
-      "engagements": [],
-      "presentation": {
-        "kind": "film",
-        "source": "inferred_tmdb",
-        "poster_url": "https://image.tmdb.org/t/p/w500/tIZwwyNqrRkqsHOaXGses0x99qE.jpg",
-        "poster_path": "/tIZwwyNqrRkqsHOaXGses0x99qE.jpg",
-        "backdrop_url": null,
-        "backdrop_path": null,
-        "overview": "At the end of a twenty-five-year career, LuFisto confronts the cost of chasing a dream that asked for everything and gave back less than promised.",
-        "runtime_minutes": null,
-        "rating": null,
-        "release_year": 2026
-      },
-      "identity": {
-        "method": "tmdb_id",
-        "film_id_confirmed": false,
-        "tmdb_id_inferred": true,
-        "ambiguous": false,
-        "synthetic_film_group": false,
-        "variant_titles": [
-          "The Selling Stage"
-        ],
-        "contributing_sources": [
-          "tmdb"
-        ]
-      },
-      "source_metadata": {
-        "amc": null,
-        "tmdb": {
-          "tmdb_id": 1673392,
-          "original_title": "The Selling Stage",
-          "original_language": "en",
-          "popularity": 0.252,
-          "vote_count": 0,
-          "poster_path": "/tIZwwyNqrRkqsHOaXGses0x99qE.jpg",
-          "backdrop_path": null,
-          "overview": "At the end of a twenty-five-year career, LuFisto confronts the cost of chasing a dream that asked for everything and gave back less than promised.",
           "has_poster": true,
           "has_overview": true,
           "quality_flags": [
@@ -31332,7 +31186,7 @@
         "backdrop_path": null,
         "overview": "From acclaimed filmmaker Christopher Nolan ('Memento,' 'Batman Begins'), comes a mysterious story of two magicians whose intense rivalry leads them on a life-long battle for supremacy full of obsession, deceit and jealousy with dangerous and deadly consequences.",
         "runtime_minutes": null,
-        "rating": null,
+        "rating": "PG13",
         "release_year": 2027
       },
       "identity": {
@@ -31356,7 +31210,7 @@
           "online_ticket_availability_date_utc": "2027-01-29T06:00:00Z",
           "earliest_showing_utc": null,
           "runtime_min": null,
-          "mpaa_rating": null,
+          "mpaa_rating": "PG13",
           "genre": "DRAMA",
           "slug": "the-prestige-20th-anniversary-85502",
           "synopsis": "From acclaimed filmmaker Christopher Nolan ('Memento,' 'Batman Begins'), comes a mysterious story of two magicians whose intense rivalry leads them on a life-long battle for supremacy full of obsession, deceit and jealousy with dangerous and deadly consequences.",
@@ -33727,7 +33581,7 @@
         "source": "amc_catalog",
         "poster_url": null,
         "poster_path": null,
-        "backdrop_url": null,
+        "backdrop_url": "https://amc-theatres-res.cloudinary.com/v1795100523/amc-cdn/content/general/gpwbct4os179aueo3qke.jpg",
         "backdrop_path": null,
         "overview": "THE NIGHTINGALE tells the powerful story of two sisters during WWII who dare to embark on separate, dangerous paths in the fight for survival, love, and freedom in German-occupied, war-torn France.",
         "runtime_minutes": null,
@@ -33760,8 +33614,8 @@
           "slug": "the-nightingale-64314",
           "synopsis": "THE NIGHTINGALE tells the powerful story of two sisters during WWII who dare to embark on separate, dangerous paths in the fight for survival, love, and freedom in German-occupied, war-torn France.",
           "poster_url": null,
-          "hero_desktop_url": null,
-          "hero_mobile_url": null,
+          "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1795100523/amc-cdn/content/general/gpwbct4os179aueo3qke.jpg",
+          "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1795100523/amc-cdn/content/general/gpwbct4os179aueo3qke.jpg",
           "presentation_category": "standard",
           "is_special_presentation": false
         },

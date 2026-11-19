@@ -1,12 +1,12 @@
 {
   "catalog_path": "data/film_identity/film_identity_catalog.json",
   "collisions": 0,
-  "coverage_rate": 0.6081081081081081,
-  "generated_at": "2026-11-19T16:09:51+00:00",
+  "coverage_rate": 0.600896860986547,
+  "generated_at": "2026-11-19T22:20:44+00:00",
   "index_size": 145,
   "invalid_identities": 0,
-  "mapping_misses": 87,
-  "non_null_film_id": 135,
+  "mapping_misses": 89,
+  "non_null_film_id": 134,
   "notes": [
     "Public film_id emits confirmed tmdb:<id> only; unmatched/program → null.",
     "Mapping key is source_identity_key (source|id|sid preferred).",
@@ -14,11 +14,11 @@
     "Saved/Seen/NI readers prefer filmId with showtimeFilmKey aliases (T-FILMID-03).",
     "Film Detail / Home / Search join enrichment by exact filmId only."
   ],
-  "null_film_id": 87,
+  "null_film_id": 89,
   "per_source": {
     "amc": {
-      "films": 84,
-      "null_film_id": 43,
+      "films": 85,
+      "null_film_id": 44,
       "with_film_id": 41
     },
     "anderson_school": {
@@ -32,9 +32,9 @@
       "with_film_id": 34
     },
     "central_cinema": {
-      "films": 5,
+      "films": 4,
       "null_film_id": 4,
-      "with_film_id": 1
+      "with_film_id": 0
     },
     "grand_illusion": {
       "films": 10,
@@ -52,8 +52,8 @@
       "with_film_id": 24
     },
     "siff": {
-      "films": 44,
-      "null_film_id": 9,
+      "films": 45,
+      "null_film_id": 10,
       "with_film_id": 35
     },
     "tasveer": {
@@ -62,12 +62,21 @@
       "with_film_id": 4
     }
   },
+  "performance_identity": {
+    "ambiguous": 0,
+    "inherited_from_registry": 13,
+    "matched": 0,
+    "registry_path": "data/performance_identity/performance_identity_current.json",
+    "registry_persisted": false,
+    "registry_upserts": 0,
+    "unmatched_gi": 13
+  },
   "repeated_canonical_across_films": 2,
   "schema_version": "1.0.0",
   "source_fallback_emitted": 0,
   "status": "ok",
-  "total_public_films": 222,
-  "unique_tmdb_ids": 133,
+  "total_public_films": 223,
+  "unique_tmdb_ids": 132,
   "warning_count": 0,
   "warnings": []
 }

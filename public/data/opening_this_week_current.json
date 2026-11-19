@@ -1,6 +1,6 @@
 {
   "schema_version": "1.1.0",
-  "generated_at": "2026-11-19T07:07:32-08:00",
+  "generated_at": "2026-11-19T14:25:22-08:00",
   "timezone": "America/Los_Angeles",
   "week": {
     "start_date": "2026-11-16",
@@ -12,7 +12,7 @@
     "description": "Citywide opening_date is the earliest non-canceled scheduled Date across enabled Seattle theaters after collapsing variants to parent film identity. A film is a member when week_start <= opening_date <= week_end (Pacific Monday–Sunday). Current showtimes join visibility metadata only. opening_type is soft QA classification (theatrical/repertory/event/limited) and does not affect membership."
   },
   "stats": {
-    "entry_count": 45,
+    "entry_count": 47,
     "low_confidence_count": 0,
     "override_applied_count": 0,
     "earliest_opening_date": "2026-11-16",
@@ -21,7 +21,7 @@
       "limited": 27,
       "theatrical": 7,
       "event": 4,
-      "repertory": 7
+      "repertory": 9
     }
   },
   "entries": [
@@ -310,7 +310,7 @@
     {
       "showtime_film_key": "ene-repeat",
       "parent_film_key": "ene-repeat",
-      "film_id": "tmdb:1505644",
+      "film_id": null,
       "film_title": "ENE Repeat",
       "opening_date": "2026-11-18",
       "theaters_on_opening_date": [
@@ -323,7 +323,7 @@
       "opening_type": "limited",
       "confidence": "high",
       "evidence": {
-        "identity_method": "film_id",
+        "identity_method": "showtime_film_key",
         "variant_showtime_film_keys": [
           "ene-repeat"
         ],
@@ -341,7 +341,7 @@
     {
       "showtime_film_key": "kokomo-city",
       "parent_film_key": "kokomo-city",
-      "film_id": "tmdb:1058678",
+      "film_id": null,
       "film_title": "Kokomo City",
       "opening_date": "2026-11-18",
       "theaters_on_opening_date": [
@@ -354,7 +354,7 @@
       "opening_type": "limited",
       "confidence": "high",
       "evidence": {
-        "identity_method": "film_id",
+        "identity_method": "showtime_film_key",
         "variant_showtime_film_keys": [
           "kokomo-city"
         ],
@@ -372,7 +372,7 @@
     {
       "showtime_film_key": "star-trek-iii-the-search-for-spock",
       "parent_film_key": "star-trek-iii-the-search-for-spock",
-      "film_id": "tmdb:157",
+      "film_id": null,
       "film_title": "Star Trek III: The Search for Spock",
       "opening_date": "2026-11-18",
       "theaters_on_opening_date": [
@@ -385,7 +385,7 @@
       "opening_type": "limited",
       "confidence": "high",
       "evidence": {
-        "identity_method": "film_id",
+        "identity_method": "showtime_film_key",
         "variant_showtime_film_keys": [
           "star-trek-iii-the-search-for-spock"
         ],
@@ -837,6 +837,37 @@
       "override": null
     },
     {
+      "showtime_film_key": "eating-raoul",
+      "parent_film_key": "eating-raoul",
+      "film_id": null,
+      "film_title": "Eating Raoul",
+      "opening_date": "2026-11-20",
+      "theaters_on_opening_date": [
+        "central-cinema"
+      ],
+      "theater_count_on_opening_date": 1,
+      "visible_showtime_count": 4,
+      "engagement_days": 2,
+      "historical_screening_count": 2,
+      "opening_type": "repertory",
+      "confidence": "high",
+      "evidence": {
+        "identity_method": "showtime_film_key",
+        "variant_showtime_film_keys": [
+          "eating-raoul"
+        ],
+        "distinct_scheduled_dates": 2,
+        "bootstrap_theater_ids": [],
+        "mature_theater_ids": [
+          "central-cinema"
+        ],
+        "sources": [
+          "central_cinema"
+        ]
+      },
+      "override": null
+    },
+    {
       "showtime_film_key": "gioia",
       "parent_film_key": "gioia",
       "film_id": null,
@@ -925,6 +956,37 @@
         ],
         "sources": [
           "nwff"
+        ]
+      },
+      "override": null
+    },
+    {
+      "showtime_film_key": "planes-trains-and-automobiles",
+      "parent_film_key": "planes-trains-and-automobiles",
+      "film_id": null,
+      "film_title": "Planes, Trains and Automobiles",
+      "opening_date": "2026-11-20",
+      "theaters_on_opening_date": [
+        "central-cinema"
+      ],
+      "theater_count_on_opening_date": 1,
+      "visible_showtime_count": 8,
+      "engagement_days": 2,
+      "historical_screening_count": 4,
+      "opening_type": "repertory",
+      "confidence": "high",
+      "evidence": {
+        "identity_method": "showtime_film_key",
+        "variant_showtime_film_keys": [
+          "planes-trains-and-automobiles"
+        ],
+        "distinct_scheduled_dates": 2,
+        "bootstrap_theater_ids": [],
+        "mature_theater_ids": [
+          "central-cinema"
+        ],
+        "sources": [
+          "central_cinema"
         ]
       },
       "override": null
