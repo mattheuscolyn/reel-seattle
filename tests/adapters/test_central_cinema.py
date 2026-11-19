@@ -224,6 +224,85 @@ def test_malformed_showing_unsafe():
     validate_central_cinema_scrape_log(result.log_envelope, theater_ids=THEATER_IDS)
 
 
+
+def test_time_only_showtimes_use_adjacent_dated_heading():
+    # Live Central markup since 2026-10-28: h3 date then ul of times.
+    # Distinct checkout IDs and per-group dates must survive intact.
+    name = "Planes, Trains and Automobiles"
+    page = movie_page(name=name, date_created="2025-01-01", checkouts=[])
+    headings = """
+    <h1>Showtimes</h1><h2>Central Cinema</h2>
+    <h3>Friday, November 20, 2026</h3><ul>
+      <li><a href="https://www.central-cinema.com/checkout/showing/planes-trains-and-automobiles/4266629/">4:00 pm</a></li>
+      <li><a href="https://www.central-cinema.com/checkout/showing/planes-trains-and-automobiles/4266630/">7:00 pm</a></li>
+    </ul>
+    <h3>Saturday, November 21, 2026</h3><ul>
+      <li><a href="https://www.central-cinema.com/checkout/showing/planes-trains-and-automobiles/4358895/">4:00 pm</a></li>
+      <li><a href="https://www.central-cinema.com/checkout/showing/planes-trains-and-automobiles/4266634/">7:00 pm</a></li>
+    </ul>
+    """
+    pages = {
+        calendar_url(): calendar_shell(body=movie_link(name, "/movie/planes-trains-and-automobiles/")),
+        "https://central-cinema.com/movie/planes-trains-and-automobiles/":
+            page.replace("</body>", headings + "</body>"),
+    }
+    result = fetch_central_cinema(
+        date(2026, 11, 19), date(2026, 11, 30),
+        fetch=fixture_fetch_map(pages),
+        scraped_at="2026-11-19T12:00:00-08:00",
+        sleep_seconds=0,
+        theater_ids=THEATER_IDS,
+    )
+    assert result.restate_safe is True
+    assert result.contract["status"] == "success"
+    assert len(result.records) == 4
+    actual = {
+        source_showtime_id_from_raw(r): (r.attributes["local_date"], r.attributes["local_time"])
+        for r in result.records
+    }
+    assert actual == {
+        "4266629": ("2026-11-20", "16:00"),
+        "4266630": ("2026-11-20", "19:00"),
+        "4358895": ("2026-11-21", "16:00"),
+        "4266634": ("2026-11-21", "19:00"),
+    }
+    for record in result.records:
+        assert record.attributes["source_group_date_label"] in (
+            "Friday, November 20, 2026", "Saturday, November 21, 2026"
+        )
+        assert record.attributes["source_display_date"] in ("4:00 pm", "7:00 pm")
+
+
+@pytest.mark.parametrize("heading", [
+    "",
+    "<h3>Friday, November 20</h3>",
+    "<h3>Monday, November 20, 2026</h3>",  # wrong weekday
+    "<h3>Friday, November 20, 2026</h3><p>Unrelated content</p>",
+])
+def test_time_only_showtime_without_adjacent_valid_date_fails_closed(heading):
+    page = movie_page(name="Test", date_created="2026-11-20", checkouts=[])
+    checkout = (
+        '<ul><li><a href="https://www.central-cinema.com/checkout/showing/test/12345/">'
+        '4:00 pm</a></li></ul>'
+    )
+    pages = {
+        calendar_url(): calendar_shell(body=movie_link("Test", "/movie/test/")),
+        "https://central-cinema.com/movie/test/":
+            page.replace("</body>", heading + checkout + "</body>"),
+    }
+    result = fetch_central_cinema(
+        date(2026, 11, 19), date(2026, 11, 30),
+        fetch=fixture_fetch_map(pages),
+        scraped_at="2026-11-19T12:00:00-08:00",
+        sleep_seconds=0,
+        theater_ids=THEATER_IDS,
+    )
+    assert result.restate_safe is False
+    assert result.contract["status"] == "partial_failure"
+    assert result.records == []
+    assert result.contract["stats"]["malformed_showings"] == 1
+
+
 def test_optional_metadata_missing_can_remain_safe():
     pages = {
         calendar_url(): calendar_shell(body=movie_link("Face/Off", "/movie/faceslashoff/")),
