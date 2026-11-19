@@ -219,3 +219,9 @@ jobs:
           done
           echo "::error::Could not publish daily data after 3 attempts"
           exit 1
+
+      # Run after publication: never block healthy theaters from updating.
+      # An unsafe source scrape retains old rows and reports overall "success";
+      # catch that here so the existing failed-job monitor sees prolonged outages.
+      - name: Detect silently stale Central Cinema ingestion
+        run: python scripts/check_source_freshness.py --source central_cinema --max-age-days 2
