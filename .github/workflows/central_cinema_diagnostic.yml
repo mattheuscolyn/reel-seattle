@@ -24,7 +24,12 @@ jobs:
           soup=BeautifulSoup(html,'html.parser')
           anchors = [a for a in soup.find_all('a',href=True) if '/checkout/showing/' in a.get('href','')]
           print('TOTAL HTML BYTES', len(html), 'CHECKOUT ANCHORS', len(anchors))
-          for a in anchors[:3]:
+          for a in anchors[:4]:
+              print('ANCHOR',str(a))
+              node=a.parent.parent
+              print('BEFORE UL:', [str(x)[:500] for x in list(node.previous_siblings)[-5:]])
+              print('PARENT CONTENT:', str(node.parent).split('<ul>')[0][-2200:])
+          for a in anchors[:0]:
               print('\n=== SHOWTIME ===')
               print('anchor',str(a)[:900])
               node=a
