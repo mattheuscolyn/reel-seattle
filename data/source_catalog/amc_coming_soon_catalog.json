@@ -1,14 +1,14 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-11-18T07:06:10-08:00",
+  "generated_at": "2026-11-19T07:14:49-08:00",
   "source": "amc",
   "fetch": {
     "endpoint": "/movies/views/coming-soon",
     "url_template": "https://api.amctheatres.com/v2/movies/views/coming-soon?page-number={n}&page-size=100",
     "status": "success",
     "page_size": 100,
-    "pages_fetched": 4,
-    "reported_total": 302,
+    "pages_fetched": 3,
+    "reported_total": 294,
     "exhausted": true,
     "next_link_observed": true,
     "duplicate_ids_skipped": 0,
@@ -16,15 +16,15 @@
     "errors": []
   },
   "stats": {
-    "movies": 302,
-    "with_release_date": 302,
+    "movies": 294,
+    "with_release_date": 294,
     "without_release_date": 0,
-    "earliest_release_date": "2026-11-06",
+    "earliest_release_date": "2026-11-13",
     "latest_release_date": "2027-05-19",
-    "with_scheduled_showtimes": 109,
-    "without_scheduled_showtimes": 193,
+    "with_scheduled_showtimes": 104,
+    "without_scheduled_showtimes": 190,
     "scheduled_showtimes_unknown": 0,
-    "special_presentations": 75
+    "special_presentations": 74
   },
   "movies": [
     {
@@ -607,6 +607,7 @@
         "CLOSEDCAPTION",
         "DESCRIPTIVEVIDEO",
         "OPENCAPTION",
+        "PRIVATE",
         "XL"
       ],
       "media": {
@@ -659,8 +660,8 @@
         "poster_url": "https://amc-theatres-res.cloudinary.com/v1794053409/amc-cdn/production/2/movies/77600/77575/Poster/390920R1.jpg",
         "hero_desktop_url": null,
         "hero_mobile_url": null,
-        "trailer_hd_url": null,
-        "trailer_mp4_url": null
+        "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6408591653112.mp4",
+        "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6408591653112.mp4"
       },
       "presentation": {
         "category": "standard",
@@ -797,7 +798,7 @@
       "source_release_id": "378863",
       "runtime_min": 126,
       "release_date_utc": "2026-12-25T06:00:00Z",
-      "earliest_showing_utc": "2026-12-24T18:45:00Z",
+      "earliest_showing_utc": "2026-12-24T09:35:00Z",
       "online_ticket_availability_date_utc": "2026-12-25T06:00:00Z",
       "has_scheduled_showtimes": true,
       "genre": "ACTION",
@@ -859,7 +860,7 @@
       "mpaa_rating": null,
       "starring_actors_raw": "Denis Leary, Ray Romano",
       "directors_raw": "JOHN C. DONKIN",
-      "synopsis": null,
+      "synopsis": "\"Ice Age: Boiling Point” is a dinosaur-and-lava-filled madcap adventure that takes Manny (voiced by Ray Romano), Sid (voiced by John Leguizamo), Diego (voiced by Denis Leary), Ellie (voiced by Queen Latifah), Buck (voiced by Simon?Pegg), acorn-obsessed Scrat – this time joined by Baby Scrat and the enormous Jurassic Scrat –?and the rest of the herd to visit never-before-seen corners of the treacherous Lost World. The film is directed by John C. Donkin, produced by Lori Forte, and releases exclusively in theaters February 5, 2027.",
       "distributor_id": "2979",
       "distributor_code": "FXD",
       "preferred_media_type": "Theatrical",
@@ -1585,8 +1586,8 @@
         "poster_url": null,
         "hero_desktop_url": null,
         "hero_mobile_url": null,
-        "trailer_hd_url": null,
-        "trailer_mp4_url": null
+        "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6408591258112.mp4",
+        "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6408591258112.mp4"
       },
       "presentation": {
         "category": "standard",
@@ -1773,6 +1774,8 @@
       "website_url": "https://www.amctheatres.com/movies/pendulum-82510",
       "showtimes_url": "https://www.amctheatres.com/movies/pendulum-82510/showtimes",
       "attribute_codes": [
+        "CLOSEDCAPTION",
+        "DESCRIPTIVEVIDEO",
         "XL"
       ],
       "media": {
@@ -1862,57 +1865,11 @@
         "XL"
       ],
       "media": {
-        "poster_url": "https://amc-theatres-res.cloudinary.com/v1791991246/amc-cdn/content/general/zua3ozxdwn6cxs2drkr7.jpg",
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1795027893/amc-cdn/content/general/uihej52noxmmnhkayxrn.jpg",
         "hero_desktop_url": null,
         "hero_mobile_url": null,
         "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6406921729112.mp4",
         "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6406921729112.mp4"
-      },
-      "presentation": {
-        "category": "standard",
-        "is_special_presentation": false,
-        "classifier_version": "1.0.0"
-      }
-    },
-    {
-      "source": "amc",
-      "source_film_id": "82739",
-      "source_title": "I Play Rocky",
-      "sortable_title": "I Play Rocky",
-      "source_release_id": "362931",
-      "runtime_min": 128,
-      "release_date_utc": "2026-11-06T06:00:00Z",
-      "earliest_showing_utc": "1900-01-01T00:00:00Z",
-      "online_ticket_availability_date_utc": "2026-11-06T06:00:00Z",
-      "has_scheduled_showtimes": true,
-      "genre": "DRAMA",
-      "mpaa_rating": "PG13",
-      "starring_actors_raw": "ANNASOPHIA ROBB, ANTHONY IPPOLITO, Matt Dillon",
-      "directors_raw": "PETER FARRELLY",
-      "synopsis": "The film is an electrifying true story about an unknown actor with an unshakable belief that he wasn't just meant to write Rocky--he was meant to be Rocky Balboa. Told \"no\" at every turn, Sylvester Stallone bets everything on himself, holding the line on playing the lead against seemingly impossible odds. The result is the ultimate underdog story behind the ultimate underdog movie.",
-      "distributor_id": "2895",
-      "distributor_code": "OCL",
-      "preferred_media_type": "Theatrical",
-      "available_for_a_list": true,
-      "slug": "i-play-rocky-82739",
-      "website_url": "https://www.amctheatres.com/movies/i-play-rocky-82739",
-      "showtimes_url": "https://www.amctheatres.com/movies/i-play-rocky-82739/showtimes",
-      "attribute_codes": [
-        "AMCARTISANFILMS",
-        "AMCPRIME",
-        "CLOSEDCAPTION",
-        "DESCRIPTIVEVIDEO",
-        "DOLBYCINEMAATAMCPRIME",
-        "OPENCAPTION",
-        "PRIVATE",
-        "XL"
-      ],
-      "media": {
-        "poster_url": "https://amc-theatres-res.cloudinary.com/v1792180286/amc-cdn/content/general/syhxe3bxrlhigatdb0xm.jpg",
-        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1792667329/amc-cdn/production/2/movies/82700/82739/MovieStills/362931R9.jpg",
-        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1792667329/amc-cdn/production/2/movies/82700/82739/MovieStills/362931R9.jpg",
-        "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6407244147112.mp4",
-        "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6407244147112.mp4"
       },
       "presentation": {
         "category": "standard",
@@ -1975,7 +1932,7 @@
       "source_release_id": "410305",
       "runtime_min": 140,
       "release_date_utc": "2026-11-22T06:00:00Z",
-      "earliest_showing_utc": "2026-11-22T12:15:00Z",
+      "earliest_showing_utc": "2026-11-22T14:00:00Z",
       "online_ticket_availability_date_utc": "2026-11-22T06:00:00Z",
       "has_scheduled_showtimes": true,
       "genre": "DRAMA",
@@ -2957,13 +2914,13 @@
       "source_title": "Lords of War",
       "sortable_title": "Lords of War",
       "source_release_id": "405538",
-      "runtime_min": null,
+      "runtime_min": 100,
       "release_date_utc": "2027-01-22T06:00:00Z",
       "earliest_showing_utc": null,
       "online_ticket_availability_date_utc": "2027-01-22T06:00:00Z",
       "has_scheduled_showtimes": false,
       "genre": "ACTION",
-      "mpaa_rating": null,
+      "mpaa_rating": "R",
       "starring_actors_raw": "Nicolas Cage",
       "directors_raw": "ANDREW NICCOL",
       "synopsis": "Nicolas Cage reprises his role as Yuri Orlov, the world's most notorious arms dealer, who discovers he has a son, a ruthless mercenary bent on surpassing his father by building a private army and exploiting America's wars in the Middle East. Thrust into a deadly battle for legacy, their fierce rivalry is fueled by power, ambition, and betrayal - with the global arms trade hanging in the balance.",
@@ -2977,6 +2934,7 @@
       "attribute_codes": [
         "CLOSEDCAPTION",
         "DESCRIPTIVEVIDEO",
+        "OPENCAPTION",
         "XL"
       ],
       "media": {
@@ -3345,47 +3303,6 @@
         "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1793034715/amc-cdn/content/general/fkyjavx2eqx47qlgdqjf.jpg",
         "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6405427944112.mp4",
         "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6405427944112.mp4"
-      },
-      "presentation": {
-        "category": "standard",
-        "is_special_presentation": false,
-        "classifier_version": "1.0.0"
-      }
-    },
-    {
-      "source": "amc",
-      "source_film_id": "84260",
-      "source_title": "Sathyavan Savithri",
-      "sortable_title": "Sathyavin Savithri",
-      "source_release_id": "420481",
-      "runtime_min": 135,
-      "release_date_utc": "2026-11-19T06:00:00Z",
-      "earliest_showing_utc": "2026-11-19T18:00:00Z",
-      "online_ticket_availability_date_utc": "2026-11-19T06:00:00Z",
-      "has_scheduled_showtimes": true,
-      "genre": "DRAMA",
-      "mpaa_rating": "NR",
-      "starring_actors_raw": "CHARUKESH, MADHUSUDHANAN, SHILPA MANJUNATH",
-      "directors_raw": "PRAVEEN S. VIJAAY",
-      "synopsis": "SAVITHIRI is a courtroom drama between a shrewd advocate and his rookie junior. What does a young advocate do when her rival advocate, who is her mentor, locks horns with her in a murder case involving her husband? She believes her husband is being wrongly accused, even though all the evidence and witnesses are against him. After a long fight she loses her husband to the claws of law. While everyone thinks it as a dead end Savithri alone has a second plan...",
-      "distributor_id": "2654",
-      "distributor_code": "ATU",
-      "preferred_media_type": "Theatrical",
-      "available_for_a_list": true,
-      "slug": "sathyavan-savithri-84260",
-      "website_url": "https://www.amctheatres.com/movies/sathyavan-savithri-84260",
-      "showtimes_url": "https://www.amctheatres.com/movies/sathyavan-savithri-84260/showtimes",
-      "attribute_codes": [
-        "AMCPRIME",
-        "INTFILMS",
-        "XL"
-      ],
-      "media": {
-        "poster_url": "https://amc-theatres-res.cloudinary.com/v1783373169/amc-cdn/content/general/mgnr8jgd2bywk4uyq8iu.jpg",
-        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1783373243/amc-cdn/content/general/xiqtrubyu2idkulnyq6j.jpg",
-        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1783373243/amc-cdn/content/general/xiqtrubyu2idkulnyq6j.jpg",
-        "trailer_hd_url": null,
-        "trailer_mp4_url": null
       },
       "presentation": {
         "category": "standard",
@@ -4000,47 +3917,6 @@
     },
     {
       "source": "amc",
-      "source_film_id": "84334",
-      "source_title": "ENE Repeat",
-      "sortable_title": "ENE Repeat",
-      "source_release_id": "421280",
-      "runtime_min": 155,
-      "release_date_utc": "2026-11-19T06:00:00Z",
-      "earliest_showing_utc": "2026-11-18T14:30:00Z",
-      "online_ticket_availability_date_utc": "2026-11-19T06:00:00Z",
-      "has_scheduled_showtimes": true,
-      "genre": "COMEDY",
-      "mpaa_rating": "NR",
-      "starring_actors_raw": "ABHINAV GOMATAM, MAGANTI SRINATH, VISHWAK SEN",
-      "directors_raw": "THARUN BHASCKER DHAASSYAM",
-      "synopsis": "ENE REPEAT reunites a close-knit group of friends as they embark on another unforgettable journey, where old memories, new adventures, and unexpected twists test their friendship.",
-      "distributor_id": "2988",
-      "distributor_code": "PCL",
-      "preferred_media_type": "Theatrical",
-      "available_for_a_list": true,
-      "slug": "ene-repeat-84334",
-      "website_url": "https://www.amctheatres.com/movies/ene-repeat-84334",
-      "showtimes_url": "https://www.amctheatres.com/movies/ene-repeat-84334/showtimes",
-      "attribute_codes": [
-        "AMCPRIME",
-        "INTFILMS",
-        "XL"
-      ],
-      "media": {
-        "poster_url": "https://amc-theatres-res.cloudinary.com/v1794339315/amc-cdn/content/general/o3rpggkmbnetlzqx75dy.jpg",
-        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1794339374/amc-cdn/content/general/ybzsuhrrp5dc84ox9nwr.jpg",
-        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1794339374/amc-cdn/content/general/ybzsuhrrp5dc84ox9nwr.jpg",
-        "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6408491943112.mp4",
-        "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6408491943112.mp4"
-      },
-      "presentation": {
-        "category": "standard",
-        "is_special_presentation": false,
-        "classifier_version": "1.0.0"
-      }
-    },
-    {
-      "source": "amc",
       "source_film_id": "84341",
       "source_title": "The Choice",
       "sortable_title": "Choice, The",
@@ -4195,39 +4071,40 @@
     },
     {
       "source": "amc",
-      "source_film_id": "84436",
-      "source_title": "Untitled Trafalgar Event (11/19/26)",
-      "sortable_title": "Untitled Trafalgar Event (11/19/26)",
-      "source_release_id": null,
-      "runtime_min": null,
-      "release_date_utc": "2026-11-19T06:00:00Z",
-      "earliest_showing_utc": null,
-      "online_ticket_availability_date_utc": "2026-11-19T06:00:00Z",
-      "has_scheduled_showtimes": false,
-      "genre": "SPECIAL EVENTS",
-      "mpaa_rating": null,
+      "source_film_id": "84430",
+      "source_title": "Festive Fun with Peppa Cinema Experience",
+      "sortable_title": "Festive Fun with Peppa Cinema Experience",
+      "source_release_id": "426278",
+      "runtime_min": 60,
+      "release_date_utc": "2026-11-14T06:00:00Z",
+      "earliest_showing_utc": "1900-01-01T00:00:00Z",
+      "online_ticket_availability_date_utc": "2026-11-14T06:00:00Z",
+      "has_scheduled_showtimes": true,
+      "genre": "ANIMATION",
+      "mpaa_rating": "NR",
       "starring_actors_raw": null,
       "directors_raw": "Event Director",
-      "synopsis": null,
-      "distributor_id": null,
-      "distributor_code": null,
+      "synopsis": "Join Peppa Pig and her family at the cinema for a festive big-screen experience as they celebrate Evie's first Christmas! Share in the excitement of the holidays as the family of five reflect on treasured festive memories. From snowy adventures and holiday plays to decorating the tree, this hour-long cinema experience brings together 7 classic festive-themed Peppa Pig episodes and 4 brand-new songs that little ones can dance and sing along to. Filled with laughter, music and heartwarming moments, this special cinema experience is the perfect family day out during the holiday season. So grab your hats, scarves and gloves and enjoy the holiday magic along with your favorite piggies at the Festive Fun with Peppa Cinema Experience!",
+      "distributor_id": "2712",
+      "distributor_code": "TRL",
       "preferred_media_type": "Theatrical",
       "available_for_a_list": false,
-      "slug": "untitled-trafalgar-event-11-19-26-84436",
-      "website_url": "https://www.amctheatres.com/movies/untitled-trafalgar-event-11-19-26-84436",
-      "showtimes_url": "https://www.amctheatres.com/movies/untitled-trafalgar-event-11-19-26-84436/showtimes",
+      "slug": "festive-fun-with-peppa-cinema-experience-84430",
+      "website_url": "https://www.amctheatres.com/movies/festive-fun-with-peppa-cinema-experience-84430",
+      "showtimes_url": "https://www.amctheatres.com/movies/festive-fun-with-peppa-cinema-experience-84430/showtimes",
       "attribute_codes": [
         "ALTERNATIVECONTENT",
+        "EVENT",
         "EXCLDISMAT",
         "NOALIST",
         "NOGREENRED"
       ],
       "media": {
-        "poster_url": null,
-        "hero_desktop_url": null,
-        "hero_mobile_url": null,
-        "trailer_hd_url": null,
-        "trailer_mp4_url": null
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1790371339/amc-cdn/content/general/puf4bhfxryb9ggoqvqw8.jpg",
+        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1791716809/amc-cdn/production/2/movies/84400/84430/MovieStills/426278R7.jpg",
+        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1791716809/amc-cdn/production/2/movies/84400/84430/MovieStills/426278R7.jpg",
+        "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6406589637112.mp4",
+        "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6406589637112.mp4"
       },
       "presentation": {
         "category": "concert_or_event",
@@ -4261,6 +4138,8 @@
       "attribute_codes": [
         "AMCARTISANFILMS",
         "AMCPRIME",
+        "CLOSEDCAPTION",
+        "DESCRIPTIVEVIDEO",
         "PRIVATE",
         "XL"
       ],
@@ -4305,51 +4184,6 @@
         "poster_url": null,
         "hero_desktop_url": null,
         "hero_mobile_url": null,
-        "trailer_hd_url": null,
-        "trailer_mp4_url": null
-      },
-      "presentation": {
-        "category": "standard",
-        "is_special_presentation": false,
-        "classifier_version": "1.0.0"
-      }
-    },
-    {
-      "source": "amc",
-      "source_film_id": "84493",
-      "source_title": "Club Kid",
-      "sortable_title": "Club Kid",
-      "source_release_id": "407678",
-      "runtime_min": 122,
-      "release_date_utc": "2026-11-06T06:00:00Z",
-      "earliest_showing_utc": "1900-01-01T00:00:00Z",
-      "online_ticket_availability_date_utc": "2026-11-06T06:00:00Z",
-      "has_scheduled_showtimes": true,
-      "genre": "COMEDY",
-      "mpaa_rating": "R",
-      "starring_actors_raw": "Cara Delevingne, DIEGO CALVA, MISS BENNY",
-      "directors_raw": "JORDAN FIRSTMAN",
-      "synopsis": "An organizer of underground parties is forced to take care of a son whose existence he was completely unaware of.",
-      "distributor_id": "2289",
-      "distributor_code": "A24",
-      "preferred_media_type": "Theatrical",
-      "available_for_a_list": true,
-      "slug": "club-kid-84493",
-      "website_url": "https://www.amctheatres.com/movies/club-kid-84493",
-      "showtimes_url": "https://www.amctheatres.com/movies/club-kid-84493/showtimes",
-      "attribute_codes": [
-        "AMCARTISANFILMS",
-        "AMCPRIME",
-        "CLOSEDCAPTION",
-        "DESCRIPTIVEVIDEO",
-        "OPENCAPTION",
-        "PRIVATE",
-        "XL"
-      ],
-      "media": {
-        "poster_url": "https://amc-theatres-res.cloudinary.com/v1792184696/amc-cdn/content/general/yywszrdsfqblklmtmt2z.jpg",
-        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1791284780/amc-cdn/production/2/movies/84500/84493/MovieStills/407678R3.jpg",
-        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1791284780/amc-cdn/production/2/movies/84500/84493/MovieStills/407678R3.jpg",
         "trailer_hd_url": null,
         "trailer_mp4_url": null
       },
@@ -4532,7 +4366,7 @@
       "online_ticket_availability_date_utc": "2026-11-25T06:00:00Z",
       "has_scheduled_showtimes": true,
       "genre": "DRAMA",
-      "mpaa_rating": "NR",
+      "mpaa_rating": "PG13",
       "starring_actors_raw": "TAO OKAMOTO, Virginie Efira",
       "directors_raw": "RYUSUKE HAMAGUCHI",
       "synopsis": "Two scholars exchange letters about chance and risk. As the philosopher falls ill, their academic correspondence evolves into intimate discussions about mortality and a deeper connection forms between them.",
@@ -4772,9 +4606,9 @@
       "has_scheduled_showtimes": false,
       "genre": "COMEDY",
       "mpaa_rating": null,
-      "starring_actors_raw": null,
+      "starring_actors_raw": "CLAUDE LEGAULT, GENEVIEVE SCHMIDT, GILDOR ROY",
       "directors_raw": "GUILLAUME LAMBERT",
-      "synopsis": null,
+      "synopsis": "Starring Claude Legault, Genevieve Schmidt, Gildor Roy, Guylaine Tremblay, Mathieu Dufour, Richardson Zephir, Debbie Lynch-White, Simone Bellemare-Ledoux, Lothaire Bluteau, Pascale De Blois, Joel Legendre, Marie-Soleil Dion, Helene Bourgeois Leclerc, Phil Roy, Guy Jodoin, Ricardo Larrivee, and many other surprise guests round out this delightful cast with memorable appearances.",
       "distributor_id": null,
       "distributor_code": null,
       "preferred_media_type": "Theatrical",
@@ -4947,10 +4781,13 @@
       "website_url": "https://www.amctheatres.com/movies/avengers-doomsday-reald-3d-fan-event-84722",
       "showtimes_url": "https://www.amctheatres.com/movies/avengers-doomsday-reald-3d-fan-event-84722/showtimes",
       "attribute_codes": [
+        "AMCPRIME",
         "CLOSEDCAPTION",
         "DESCRIPTIVEVIDEO",
         "DISNEYRWDS",
         "EVENT",
+        "INFINITYVI",
+        "PRIME3D",
         "REALD3D"
       ],
       "media": {
@@ -5252,50 +5089,6 @@
       "presentation": {
         "category": "standard",
         "is_special_presentation": false,
-        "classifier_version": "1.0.0"
-      }
-    },
-    {
-      "source": "amc",
-      "source_film_id": "84773",
-      "source_title": "GIANT - The Play",
-      "sortable_title": "GIANT - The Play",
-      "source_release_id": "418643",
-      "runtime_min": 136,
-      "release_date_utc": "2026-11-19T06:00:00Z",
-      "earliest_showing_utc": "2026-11-19T18:00:00Z",
-      "online_ticket_availability_date_utc": "2026-11-19T06:00:00Z",
-      "has_scheduled_showtimes": true,
-      "genre": "THEATRE",
-      "mpaa_rating": "NR",
-      "starring_actors_raw": "AYA CASH, John Lithgow",
-      "directors_raw": "NICHOLAS HYTNER",
-      "synopsis": "GIANT, the 5-star critically acclaimed play starring John Lithgow (Killers of the Flower Moon, The Crown) as Roald Dahl, comes to the big screen. Winner of 3 Olivier Awards? including Best Play and a Tony Award? for Best Actor in a Play (John Lithgow), the production was filmed live in London's West End ahead of its sold-out Broadway run. The stellar cast includes Aya Cash (The Boys, The Franchise, You're the Worst), Elliot Levey (Cold War, Patriots, Good) and Rachael Stirling (The Divine Mrs S).\n \nA world-famous children's author under threat. A battle of wills in the wake of scandal. And one chance to make amends...It's the summer of 1983, The Witches is about to hit the shelves and Roald Dahl is making last-minute edits.  But the outcry at his recent, explicitly antisemitic article won't die down. Across a single afternoon at his family home, and rocked by an unexpectedly explosive confrontation, Dahl is forced to choose: make a public apology or risk his name and reputation. Inspired by real events, GIANT explores with dark humour the difference between considered opinion and dangerous rhetoric offering a complicated portrait of a fiendishly charismatic icon.",
-      "distributor_id": "2712",
-      "distributor_code": "TRL",
-      "preferred_media_type": "Theatrical",
-      "available_for_a_list": false,
-      "slug": "giant-the-play-84773",
-      "website_url": "https://www.amctheatres.com/movies/giant-the-play-84773",
-      "showtimes_url": "https://www.amctheatres.com/movies/giant-the-play-84773/showtimes",
-      "attribute_codes": [
-        "ALTERNATIVECONTENT",
-        "EVENT",
-        "EXCLDISMAT",
-        "NOALIST",
-        "NOGREENRED",
-        "NOTRAILERS"
-      ],
-      "media": {
-        "poster_url": "https://amc-theatres-res.cloudinary.com/v1786997973/amc-cdn/content/general/oifrm8eyag77k8lj5fob.jpg",
-        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1790420940/amc-cdn/production/2/movies/84800/84773/MovieStills/418643R8.jpg",
-        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1790420940/amc-cdn/production/2/movies/84800/84773/MovieStills/418643R8.jpg",
-        "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6403870104112.mp4",
-        "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6403870104112.mp4"
-      },
-      "presentation": {
-        "category": "concert_or_event",
-        "is_special_presentation": true,
         "classifier_version": "1.0.0"
       }
     },
@@ -5792,7 +5585,7 @@
       "mpaa_rating": "NR",
       "starring_actors_raw": "CARO BRAUN, Sandra Huller",
       "directors_raw": "Markus Schleinzer",
-      "synopsis": "We only imagine and invent ourselves. \n\nOscar nominee Sandra Huller (Anatomy of a Fall, The Zone of Interest) takes on her most powerful role yet in ROSE, writer-director Markus Schleinzer's transcendent new film. \n\nIn 17th century Germany, a mysterious soldier arrives in an isolated village, laying claim to an abandoned farmstead with the intent to settle down. Unbeknownst to the residents, this outsider is Rose, born a woman yet living as a man. Upon moving in and resolutely taming the land, he realizes the sole way to secure his position is to marry into the community. Yet taking a wife (Caro Braun) gives rise to suspicions even as they grow close, propelling events towards a reckoning.\n\nMeticulously rendered in stunning black-and-white, ROSE transports us to a world unlike any other to convey the universal value of personal freedom. In her Silver Bear-winning star turn, Sandra Huller embodies a self-defining protagonist whose profound fluidity and humanity resonates through the past and into the present. Matching this emphatic performance with exquisite technique, Austria's Best International Feature Film entry to the 99th Academy Awards? is a boundary-breaking fable from a true craftsman.",
+      "synopsis": "We only imagine and invent ourselves. \n\nOscar nominee Sandra Huller (Anatomy of a Fall, The Zone of Interest) takes on her most powerful role yet in ROSE, writer-director Markus Schleinzer's transcendent new film. \n\nIn 17th century Germany, a mysterious soldier arrives in an isolated village, laying claim to an abandoned farmstead with the intent to settle down. Unbeknownst to the residents, this outsider is Rose, born a woman yet living as a man. Upon moving in and resolutely taming the land, he realizes the sole way to secure his position is to marry into the community. Yet taking a wife (Caro Braun) gives rise to suspicions even as they grow close, propelling events towards a reckoning.\n\nMeticulously rendered in stunning black-and-white, ROSE transports us to a world unlike any other to convey the universal value of personal freedom. In her Silver Bear-winning star turn, Sandra Huller embodies a self-defining protagonist whose profound fluidity and humanity resonates through the past and into the present. Matching this emphatic performance with exquisite technique, Austria's Best International Feature Film entry to the 99th Academy Awards is a boundary-breaking fable from a true craftsman.",
       "distributor_id": "3454",
       "distributor_code": "MUB",
       "preferred_media_type": "Theatrical",
@@ -5849,8 +5642,8 @@
         "poster_url": null,
         "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1793358611/amc-cdn/production/2/movies/85000/85018/MovieStills/393872R4.jpg",
         "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1793358611/amc-cdn/production/2/movies/85000/85018/MovieStills/393872R4.jpg",
-        "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6404837357112.mp4",
-        "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6404837357112.mp4"
+        "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6408557675112.mp4",
+        "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6408557675112.mp4"
       },
       "presentation": {
         "category": "standard",
@@ -6831,9 +6624,9 @@
       "sortable_title": "Yeh Prem Mol Liya",
       "source_release_id": "416489",
       "runtime_min": 165,
-      "release_date_utc": "2026-11-27T06:00:00Z",
+      "release_date_utc": "2026-11-26T06:00:00Z",
       "earliest_showing_utc": "2026-11-26T15:00:00Z",
-      "online_ticket_availability_date_utc": "2026-11-27T06:00:00Z",
+      "online_ticket_availability_date_utc": "2026-11-26T06:00:00Z",
       "has_scheduled_showtimes": true,
       "genre": "ROMANCE",
       "mpaa_rating": "NR",
@@ -6972,7 +6765,9 @@
       "slug": "look-back-85319",
       "website_url": "https://www.amctheatres.com/movies/look-back-85319",
       "showtimes_url": "https://www.amctheatres.com/movies/look-back-85319/showtimes",
-      "attribute_codes": [],
+      "attribute_codes": [
+        "XL"
+      ],
       "media": {
         "poster_url": "https://amc-theatres-res.cloudinary.com/v1793385367/amc-cdn/content/general/kgqrhrfuxtiivkrr7yxq.jpg",
         "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1793385451/amc-cdn/content/general/eslgjtbfbjrstso1z6zh.jpg",
@@ -7539,7 +7334,7 @@
       "source_title": "In Waves",
       "sortable_title": "In Waves",
       "source_release_id": null,
-      "runtime_min": null,
+      "runtime_min": 90,
       "release_date_utc": "2026-11-27T06:00:00Z",
       "earliest_showing_utc": null,
       "online_ticket_availability_date_utc": "2026-11-27T06:00:00Z",
@@ -7583,7 +7378,7 @@
       "has_scheduled_showtimes": true,
       "genre": "DANCE",
       "mpaa_rating": "NR",
-      "starring_actors_raw": null,
+      "starring_actors_raw": "MAYARA MAGRI, REECE CLARKE",
       "directors_raw": "PETER WRIGHT",
       "synopsis": "Nothing says Christmas quite like The Nutcracker! The Royal Ballet celebrates the festive season with Peter Wright?s beloved ballet. Set to Tchaikovsky?s stunning score and with Julia Trevelyan Oman?s sumptuous designs, this festive classic is a treat for the whole family. *Re-release, filmed live December 10, 2025*",
       "distributor_id": "2712",
@@ -7977,7 +7772,7 @@
       "source_release_id": "426891",
       "runtime_min": null,
       "release_date_utc": "2026-11-30T06:00:00Z",
-      "earliest_showing_utc": "2026-11-30T19:30:00Z",
+      "earliest_showing_utc": "2026-11-30T19:15:00Z",
       "online_ticket_availability_date_utc": "2026-11-30T06:00:00Z",
       "has_scheduled_showtimes": true,
       "genre": "Musical",
@@ -8392,8 +8187,8 @@
     {
       "source": "amc",
       "source_film_id": "85500",
-      "source_title": "Untitled Trafalgar Event (12/13/26)",
-      "sortable_title": "Untitled Trafalgar Event (12/13/26)",
+      "source_title": "THIS SYMPHONY MAY CONTAIN HOPE.",
+      "sortable_title": "THIS SYMPHONY MAY CONTAIN HOPE.",
       "source_release_id": null,
       "runtime_min": null,
       "release_date_utc": "2026-12-13T06:00:00Z",
@@ -8403,15 +8198,15 @@
       "genre": "SPECIAL EVENTS",
       "mpaa_rating": null,
       "starring_actors_raw": null,
-      "directors_raw": "Event Director",
-      "synopsis": null,
-      "distributor_id": null,
-      "distributor_code": null,
+      "directors_raw": "ROHAN BLAIR-MANGAT",
+      "synopsis": "RAYE is a songwriter, storyteller and occasional over-thinker. She writes about love, loss, faith, joy and the strange theatre of being human -- often all at once. One of the world's most celebrated artists, the South London-born singer-songwriter made history in 2024 when she won six BRIT Awards in a single night, the most by any artist ever. Her Mercury Prize-winning sophomore album, THIS MUSIC MAY CONTAIN HOPE. showcases her evolution as an independent artist, songwriter, composer, producer, and arranger. Now, leading with 11 nominations at the 2027 GRAMMY Awards -- matching the record for the most nominations received by a female artist in a single year -- RAYE has reached another extraordinary milestone. \nTHIS SYMPHONY MAY CONTAIN HOPE. comes to theatres as a four-act musical odyssey through the seasons of life. Going far beyond the conventional concert film, RAYE draws you into a world of breathtaking intensity, where every lyric carries weight, every crescendo hits deeper and every feeling sits impossibly close. Exhilarating, heartbreaking, joyful and profoundly moving, it's a cinematic experience that holds you on every word. \nJoined on stage by 117 musicians, RAYE performs THIS MUSIC MAY CONTAIN HOPE. in its entirety, reimagined through extraordinary orchestral arrangements. Filmed at London's iconic Royal Albert Hall in October 2026, the film captures a night that Rolling Stone UK described as \"a spectacular symphony of salvation,\" in a five-star review. Yet beneath the grandeur lies something deeply personal: a tangible connection between RAYE, the musicians and the audience, shared through moments of joy, heartbreak, hope and release. It's a family affair too, with RAYE joined on stage by her Grandad Michael, her sisters Amma, Absolutely and Katelyn, and her Grandma Agatha.\n\nBrought to life by award-winning director Rohan Blair-Mangat, alongside GRAMMY-nominated production company Aldgate Pictures, creative director Mikey Robbins, and musical director Pete Clements, THIS SYMPHONY MAY CONTAIN HOPE. is an immersive cinematic spectacle infused with big-band crescendos, theatrical storytelling, and the indescribable stage presence that is uniquely RAYE's.\n\nAt its heart, the film is a celebration of family, faith, resilience and the extraordinary power of connection. A triumph in every sense, it's a testament to an artist who continues to shatter expectations, carve her own path, and remind us that music is indeed medicine.",
+      "distributor_id": "2712",
+      "distributor_code": "TRL",
       "preferred_media_type": "Theatrical",
       "available_for_a_list": false,
-      "slug": "untitled-trafalgar-event-12-13-26-85500",
-      "website_url": "https://www.amctheatres.com/movies/untitled-trafalgar-event-12-13-26-85500",
-      "showtimes_url": "https://www.amctheatres.com/movies/untitled-trafalgar-event-12-13-26-85500/showtimes",
+      "slug": "this-symphony-may-contain-hope-85500",
+      "website_url": "https://www.amctheatres.com/movies/this-symphony-may-contain-hope-85500",
+      "showtimes_url": "https://www.amctheatres.com/movies/this-symphony-may-contain-hope-85500/showtimes",
       "attribute_codes": [
         "ALTERNATIVECONTENT",
         "EXCLDISMAT",
@@ -8974,6 +8769,7 @@
       "website_url": "https://www.amctheatres.com/movies/the-fox-85530",
       "showtimes_url": "https://www.amctheatres.com/movies/the-fox-85530/showtimes",
       "attribute_codes": [
+        "CLOSEDCAPTION",
         "XL"
       ],
       "media": {
@@ -9005,8 +8801,8 @@
       "starring_actors_raw": "CARLOS CRUZ, LUIS POLONIA, PAPI ROSSWIL",
       "directors_raw": "EDDY JIMENEZ",
       "synopsis": "Three humble friends discover a lost monkey, and when they return it in exchange for a generous reward, their lives change overnight. Suddenly rich, they dive into a world of luxury, wild adventures, and hilarious situations that put their friendship to the test.",
-      "distributor_id": null,
-      "distributor_code": null,
+      "distributor_id": "2820",
+      "distributor_code": "SML",
       "preferred_media_type": "Theatrical",
       "available_for_a_list": true,
       "slug": "popiwa-85534",
@@ -9312,7 +9108,7 @@
       "source_film_id": "85550",
       "source_title": "The Rings of Power S3 Ep7 - Forging the One Ring",
       "sortable_title": "Rings of Power S3 Ep7 - Forging the One Ring, The",
-      "source_release_id": null,
+      "source_release_id": "429352",
       "runtime_min": 73,
       "release_date_utc": "2026-11-23T06:00:00Z",
       "earliest_showing_utc": "2026-11-23T19:00:00Z",
@@ -9463,45 +9259,6 @@
         "hero_mobile_url": null,
         "trailer_hd_url": null,
         "trailer_mp4_url": null
-      },
-      "presentation": {
-        "category": "standard",
-        "is_special_presentation": false,
-        "classifier_version": "1.0.0"
-      }
-    },
-    {
-      "source": "amc",
-      "source_film_id": "85574",
-      "source_title": "November 1963 Early Access Screening with Director Roland Joffe",
-      "sortable_title": "November 1963 Early Access Screening with Director Roland Joffe",
-      "source_release_id": "386447",
-      "runtime_min": 150,
-      "release_date_utc": "2026-11-19T06:00:00Z",
-      "earliest_showing_utc": "2026-11-19T19:00:00Z",
-      "online_ticket_availability_date_utc": "2026-11-19T06:00:00Z",
-      "has_scheduled_showtimes": true,
-      "genre": null,
-      "mpaa_rating": "R",
-      "starring_actors_raw": null,
-      "directors_raw": null,
-      "synopsis": "November 1963 Early Access Screening with Director Roland Joffe.",
-      "distributor_id": "3073",
-      "distributor_code": "FFF",
-      "preferred_media_type": "Theatrical",
-      "available_for_a_list": true,
-      "slug": "november-1963-early-access-screening-with-director-roland-joffe-85574",
-      "website_url": "https://www.amctheatres.com/movies/november-1963-early-access-screening-with-director-roland-joffe-85574",
-      "showtimes_url": "https://www.amctheatres.com/movies/november-1963-early-access-screening-with-director-roland-joffe-85574/showtimes",
-      "attribute_codes": [
-        "INPERSNQA"
-      ],
-      "media": {
-        "poster_url": "https://amc-theatres-res.cloudinary.com/v1793222870/amc-cdn/content/general/vz2c6msett3y9owkykni.avif",
-        "hero_desktop_url": null,
-        "hero_mobile_url": null,
-        "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6408491271112.mp4",
-        "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6408491271112.mp4"
       },
       "presentation": {
         "category": "standard",
@@ -9868,51 +9625,6 @@
     },
     {
       "source": "amc",
-      "source_film_id": "85608",
-      "source_title": "WWE Survivor Series: WarGames 2026",
-      "sortable_title": "WWE Survivor Series: WarGames 2026",
-      "source_release_id": null,
-      "runtime_min": 240,
-      "release_date_utc": "2026-11-28T06:00:00Z",
-      "earliest_showing_utc": "1900-01-01T00:00:00Z",
-      "online_ticket_availability_date_utc": "2026-11-28T06:00:00Z",
-      "has_scheduled_showtimes": false,
-      "genre": "SPECIAL EVENTS",
-      "mpaa_rating": "NR",
-      "starring_actors_raw": null,
-      "directors_raw": "Event Director",
-      "synopsis": "Let the games begin! Don't miss Roman Reigns, Chelsea Green and all your favorites at Survivor Series: WarGames live in theaters Saturday, November 28th at 6E / 3P.",
-      "distributor_id": null,
-      "distributor_code": null,
-      "preferred_media_type": "Theatrical",
-      "available_for_a_list": false,
-      "slug": "wwe-survivor-series-wargames-2026-85608",
-      "website_url": "https://www.amctheatres.com/movies/wwe-survivor-series-wargames-2026-85608",
-      "showtimes_url": "https://www.amctheatres.com/movies/wwe-survivor-series-wargames-2026-85608/showtimes",
-      "attribute_codes": [
-        "DCDCLIVE",
-        "EVENT",
-        "EXCLDISMAT",
-        "NOALIST",
-        "NOGREENRED",
-        "NOTRAILER",
-        "NOTRAILERS"
-      ],
-      "media": {
-        "poster_url": null,
-        "hero_desktop_url": null,
-        "hero_mobile_url": null,
-        "trailer_hd_url": null,
-        "trailer_mp4_url": null
-      },
-      "presentation": {
-        "category": "concert_or_event",
-        "is_special_presentation": true,
-        "classifier_version": "1.0.0"
-      }
-    },
-    {
-      "source": "amc",
       "source_film_id": "85609",
       "source_title": "A Little Dream of Me",
       "sortable_title": "Little Dream of Me, A",
@@ -10189,47 +9901,6 @@
     },
     {
       "source": "amc",
-      "source_film_id": "85632",
-      "source_title": "JOSEPHINE With In-Person Q&A Featuring Gemma Chan",
-      "sortable_title": "JOSEPHINE With In-Person Q&A Featuring Gemma Chan",
-      "source_release_id": "373739",
-      "runtime_min": 144,
-      "release_date_utc": "2026-11-19T06:00:00Z",
-      "earliest_showing_utc": "2026-11-20T17:00:00Z",
-      "online_ticket_availability_date_utc": "2026-11-19T06:00:00Z",
-      "has_scheduled_showtimes": true,
-      "genre": null,
-      "mpaa_rating": "R",
-      "starring_actors_raw": null,
-      "directors_raw": null,
-      "synopsis": "JOSEPHINE With In-Person Q&A Featuring Gemma Chan. After 8-year-old Josephine accidentally witnesses a crime in Golden Gate Park, she acts out in search of a way to regain control of her safety, while adults are helpless to console her.",
-      "distributor_id": "2229",
-      "distributor_code": "VAR",
-      "preferred_media_type": "Theatrical",
-      "available_for_a_list": true,
-      "slug": "josephine-with-in-person-q-a-featuring-gemma-chan-85632",
-      "website_url": "https://www.amctheatres.com/movies/josephine-with-in-person-q-a-featuring-gemma-chan-85632",
-      "showtimes_url": "https://www.amctheatres.com/movies/josephine-with-in-person-q-a-featuring-gemma-chan-85632/showtimes",
-      "attribute_codes": [
-        "AMCARTISANFILMS",
-        "CLOSEDCAPTION",
-        "INPERSNQA"
-      ],
-      "media": {
-        "poster_url": "https://amc-theatres-res.cloudinary.com/v1793812938/amc-cdn/content/general/elxnu6egn5oifbisghof.avif",
-        "hero_desktop_url": null,
-        "hero_mobile_url": null,
-        "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6408493238112.mp4",
-        "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6408493238112.mp4"
-      },
-      "presentation": {
-        "category": "q_and_a",
-        "is_special_presentation": true,
-        "classifier_version": "1.0.0"
-      }
-    },
-    {
-      "source": "amc",
       "source_film_id": "85635",
       "source_title": "Untitled Variance Release (3/5/27)",
       "sortable_title": "Untitled Variance Release (3/5/27)",
@@ -10334,8 +10005,8 @@
         "poster_url": null,
         "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1794399023/amc-cdn/production/2/movies/85600/85646/MovieStills/393872R4.jpg",
         "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1794399023/amc-cdn/production/2/movies/85600/85646/MovieStills/393872R4.jpg",
-        "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6408492545112.mp4",
-        "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6408492545112.mp4"
+        "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6408556607112.mp4",
+        "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6408556607112.mp4"
       },
       "presentation": {
         "category": "q_and_a",
@@ -10349,7 +10020,7 @@
       "source_title": "Gunmaaster G9",
       "sortable_title": "Gunmaaster G9",
       "source_release_id": null,
-      "runtime_min": 165,
+      "runtime_min": 141,
       "release_date_utc": "2026-11-27T06:00:00Z",
       "earliest_showing_utc": null,
       "online_ticket_availability_date_utc": "2026-11-27T06:00:00Z",
@@ -10367,7 +10038,8 @@
       "website_url": "https://www.amctheatres.com/movies/gunmaaster-g9-85647",
       "showtimes_url": "https://www.amctheatres.com/movies/gunmaaster-g9-85647/showtimes",
       "attribute_codes": [
-        "INTFILMS"
+        "INTFILMS",
+        "XL"
       ],
       "media": {
         "poster_url": null,
@@ -10464,13 +10136,13 @@
       "source_title": "Chicken Shop Date: The Final Series",
       "sortable_title": "Chicken Shop Date: The Final Series",
       "source_release_id": null,
-      "runtime_min": null,
+      "runtime_min": 80,
       "release_date_utc": "2026-11-24T06:00:00Z",
       "earliest_showing_utc": null,
       "online_ticket_availability_date_utc": "2026-11-24T06:00:00Z",
       "has_scheduled_showtimes": false,
       "genre": "COMEDY",
-      "mpaa_rating": null,
+      "mpaa_rating": "NR",
       "starring_actors_raw": null,
       "directors_raw": "AMELIA DIMOLDENBERG",
       "synopsis": "A cinematic release of the complete final series of Chicken Shop Date (2014), bridged with exclusive new material and featuring the final episode ahead of its general release.",
@@ -11043,23 +10715,25 @@
       "sortable_title": "Cameron Winter at Carnegie Hall",
       "source_release_id": null,
       "runtime_min": 72,
-      "release_date_utc": "2026-11-20T06:00:00Z",
-      "earliest_showing_utc": null,
-      "online_ticket_availability_date_utc": "2026-11-20T06:00:00Z",
-      "has_scheduled_showtimes": false,
+      "release_date_utc": "2027-01-28T06:00:00Z",
+      "earliest_showing_utc": "2027-01-28T19:00:00Z",
+      "online_ticket_availability_date_utc": "2027-01-28T06:00:00Z",
+      "has_scheduled_showtimes": true,
       "genre": "DOCUMENTARY",
       "mpaa_rating": "NR",
       "starring_actors_raw": null,
       "directors_raw": "Paul Thomas Anderson",
       "synopsis": "Cameron Winter, in December 2025, after a months-long sold-out tour with his band Geese, returned to New York to play a single show at Carnegie Hall. This is the movie",
-      "distributor_id": null,
-      "distributor_code": null,
+      "distributor_id": "2229",
+      "distributor_code": "VAR",
       "preferred_media_type": "Theatrical",
       "available_for_a_list": true,
       "slug": "cameron-winter-at-carnegie-hall-85686",
       "website_url": "https://www.amctheatres.com/movies/cameron-winter-at-carnegie-hall-85686",
       "showtimes_url": "https://www.amctheatres.com/movies/cameron-winter-at-carnegie-hall-85686/showtimes",
-      "attribute_codes": [],
+      "attribute_codes": [
+        "EVENT"
+      ],
       "media": {
         "poster_url": null,
         "hero_desktop_url": null,
@@ -11068,8 +10742,8 @@
         "trailer_mp4_url": null
       },
       "presentation": {
-        "category": "standard",
-        "is_special_presentation": false,
+        "category": "concert_or_event",
+        "is_special_presentation": true,
         "classifier_version": "1.0.0"
       }
     },
@@ -11081,7 +10755,7 @@
       "source_release_id": "427478",
       "runtime_min": 160,
       "release_date_utc": "2026-11-20T06:00:00Z",
-      "earliest_showing_utc": "2026-11-20T12:00:00Z",
+      "earliest_showing_utc": "2026-11-20T10:35:00Z",
       "online_ticket_availability_date_utc": "2026-11-20T06:00:00Z",
       "has_scheduled_showtimes": true,
       "genre": "ACTION",
@@ -11301,50 +10975,11 @@
         "XL"
       ],
       "media": {
-        "poster_url": "https://amc-theatres-res.cloudinary.com/v1794917689/amc-cdn/production/2/movies/85700/85695/Poster/377232R1.jpg",
-        "hero_desktop_url": null,
-        "hero_mobile_url": null,
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1795021288/amc-cdn/content/general/ftb7rcuxbz2nn0l43rsn.jpg",
+        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1795021392/amc-cdn/content/general/octtns0ludbjaefjo4yz.jpg",
+        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1795021392/amc-cdn/content/general/octtns0ludbjaefjo4yz.jpg",
         "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6408491672112.mp4",
         "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6408491672112.mp4"
-      },
-      "presentation": {
-        "category": "standard",
-        "is_special_presentation": false,
-        "classifier_version": "1.0.0"
-      }
-    },
-    {
-      "source": "amc",
-      "source_film_id": "85696",
-      "source_title": "Irandu Vaanam",
-      "sortable_title": "Irandu Vaanam",
-      "source_release_id": null,
-      "runtime_min": 135,
-      "release_date_utc": "2026-11-27T06:00:00Z",
-      "earliest_showing_utc": null,
-      "online_ticket_availability_date_utc": "2026-11-27T06:00:00Z",
-      "has_scheduled_showtimes": false,
-      "genre": "DRAMA",
-      "mpaa_rating": "NR",
-      "starring_actors_raw": "MAMITHA BAIJU, VISHNU VISHAL",
-      "directors_raw": "RAM KUMAR",
-      "synopsis": null,
-      "distributor_id": "2481",
-      "distributor_code": "PTI",
-      "preferred_media_type": "Theatrical",
-      "available_for_a_list": true,
-      "slug": "irandu-vaanam-85696",
-      "website_url": "https://www.amctheatres.com/movies/irandu-vaanam-85696",
-      "showtimes_url": "https://www.amctheatres.com/movies/irandu-vaanam-85696/showtimes",
-      "attribute_codes": [
-        "INTFILMS"
-      ],
-      "media": {
-        "poster_url": null,
-        "hero_desktop_url": null,
-        "hero_mobile_url": null,
-        "trailer_hd_url": null,
-        "trailer_mp4_url": null
       },
       "presentation": {
         "category": "standard",
@@ -11428,9 +11063,9 @@
         "XL"
       ],
       "media": {
-        "poster_url": null,
-        "hero_desktop_url": null,
-        "hero_mobile_url": null,
+        "poster_url": "https://amc-theatres-res.cloudinary.com/v1795018639/amc-cdn/content/general/ih7t1upilp1ew9ltf5ht.jpg",
+        "hero_desktop_url": "https://amc-theatres-res.cloudinary.com/v1795019505/amc-cdn/content/general/k5z6fbj3fsoxktntwuuk.jpg",
+        "hero_mobile_url": "https://amc-theatres-res.cloudinary.com/v1795019505/amc-cdn/content/general/k5z6fbj3fsoxktntwuuk.jpg",
         "trailer_hd_url": "https://graph.amctheatres.com/assets/video/hd/1655482053001/6408491177112.mp4",
         "trailer_mp4_url": "https://graph.amctheatres.com/assets/video/mobile/1655482053001/6408491177112.mp4"
       },
@@ -11569,14 +11204,16 @@
       "starring_actors_raw": "CHITRANGADA SINGH, SALMAN KHAN",
       "directors_raw": "APOORVA LAKHIA",
       "synopsis": "'The supreme art of war is to subdue the enemy without fighting.'  Sun Tzu\n\nMAATRUBHUMI: MAY WAR REST IN PEACE is a story of extraordinary courage on the battlefield and the equally powerful battles fought by families back home.\n\nAt its heart is one man's unbreakable resolve -- his courage, sacrifice and determination to stand his ground against impossible odds, never giving an inch, while striving for peace against the threat of war.\nTo the officers who serve under him, he is more than a commander. He is a father figure, a leader they trust with their lives, and a man they would follow into the depths of hell.\n\nA story of valour, brotherhood, sacrifice and the human spirit  where the greatest victories are not always won by fighting.",
-      "distributor_id": null,
-      "distributor_code": null,
+      "distributor_id": "2654",
+      "distributor_code": "ATU",
       "preferred_media_type": "Theatrical",
       "available_for_a_list": true,
       "slug": "maatrubhumi-may-war-rest-in-peace-85703",
       "website_url": "https://www.amctheatres.com/movies/maatrubhumi-may-war-rest-in-peace-85703",
       "showtimes_url": "https://www.amctheatres.com/movies/maatrubhumi-may-war-rest-in-peace-85703/showtimes",
-      "attribute_codes": [],
+      "attribute_codes": [
+        "XL"
+      ],
       "media": {
         "poster_url": null,
         "hero_desktop_url": null,
@@ -11642,7 +11279,7 @@
       "mpaa_rating": null,
       "starring_actors_raw": null,
       "directors_raw": null,
-      "synopsis": null,
+      "synopsis": "“Ice Age: Boiling Point” is a dinosaur-and-lava-filled madcap adventure that takes Manny (voiced by Ray Romano), Sid (voiced by John Leguizamo), Diego (voiced by Denis Leary), Ellie (voiced by Queen Latifah), Buck (voiced by Simon?Pegg), acorn-obsessed Scrat – this time joined by Baby Scrat and the enormous Jurassic Scrat –?and the rest of the herd to visit never-before-seen corners of the treacherous Lost World. The film is directed by John C. Donkin, produced by Lori Forte, and releases exclusively in theaters February 5, 2027.",
       "distributor_id": "2979",
       "distributor_code": "FXD",
       "preferred_media_type": "Theatrical",
@@ -12145,14 +11782,16 @@
       "starring_actors_raw": "CHIOMA CHUKWUKA, FUNKE AKINDELE, WAJE IRUOBE",
       "directors_raw": "FUNKE AKINDELE",
       "synopsis": "Four women bound by an unbreakable friendship face their greatest test when the son of one of them is wrongfully imprisoned, forcing them to confront a powerful and corrupt system in a daring fight to prove his innocence.",
-      "distributor_id": null,
-      "distributor_code": null,
+      "distributor_id": "3485",
+      "distributor_code": "PTM",
       "preferred_media_type": "Theatrical",
       "available_for_a_list": true,
       "slug": "the-four-no-one-fights-alone-85728",
       "website_url": "https://www.amctheatres.com/movies/the-four-no-one-fights-alone-85728",
       "showtimes_url": "https://www.amctheatres.com/movies/the-four-no-one-fights-alone-85728/showtimes",
-      "attribute_codes": [],
+      "attribute_codes": [
+        "INTFILMS"
+      ],
       "media": {
         "poster_url": null,
         "hero_desktop_url": null,
@@ -12242,43 +11881,6 @@
     },
     {
       "source": "amc",
-      "source_film_id": "85736",
-      "source_title": "Andrea Esperando",
-      "sortable_title": "Andrea Esperando",
-      "source_release_id": null,
-      "runtime_min": null,
-      "release_date_utc": "2026-11-19T06:00:00Z",
-      "earliest_showing_utc": null,
-      "online_ticket_availability_date_utc": "2026-11-19T06:00:00Z",
-      "has_scheduled_showtimes": false,
-      "genre": "DRAMA",
-      "mpaa_rating": null,
-      "starring_actors_raw": "MAGALI CARRASQUILLO, MAXIMILIANO RIVAS, VALENTINA TORRES",
-      "directors_raw": "ALEX SANTIAGO PEREZ",
-      "synopsis": "During Christmas, a young girl and her father wait for her mother and sister to return from a trip they will never come back from.",
-      "distributor_id": null,
-      "distributor_code": null,
-      "preferred_media_type": "Theatrical",
-      "available_for_a_list": true,
-      "slug": "andrea-esperando-85736",
-      "website_url": "https://www.amctheatres.com/movies/andrea-esperando-85736",
-      "showtimes_url": "https://www.amctheatres.com/movies/andrea-esperando-85736/showtimes",
-      "attribute_codes": [],
-      "media": {
-        "poster_url": null,
-        "hero_desktop_url": null,
-        "hero_mobile_url": null,
-        "trailer_hd_url": null,
-        "trailer_mp4_url": null
-      },
-      "presentation": {
-        "category": "standard",
-        "is_special_presentation": false,
-        "classifier_version": "1.0.0"
-      }
-    },
-    {
-      "source": "amc",
       "source_film_id": "85737",
       "source_title": "Oh Season",
       "sortable_title": "Oh Season",
@@ -12316,27 +11918,101 @@
     },
     {
       "source": "amc",
-      "source_film_id": "85738",
-      "source_title": "Fight Back",
-      "sortable_title": "Fight Back",
+      "source_film_id": "85740",
+      "source_title": "The Caged",
+      "sortable_title": "Caged, The",
       "source_release_id": null,
       "runtime_min": null,
-      "release_date_utc": "2026-11-19T06:00:00Z",
+      "release_date_utc": "2026-12-01T06:00:00Z",
       "earliest_showing_utc": null,
-      "online_ticket_availability_date_utc": "2026-11-19T06:00:00Z",
+      "online_ticket_availability_date_utc": "2026-12-01T06:00:00Z",
       "has_scheduled_showtimes": false,
-      "genre": "COMEDY",
-      "mpaa_rating": null,
-      "starring_actors_raw": "ANA ISABELLE, Orlando Jones",
-      "directors_raw": "ANA ISABELLE, BRUNO IRIZARRY",
-      "synopsis": "A retired martial arts athlete gets back to the sport in a deal with her daughter who is diagnosed with an incurable illness.",
+      "genre": "HORROR",
+      "mpaa_rating": "NR",
+      "starring_actors_raw": "EDMUND KINGSLEY, RAFFIELLA CHAPMAN, TAMZIN MERCHANT",
+      "directors_raw": "JEFFREY SCOTT COLLINS",
+      "synopsis": "Based on true events at a haunted house in Essex (UK) known as The Cage.",
       "distributor_id": null,
       "distributor_code": null,
       "preferred_media_type": "Theatrical",
       "available_for_a_list": true,
-      "slug": "fight-back-85738",
-      "website_url": "https://www.amctheatres.com/movies/fight-back-85738",
-      "showtimes_url": "https://www.amctheatres.com/movies/fight-back-85738/showtimes",
+      "slug": "the-caged-85740",
+      "website_url": "https://www.amctheatres.com/movies/the-caged-85740",
+      "showtimes_url": "https://www.amctheatres.com/movies/the-caged-85740/showtimes",
+      "attribute_codes": [],
+      "media": {
+        "poster_url": null,
+        "hero_desktop_url": null,
+        "hero_mobile_url": null,
+        "trailer_hd_url": null,
+        "trailer_mp4_url": null
+      },
+      "presentation": {
+        "category": "standard",
+        "is_special_presentation": false,
+        "classifier_version": "1.0.0"
+      }
+    },
+    {
+      "source": "amc",
+      "source_film_id": "85744",
+      "source_title": "NMIXX (EPISODE 1: ZERO FRONTIER) FINALE LIVE VIEWING",
+      "sortable_title": "NMIXX (EPISODE 1: ZERO FRONTIER) FINALE LIVE VIEWING",
+      "source_release_id": null,
+      "runtime_min": null,
+      "release_date_utc": "2026-12-02T06:00:00Z",
+      "earliest_showing_utc": null,
+      "online_ticket_availability_date_utc": "2026-12-02T06:00:00Z",
+      "has_scheduled_showtimes": false,
+      "genre": "ROCK/POP CONCERT",
+      "mpaa_rating": "NR",
+      "starring_actors_raw": null,
+      "directors_raw": null,
+      "synopsis": null,
+      "distributor_id": "2229",
+      "distributor_code": "VAR",
+      "preferred_media_type": "Theatrical",
+      "available_for_a_list": true,
+      "slug": "nmixx-episode-1-zero-frontier-finale-live-viewing-85744",
+      "website_url": "https://www.amctheatres.com/movies/nmixx-episode-1-zero-frontier-finale-live-viewing-85744",
+      "showtimes_url": "https://www.amctheatres.com/movies/nmixx-episode-1-zero-frontier-finale-live-viewing-85744/showtimes",
+      "attribute_codes": [],
+      "media": {
+        "poster_url": null,
+        "hero_desktop_url": null,
+        "hero_mobile_url": null,
+        "trailer_hd_url": null,
+        "trailer_mp4_url": null
+      },
+      "presentation": {
+        "category": "concert_or_event",
+        "is_special_presentation": true,
+        "classifier_version": "1.0.0"
+      }
+    },
+    {
+      "source": "amc",
+      "source_film_id": "85747",
+      "source_title": "Jane Elliott Against the World",
+      "sortable_title": "Jane Elliott Against the World",
+      "source_release_id": null,
+      "runtime_min": 94,
+      "release_date_utc": "2026-12-04T06:00:00Z",
+      "earliest_showing_utc": null,
+      "online_ticket_availability_date_utc": "2026-12-04T06:00:00Z",
+      "has_scheduled_showtimes": false,
+      "genre": "DOCUMENTARY",
+      "mpaa_rating": "NR",
+      "starring_actors_raw": null,
+      "directors_raw": "JUDD EHRLICH",
+      "synopsis": "The morning after Martin Luther King Jr.'s assassination, Jane Elliott divided her all-white third-grade class in Riceville, Iowa, by eye color. Her lesson in discrimination made her a national figure and a target.\n\nNearly sixty years later, JANE ELLIOTT AGAINST THE WORLD finds her as funny and combative as ever. She stands with students, teachers, and families in Temecula, California, fighting restrictions on teaching race and history. At home, her daughters ask her to acknowledge what her refusal to stay silent has cost them.\n\nThe woman who spent a lifetime asking others to change must now try to change herself.",
+      "distributor_id": null,
+      "distributor_code": null,
+      "preferred_media_type": "Theatrical",
+      "available_for_a_list": true,
+      "slug": "jane-elliott-against-the-world-85747",
+      "website_url": "https://www.amctheatres.com/movies/jane-elliott-against-the-world-85747",
+      "showtimes_url": "https://www.amctheatres.com/movies/jane-elliott-against-the-world-85747/showtimes",
       "attribute_codes": [],
       "media": {
         "poster_url": null,
