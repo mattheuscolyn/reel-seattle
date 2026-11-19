@@ -395,6 +395,34 @@ def canonicalize_checkout_url(url: str, *, base: str = CENTRAL_BASE) -> str | No
     return urlunparse(("https", "www.central-cinema.com", path, "", "", ""))
 
 
+
+def _checkout_group_date(anchor: Any) -> tuple[date | None, str | None]:
+    """Date from the heading immediately preceding a group of time-only links.
+
+    Central Cinema changed its markup in October 2026: <h3>Friday, November
+    20, 2026</h3><ul><li><a ...>4:00 pm</a></li>...</ul>. Never
+    fall back to the film's dateCreated or a heading from another group.
+    """
+    group = anchor.find_parent("ul")
+    if group is None:
+        return None, None
+    heading = group.find_previous_sibling()
+    if heading is None or heading.name != "h3":
+        return None, None
+    label = normalize_exact_source_title(heading.get_text(" ", strip=True))
+    for fmt in ("%A, %B %d, %Y", "%A, %b %d, %Y"):
+        try:
+            parsed = datetime.strptime(label, fmt).date()
+        except ValueError:
+            continue
+        # strptime accepts a weekday that contradicts the calendar date.
+        weekday = label.split(",", 1)[0].casefold()
+        if parsed.strftime("%A").casefold() != weekday:
+            return None, label
+        return parsed, label
+    return None, label
+
+
 def extract_checkout_showings(
     html: str,
     *,
@@ -432,6 +460,17 @@ def extract_checkout_showings(
             window_end=window_end,
             scrape_date=scrape_date,
         )
+        group_date_label = None
+        if error == "malformed_showing_text" and parse_local_time(display) is not None:
+            # Current Central markup provides a full, explicit date on the
+            # preceding h3 and only the time inside each checkout anchor.
+            # Missing/ambiguous headings remain unsafe rather than guessing.
+            group_date, group_date_label = _checkout_group_date(anchor)
+            if group_date is not None:
+                local_date = group_date
+                local_time = parse_local_time(display)
+                year_inferred = False
+                error = None
         showings.append(
             CheckoutShowing(
                 slug=slug,
@@ -448,6 +487,7 @@ def extract_checkout_showings(
                     "checkout_showing_segment": str(showing_id),
                     "year_rollover_inferred": year_inferred,
                     "source_display_date": display,
+                    **({"source_group_date_label": group_date_label} if group_date_label else {}),
                 },
             )
         )
