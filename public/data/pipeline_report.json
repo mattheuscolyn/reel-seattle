@@ -1,18 +1,18 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-11-19T14:20:39-08:00",
+  "generated_at": "2026-11-20T06:43:59-08:00",
   "status": "success",
   "window": {
-    "start_date": "2026-11-19",
+    "start_date": "2026-11-20",
     "end_date": "2027-07-08"
   },
   "sources": {
     "amc": {
       "status": "success",
-      "showtime_count": 8694,
-      "film_count": 85,
+      "showtime_count": 8390,
+      "film_count": 84,
       "theater_count": 7,
-      "last_successful_run": "2026-11-19",
+      "last_successful_run": "2026-11-20",
       "warnings": [
         "AMC allowlist: 2 disabled registry matches skipped: AMC Kitsap 8, AMC Lakewood Mall 12"
       ],
@@ -20,10 +20,10 @@
     },
     "siff": {
       "status": "success",
-      "showtime_count": 189,
-      "film_count": 45,
+      "showtime_count": 194,
+      "film_count": 42,
       "theater_count": 3,
-      "last_successful_run": "2026-11-19",
+      "last_successful_run": "2026-11-20",
       "warnings": [
         "SIFF parent/series page with no direct showtimes: programs-and-events/celluloid-screenings",
         "SIFF parent/series page with no direct showtimes: programs-and-events/cinema-italian-style-2026",
@@ -37,28 +37,30 @@
     },
     "beacon": {
       "status": "success",
-      "showtime_count": 81,
-      "film_count": 48,
+      "showtime_count": 79,
+      "film_count": 46,
       "theater_count": 1,
-      "last_successful_run": "2026-11-19",
+      "last_successful_run": "2026-11-20",
       "warnings": [],
       "errors": []
     },
     "nwff": {
       "status": "success",
-      "showtime_count": 101,
-      "film_count": 33,
+      "showtime_count": 99,
+      "film_count": 31,
       "theater_count": 1,
       "last_successful_run": "2026-11-19",
-      "warnings": [],
+      "warnings": [
+        "NWFF scrape incomplete or unsafe (scrape_status=partial_failure); retained prior future rows."
+      ],
       "errors": []
     },
     "central_cinema": {
       "status": "success",
-      "showtime_count": 8,
-      "film_count": 4,
+      "showtime_count": 9,
+      "film_count": 2,
       "theater_count": 1,
-      "last_successful_run": "2026-11-19",
+      "last_successful_run": "2026-11-20",
       "warnings": [],
       "errors": []
     },
@@ -70,6 +72,7 @@
       "last_successful_run": "2026-11-12",
       "warnings": [],
       "errors": [
+        "{'code': 'unknown_or_missing_venue', 'message': 'unknown_venue:The Egyptian Theater', 'source_program_id': 'love-exposure-new-4k-restoration', 'source_value': 'The Egyptian Theater – 805 E Pine St, Seattle', 'affects_completeness': True}",
         "{'code': 'unknown_or_missing_venue', 'message': 'unknown_venue:The Egyptian Theater', 'source_program_id': 'the-host-new-4k-restoration', 'source_value': 'The Egyptian Theater – 805 E Pine St, Seattle', 'affects_completeness': True}"
       ]
     },
@@ -78,16 +81,16 @@
       "showtime_count": 22,
       "film_count": 5,
       "theater_count": 1,
-      "last_successful_run": "2026-11-19",
+      "last_successful_run": "2026-11-20",
       "warnings": [],
       "errors": []
     },
     "anderson_school": {
       "status": "success",
-      "showtime_count": 34,
+      "showtime_count": 33,
       "film_count": 1,
       "theater_count": 1,
-      "last_successful_run": "2026-11-19",
+      "last_successful_run": "2026-11-20",
       "warnings": [],
       "errors": []
     },
@@ -104,17 +107,17 @@
     },
     "majestic_bay": {
       "status": "success",
-      "showtime_count": 68,
+      "showtime_count": 62,
       "film_count": 9,
       "theater_count": 1,
-      "last_successful_run": "2026-11-19",
+      "last_successful_run": "2026-11-20",
       "warnings": [],
       "errors": []
     }
   },
   "totals": {
-    "showtime_count": 9210,
-    "film_count": 223,
+    "showtime_count": 8901,
+    "film_count": 213,
     "theater_count": 16
   },
   "messages": [],
@@ -127,15 +130,15 @@
     "outcome": "promoted",
     "artifacts_written_this_run": true,
     "artifacts_retained_from_prior": false,
-    "reported_at": "2026-11-19T14:32:26-08:00",
-    "last_successful_build_at": "2026-11-19T14:30:48-08:00",
+    "reported_at": "2026-11-20T06:53:40-08:00",
+    "last_successful_build_at": "2026-11-20T06:52:04-08:00",
     "message": "AMC source catalog: promoted",
     "warnings": [],
     "errors": [],
     "refresh": {
-      "active_ids": 85,
-      "selected": 85,
-      "success": 85,
+      "active_ids": 84,
+      "selected": 84,
+      "success": 84,
       "failed": 0,
       "invalid": 0
     },
@@ -146,8 +149,8 @@
         "exists": true,
         "valid": true,
         "schema_version": "1.0.0",
-        "generated_at": "2026-11-19T14:30:48-08:00",
-        "record_count": 473,
+        "generated_at": "2026-11-20T06:52:04-08:00",
+        "record_count": 474,
         "written_this_run": true,
         "retained_from_prior": false,
         "warnings": [],
@@ -159,8 +162,8 @@
         "exists": true,
         "valid": true,
         "schema_version": "1.0.0",
-        "generated_at": "2026-11-19T14:30:48-08:00",
-        "record_count": 420,
+        "generated_at": "2026-11-20T06:52:04-08:00",
+        "record_count": 421,
         "written_this_run": true,
         "retained_from_prior": false,
         "warnings": [],
@@ -168,25 +171,25 @@
       }
     },
     "products_summary": {
-      "total": 473,
-      "active": 85,
-      "inactive": 388,
-      "with_release_id": 464,
+      "total": 474,
+      "active": 84,
+      "inactive": 390,
+      "with_release_id": 465,
       "without_release_id": 9,
       "refresh_pending": 0,
-      "refresh_success": 473,
+      "refresh_success": 474,
       "refresh_stale": 0,
       "refresh_failed": 0,
       "refresh_invalid": 0,
       "refresh_status_missing": 0,
       "stored_stats": {
-        "products": 473,
-        "active_products": 85,
-        "inactive_products": 388,
-        "with_release_id": 464,
+        "products": 474,
+        "active_products": 84,
+        "inactive_products": 390,
+        "with_release_id": 465,
         "without_release_id": 9,
         "refresh_pending": 0,
-        "refresh_success": 473,
+        "refresh_success": 474,
         "refresh_stale": 0,
         "refresh_failed": 0,
         "refresh_invalid": 0,
@@ -194,14 +197,14 @@
       }
     },
     "releases_summary": {
-      "total": 420,
-      "singleton_groups": 398,
+      "total": 421,
+      "singleton_groups": 399,
       "multi_product_groups": 22,
-      "membership_references": 464,
+      "membership_references": 465,
       "unresolved_member_references": 0,
       "stored_stats": {
-        "release_observations": 420,
-        "singleton_groups": 398,
+        "release_observations": 421,
+        "singleton_groups": 399,
         "multi_product_groups": 22,
         "largest_group": 18
       }
