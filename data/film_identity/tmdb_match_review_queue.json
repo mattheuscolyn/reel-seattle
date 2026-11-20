@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-19T16:08:28+00:00",
+  "generated_at": "2026-11-20T15:49:03+00:00",
   "items": [
     {
       "auto_confirm_blocked_reason": "below_auto_threshold",
@@ -1515,6 +1515,284 @@
       }
     },
     {
+      "auto_confirm_blocked_reason": "hard_conflict",
+      "candidates": [
+        {
+          "director": "Roland Joffé",
+          "original_title": null,
+          "overview_excerpt": "Follows the 48 hours after the assassination of President John F. Kennedy, the alleged involvement of Sam Giancana and the 'Chicago Outfit', and a supposed broken promise after the mob helped to get Kennedy elected.",
+          "popularity": 9.1408,
+          "poster_path": "/ujp2aHu1lWMjAGoletnsmv3mcMn.jpg",
+          "release_year": 2026,
+          "runtime_min": 120,
+          "score": 0.91,
+          "search_query": "November 1963",
+          "search_query_reason": "normalized_title",
+          "search_year_used": null,
+          "signals": {
+            "available_weight": 1.1,
+            "contributions": {
+              "director": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.2
+              },
+              "runtime": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.3
+              }
+            },
+            "director_candidate_normalized": [
+              "roland joffe"
+            ],
+            "director_conflict": false,
+            "director_overlap": true,
+            "director_source_normalized": [
+              "roland joffe"
+            ],
+            "director_status": "match",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.8,
+            "original_title_exact": false,
+            "popularity": 9.1408,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 0,
+            "runtime_near": true,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "match",
+            "search_query": "November 1963",
+            "search_query_reason": "normalized_title",
+            "search_year_used": null,
+            "title_conflict": false,
+            "title_exact": true,
+            "title_prefix_equivalence": false,
+            "year_conflict": true,
+            "year_evidence": "conflict",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "conflict"
+          },
+          "title": "November 1963",
+          "tmdb_id": 1287520,
+          "warnings": [
+            "year_conflict"
+          ]
+        },
+        {
+          "director": "Errol Morris",
+          "original_title": null,
+          "overview_excerpt": "Josiah “Tink” Thompson discusses the Kennedy assassination, the nature of truth and photographic evidence in this short film from director Errol Morris.",
+          "popularity": 0.1657,
+          "poster_path": null,
+          "release_year": 2013,
+          "runtime_min": 14,
+          "score": 0.0,
+          "search_query": "November 1963",
+          "search_query_reason": "normalized_title",
+          "search_year_used": null,
+          "signals": {
+            "available_weight": 1.1,
+            "contributions": {
+              "director": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.2
+              },
+              "runtime": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.3
+              }
+            },
+            "director_candidate_normalized": [
+              "errol morris"
+            ],
+            "director_conflict": true,
+            "director_overlap": false,
+            "director_source_normalized": [
+              "roland joffe"
+            ],
+            "director_status": "conflict",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.0,
+            "original_title_exact": false,
+            "popularity": 0.1657,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": true,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 106,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "conflict",
+            "search_query": "November 1963",
+            "search_query_reason": "normalized_title",
+            "search_year_used": null,
+            "title_conflict": true,
+            "title_exact": false,
+            "title_prefix_equivalence": false,
+            "year_conflict": true,
+            "year_evidence": "conflict",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "conflict"
+          },
+          "title": "November 22, 1963",
+          "tmdb_id": 238847,
+          "warnings": [
+            "title_conflict",
+            "year_conflict",
+            "runtime_conflict",
+            "director_conflict"
+          ]
+        }
+      ],
+      "directors_normalized": [
+        "roland joffe"
+      ],
+      "directors_raw": "ROLAND JOFFE",
+      "entity_kind": "feature_film",
+      "film_id_fallback": "source:amc:83683",
+      "match_confidence": 0.91,
+      "match_status": "review_required",
+      "normalized_title": "November 1963",
+      "presentation_labels": [],
+      "proposed_tmdb_id": 1287520,
+      "queue_id": "amc:83683",
+      "runtime_min": 120,
+      "showtime_film_key": "november-1963",
+      "signals": {
+        "available_weight": 1.1,
+        "contributions": {
+          "director": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.2
+          },
+          "runtime": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.15
+          },
+          "title_exact": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.45
+          },
+          "year": {
+            "kind": "conflict",
+            "matched": false,
+            "weight": 0.3
+          }
+        },
+        "director_candidate_normalized": [
+          "roland joffe"
+        ],
+        "director_conflict": false,
+        "director_overlap": true,
+        "director_source_normalized": [
+          "roland joffe"
+        ],
+        "director_status": "match",
+        "director_weak_overlap": false,
+        "event_year_relaxed": false,
+        "external_id_exact": false,
+        "hard_conflict": true,
+        "matched_weight": 0.8,
+        "original_title_exact": false,
+        "popularity": 9.1408,
+        "runtime_compatible_max": 3,
+        "runtime_conflict": false,
+        "runtime_conflict_min": 25,
+        "runtime_delta_minutes": 0,
+        "runtime_near": true,
+        "runtime_soft": false,
+        "runtime_soft_max": 12,
+        "runtime_status": "match",
+        "search_query": "November 1963",
+        "search_query_reason": "normalized_title",
+        "search_year_used": null,
+        "title_conflict": false,
+        "title_exact": true,
+        "title_prefix_equivalence": false,
+        "year_conflict": true,
+        "year_evidence": "conflict",
+        "year_exact": false,
+        "year_near": false,
+        "year_status": "conflict"
+      },
+      "source": "amc",
+      "source_film_id": "83683",
+      "source_title": "November 1963",
+      "top_candidate_margin": 0.91,
+      "warnings": [
+        "year_conflict"
+      ],
+      "year_hint": 1963,
+      "year_interpretation": {
+        "alternate_search_title": null,
+        "anniversary_year_derived": false,
+        "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "normalized_source_fallback"
+        ],
+        "base_title": "November 1963",
+        "canonical_year_candidate": 1963,
+        "event_labels": [],
+        "event_phrase": null,
+        "event_year": null,
+        "event_year_not_canonical": false,
+        "format_tags": [],
+        "presentation_labels": [],
+        "product_year": 1963,
+        "product_year_weak": false,
+        "program_series": null,
+        "removed_phrases": [],
+        "scoring_year": 1963,
+        "search_abbreviation": null,
+        "search_year": 1963,
+        "title_years": [
+          1963
+        ],
+        "warnings": [],
+        "year_confidence": "title",
+        "year_evidence": "derived_or_explicit",
+        "year_mismatch_relaxed": false
+      }
+    },
+    {
       "auto_confirm_blocked_reason": null,
       "candidates": [
         {
@@ -1680,6 +1958,209 @@
           "normalized_source_fallback"
         ],
         "base_title": "The Further Mis-Adventures Of Cliff Booth",
+        "canonical_year_candidate": null,
+        "event_labels": [],
+        "event_phrase": null,
+        "event_year": null,
+        "event_year_not_canonical": false,
+        "format_tags": [],
+        "presentation_labels": [],
+        "product_year": 2026,
+        "product_year_weak": true,
+        "program_series": null,
+        "removed_phrases": [],
+        "scoring_year": 2026,
+        "search_abbreviation": null,
+        "search_year": null,
+        "title_years": [],
+        "warnings": [
+          "product_year_weak_evidence"
+        ],
+        "year_confidence": "product",
+        "year_evidence": "derived_or_explicit",
+        "year_mismatch_relaxed": true
+      }
+    },
+    {
+      "auto_confirm_blocked_reason": "weak_title_only_match",
+      "candidates": [
+        {
+          "director": "Tharun Bhascker",
+          "original_title": "ఈNఈ Repeat",
+          "overview_excerpt": "A close-knit group of friends embark on another unforgettable journey, where old memories, new adventures, and unexpected twists test their friendship.",
+          "popularity": 2.1584,
+          "poster_path": "/yVIJDYaLHEheY1A3ofd0fBCOPHu.jpg",
+          "release_year": 2026,
+          "runtime_min": 155,
+          "score": 0.5625,
+          "search_query": "ENE Repeat",
+          "search_query_reason": "normalized_title",
+          "search_year_used": null,
+          "signals": {
+            "available_weight": 0.8,
+            "contributions": {
+              "director": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.2
+              },
+              "runtime": {
+                "kind": "miss",
+                "matched": false,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "tharun bhascker"
+            ],
+            "director_conflict": true,
+            "director_overlap": false,
+            "director_source_normalized": [
+              "tharun bhascker dhaassyam"
+            ],
+            "director_status": "conflict",
+            "director_weak_overlap": false,
+            "event_year_relaxed": true,
+            "external_id_exact": false,
+            "hard_conflict": false,
+            "matched_weight": 0.45,
+            "original_title_exact": false,
+            "popularity": 2.1584,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 14,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "miss",
+            "search_query": "ENE Repeat",
+            "search_query_reason": "normalized_title",
+            "search_year_used": null,
+            "title_conflict": false,
+            "title_exact": true,
+            "title_prefix_equivalence": false,
+            "year_conflict": false,
+            "year_evidence": "uncertain_rerelease_restoration",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "ENE Repeat",
+          "tmdb_id": 1505644,
+          "warnings": [
+            "year_evidence_absent",
+            "runtime_mismatch",
+            "director_conflict",
+            "weak_title_only_match"
+          ]
+        }
+      ],
+      "directors_normalized": [
+        "tharun bhascker dhaassyam"
+      ],
+      "directors_raw": "THARUN BHASCKER DHAASSYAM",
+      "entity_kind": "feature_film",
+      "film_id_fallback": "source:amc:84334",
+      "match_confidence": 0.5625,
+      "match_status": "review_required",
+      "normalized_title": "ENE Repeat",
+      "presentation_labels": [],
+      "proposed_tmdb_id": 1505644,
+      "queue_id": "amc:84334",
+      "runtime_min": 169,
+      "showtime_film_key": "ene-repeat",
+      "signals": {
+        "available_weight": 0.8,
+        "contributions": {
+          "director": {
+            "kind": "conflict",
+            "matched": false,
+            "weight": 0.2
+          },
+          "runtime": {
+            "kind": "miss",
+            "matched": false,
+            "weight": 0.15
+          },
+          "title_exact": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.45
+          },
+          "year": {
+            "kind": "absent",
+            "matched": false,
+            "weight": 0.0
+          }
+        },
+        "director_candidate_normalized": [
+          "tharun bhascker"
+        ],
+        "director_conflict": true,
+        "director_overlap": false,
+        "director_source_normalized": [
+          "tharun bhascker dhaassyam"
+        ],
+        "director_status": "conflict",
+        "director_weak_overlap": false,
+        "event_year_relaxed": true,
+        "external_id_exact": false,
+        "hard_conflict": false,
+        "matched_weight": 0.45,
+        "original_title_exact": false,
+        "popularity": 2.1584,
+        "runtime_compatible_max": 3,
+        "runtime_conflict": false,
+        "runtime_conflict_min": 25,
+        "runtime_delta_minutes": 14,
+        "runtime_near": false,
+        "runtime_soft": false,
+        "runtime_soft_max": 12,
+        "runtime_status": "miss",
+        "search_query": "ENE Repeat",
+        "search_query_reason": "normalized_title",
+        "search_year_used": null,
+        "title_conflict": false,
+        "title_exact": true,
+        "title_prefix_equivalence": false,
+        "year_conflict": false,
+        "year_evidence": "uncertain_rerelease_restoration",
+        "year_exact": false,
+        "year_near": false,
+        "year_status": "unavailable"
+      },
+      "source": "amc",
+      "source_film_id": "84334",
+      "source_title": "ENE Repeat",
+      "top_candidate_margin": null,
+      "warnings": [
+        "year_evidence_absent",
+        "runtime_mismatch",
+        "director_conflict",
+        "weak_title_only_match"
+      ],
+      "year_hint": 2026,
+      "year_interpretation": {
+        "alternate_search_title": null,
+        "anniversary_year_derived": false,
+        "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "normalized_source_fallback"
+        ],
+        "base_title": "ENE Repeat",
         "canonical_year_candidate": null,
         "event_labels": [],
         "event_phrase": null,
@@ -8428,683 +8909,6 @@
         "warnings": [],
         "year_confidence": "explicit",
         "year_evidence": "derived_or_explicit",
-        "year_mismatch_relaxed": false
-      }
-    },
-    {
-      "auto_confirm_blocked_reason": "same_title_remake_ambiguity",
-      "candidates": [
-        {
-          "director": "Tom Holland",
-          "original_title": null,
-          "overview_excerpt": "Charley Brewster, a high school student, accidentally discovers the true and creepy nature of Jerry Dandrige, his dashing and enigmatic new neighbor; but no one seems willing to believe him.",
-          "popularity": 9.1619,
-          "poster_path": "/euIh75MwNDrYkTEVSkw7VXWGXoE.jpg",
-          "release_year": 1985,
-          "runtime_min": 107,
-          "score": 1.0,
-          "search_query": "Fright Night",
-          "search_query_reason": "normalized_title",
-          "search_year_used": null,
-          "signals": {
-            "available_weight": 0.6,
-            "contributions": {
-              "runtime": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.15
-              },
-              "title_exact": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [
-              "tom holland"
-            ],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": false,
-            "matched_weight": 0.6,
-            "original_title_exact": false,
-            "popularity": 9.1619,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 0,
-            "runtime_near": true,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "match",
-            "search_query": "Fright Night",
-            "search_query_reason": "normalized_title",
-            "search_year_used": null,
-            "title_conflict": false,
-            "title_exact": true,
-            "title_prefix_equivalence": false,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "Fright Night",
-          "tmdb_id": 11797,
-          "warnings": [
-            "year_evidence_absent",
-            "missing_year_supported_by_other_evidence",
-            "director_unavailable"
-          ]
-        },
-        {
-          "director": "Tommy Lee Wallace",
-          "original_title": null,
-          "overview_excerpt": "After three years of therapy Charley Brewster, now a college student, is convinced that Jerry Dandridge was a serial killer posing as a vampire. But when Regine, a mysterious actress and her entourage move into Peter Vi…",
-          "popularity": 6.595,
-          "poster_path": "/yvbRJTnZbGkGy2VHMfTTTFV8Io2.jpg",
-          "release_year": 1988,
-          "runtime_min": 104,
-          "score": 1.0,
-          "search_query": "Fright Night",
-          "search_query_reason": "normalized_title",
-          "search_year_used": null,
-          "signals": {
-            "available_weight": 0.6,
-            "contributions": {
-              "runtime": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.15
-              },
-              "title_exact": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [
-              "tommy lee wallace"
-            ],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": false,
-            "matched_weight": 0.6,
-            "original_title_exact": false,
-            "popularity": 6.595,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 3,
-            "runtime_near": true,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "match",
-            "search_query": "Fright Night",
-            "search_query_reason": "normalized_title",
-            "search_year_used": null,
-            "title_conflict": false,
-            "title_exact": true,
-            "title_prefix_equivalence": true,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "Fright Night Part 2",
-          "tmdb_id": 18086,
-          "warnings": [
-            "title_prefix_equivalence",
-            "year_evidence_absent",
-            "missing_year_supported_by_other_evidence",
-            "director_unavailable"
-          ]
-        },
-        {
-          "director": "Craig Gillespie",
-          "original_title": null,
-          "overview_excerpt": "A teenager suspects his new neighbour is a vampire. Unable to convince anyone, he tries to enlist the help of a self-proclaimed vampire hunter and magician.",
-          "popularity": 8.671,
-          "poster_path": "/ySQ3v4Fzpy3fePs86eoLiDzwLYM.jpg",
-          "release_year": 2011,
-          "runtime_min": 106,
-          "score": 1.0,
-          "search_query": "Fright Night",
-          "search_query_reason": "normalized_title",
-          "search_year_used": null,
-          "signals": {
-            "available_weight": 0.6,
-            "contributions": {
-              "runtime": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.15
-              },
-              "title_exact": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [
-              "craig gillespie"
-            ],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": false,
-            "matched_weight": 0.6,
-            "original_title_exact": false,
-            "popularity": 8.671,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 1,
-            "runtime_near": true,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "match",
-            "search_query": "Fright Night",
-            "search_query_reason": "normalized_title",
-            "search_year_used": null,
-            "title_conflict": false,
-            "title_exact": true,
-            "title_prefix_equivalence": false,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "Fright Night",
-          "tmdb_id": 58151,
-          "warnings": [
-            "year_evidence_absent",
-            "missing_year_supported_by_other_evidence",
-            "director_unavailable"
-          ]
-        },
-        {
-          "director": "Edward Bernds",
-          "original_title": null,
-          "overview_excerpt": "The Stooges are managers of \"Chopper\", a beefy boxer, and they bet their bankroll on his next fight.",
-          "popularity": 1.926,
-          "poster_path": "/3PJYa9YrF933IdzzgzpZlKbA3Lw.jpg",
-          "release_year": 1947,
-          "runtime_min": 17,
-          "score": 0.75,
-          "search_query": "Fright Night",
-          "search_query_reason": "normalized_title",
-          "search_year_used": null,
-          "signals": {
-            "available_weight": 0.6,
-            "contributions": {
-              "runtime": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.15
-              },
-              "title_exact": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [
-              "edward bernds"
-            ],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": true,
-            "matched_weight": 0.45,
-            "original_title_exact": false,
-            "popularity": 1.926,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": true,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 90,
-            "runtime_near": false,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "conflict",
-            "search_query": "Fright Night",
-            "search_query_reason": "normalized_title",
-            "search_year_used": null,
-            "title_conflict": false,
-            "title_exact": true,
-            "title_prefix_equivalence": false,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "Fright Night",
-          "tmdb_id": 116117,
-          "warnings": [
-            "year_evidence_absent",
-            "runtime_conflict",
-            "weak_title_only_match",
-            "director_unavailable"
-          ]
-        },
-        {
-          "director": null,
-          "original_title": "死亡游戏",
-          "overview_excerpt": "In this Chinese horror-thriller, a girl who lives alone in fear of a curse that she believed would kill those that she loved is visited by some friends on the eve of her birthday. Unaware of the imminent danger ahead, t…",
-          "popularity": 0.9918,
-          "poster_path": "/1zTsNIEm76vJwsSsDtJIfoOHGoh.jpg",
-          "release_year": 2016,
-          "runtime_min": null,
-          "score": 0.75,
-          "search_query": "Fright Night",
-          "search_query_reason": "normalized_title",
-          "search_year_used": null,
-          "signals": {
-            "available_weight": 0.45,
-            "contributions": {
-              "title_exact": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": false,
-            "matched_weight": 0.45,
-            "original_title_exact": false,
-            "popularity": 0.9918,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": null,
-            "runtime_near": false,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "unavailable",
-            "search_query": "Fright Night",
-            "search_query_reason": "normalized_title",
-            "search_year_used": null,
-            "title_conflict": false,
-            "title_exact": true,
-            "title_prefix_equivalence": false,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "Fright Night",
-          "tmdb_id": 690059,
-          "warnings": [
-            "year_evidence_absent",
-            "weak_title_only_match",
-            "director_unavailable"
-          ]
-        },
-        {
-          "director": "Abdelaziz Al-Musallam",
-          "original_title": "مسرحية ليلة رعب",
-          "overview_excerpt": "The story of a person after death",
-          "popularity": 1.2054,
-          "poster_path": "/qDJOlmdQxdbrBxDo0Gk2RYm0bKF.jpg",
-          "release_year": 2010,
-          "runtime_min": 193,
-          "score": 0.75,
-          "search_query": "Fright Night",
-          "search_query_reason": "normalized_title",
-          "search_year_used": null,
-          "signals": {
-            "available_weight": 0.6,
-            "contributions": {
-              "runtime": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.15
-              },
-              "title_exact": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [
-              "abdelaziz al-musallam"
-            ],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": true,
-            "matched_weight": 0.45,
-            "original_title_exact": false,
-            "popularity": 1.2054,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": true,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 86,
-            "runtime_near": false,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "conflict",
-            "search_query": "Fright Night",
-            "search_query_reason": "normalized_title",
-            "search_year_used": null,
-            "title_conflict": false,
-            "title_exact": true,
-            "title_prefix_equivalence": false,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "Fright night",
-          "tmdb_id": 994979,
-          "warnings": [
-            "year_evidence_absent",
-            "runtime_conflict",
-            "weak_title_only_match",
-            "director_unavailable"
-          ]
-        },
-        {
-          "director": null,
-          "original_title": null,
-          "overview_excerpt": "A government space experiment into the effects of cosmic rays on animal life goes horribly wrong, creating a mutant monster that terrorizes a rural community.",
-          "popularity": 1.0637,
-          "poster_path": "/xiV4xMNb1ZweScfcRVRjPBG3dR2.jpg",
-          "release_year": 1967,
-          "runtime_min": null,
-          "score": 0.0,
-          "search_query": "Fright Night",
-          "search_query_reason": "normalized_title",
-          "search_year_used": null,
-          "signals": {
-            "available_weight": 0.45,
-            "contributions": {
-              "title_exact": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": true,
-            "matched_weight": 0.0,
-            "original_title_exact": false,
-            "popularity": 1.0637,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": null,
-            "runtime_near": false,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "unavailable",
-            "search_query": "Fright Night",
-            "search_query_reason": "normalized_title",
-            "search_year_used": null,
-            "title_conflict": true,
-            "title_exact": false,
-            "title_prefix_equivalence": false,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "Night Fright",
-          "tmdb_id": 105101,
-          "warnings": [
-            "title_conflict",
-            "year_evidence_absent",
-            "director_unavailable"
-          ]
-        },
-        {
-          "director": null,
-          "original_title": null,
-          "overview_excerpt": "By day Gerri Dandridge is a sexy professor, but by night she transforms into a real-life vampire with an unquenchable thirst for human blood. When a group of high school students travel abroad to study in Romania, they …",
-          "popularity": 4.198,
-          "poster_path": "/lP3MHr2CZ7haubQ6E2mX44oYbuw.jpg",
-          "release_year": 2013,
-          "runtime_min": null,
-          "score": 0.0,
-          "search_query": "Fright Night",
-          "search_query_reason": "normalized_title",
-          "search_year_used": null,
-          "signals": {
-            "available_weight": 0.45,
-            "contributions": {
-              "title_exact": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": true,
-            "matched_weight": 0.0,
-            "original_title_exact": false,
-            "popularity": 4.198,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": null,
-            "runtime_near": false,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "unavailable",
-            "search_query": "Fright Night",
-            "search_query_reason": "normalized_title",
-            "search_year_used": null,
-            "title_conflict": true,
-            "title_exact": false,
-            "title_prefix_equivalence": false,
-            "year_conflict": false,
-            "year_evidence": "missing",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "Fright Night 2: New Blood",
-          "tmdb_id": 214597,
-          "warnings": [
-            "title_conflict",
-            "year_evidence_absent",
-            "director_unavailable"
-          ]
-        }
-      ],
-      "directors_normalized": [],
-      "directors_raw": null,
-      "entity_kind": "feature_film",
-      "film_id_fallback": "source:central_cinema:fright-night",
-      "match_confidence": 1.0,
-      "match_status": "review_required",
-      "normalized_title": "Fright Night",
-      "presentation_labels": [],
-      "proposed_tmdb_id": 11797,
-      "queue_id": "central_cinema:fright-night",
-      "runtime_min": 107,
-      "showtime_film_key": "fright-night",
-      "signals": {
-        "available_weight": 0.6,
-        "contributions": {
-          "runtime": {
-            "kind": "match",
-            "matched": true,
-            "weight": 0.15
-          },
-          "title_exact": {
-            "kind": "match",
-            "matched": true,
-            "weight": 0.45
-          },
-          "year": {
-            "kind": "absent",
-            "matched": false,
-            "weight": 0.0
-          }
-        },
-        "director_candidate_normalized": [
-          "tom holland"
-        ],
-        "director_conflict": false,
-        "director_overlap": false,
-        "director_source_normalized": [],
-        "director_status": "unavailable",
-        "director_weak_overlap": false,
-        "event_year_relaxed": false,
-        "external_id_exact": false,
-        "hard_conflict": false,
-        "matched_weight": 0.6,
-        "original_title_exact": false,
-        "popularity": 9.1619,
-        "runtime_compatible_max": 3,
-        "runtime_conflict": false,
-        "runtime_conflict_min": 25,
-        "runtime_delta_minutes": 0,
-        "runtime_near": true,
-        "runtime_soft": false,
-        "runtime_soft_max": 12,
-        "runtime_status": "match",
-        "search_query": "Fright Night",
-        "search_query_reason": "normalized_title",
-        "search_year_used": null,
-        "title_conflict": false,
-        "title_exact": true,
-        "title_prefix_equivalence": false,
-        "year_conflict": false,
-        "year_evidence": "missing",
-        "year_exact": false,
-        "year_near": false,
-        "year_status": "unavailable"
-      },
-      "source": "central_cinema",
-      "source_film_id": "fright-night",
-      "source_title": "Fright Night",
-      "top_candidate_margin": 0.0,
-      "warnings": [
-        "year_evidence_absent",
-        "missing_year_supported_by_other_evidence",
-        "director_unavailable",
-        "same_title_remake_ambiguity"
-      ],
-      "year_hint": null,
-      "year_interpretation": {
-        "alternate_search_title": null,
-        "anniversary_year_derived": false,
-        "anniversary_years": null,
-        "applied_alias": null,
-        "applied_alias_id": null,
-        "applied_rules": [
-          "normalized_source_fallback"
-        ],
-        "base_title": "Fright Night",
-        "canonical_year_candidate": null,
-        "event_labels": [],
-        "event_phrase": null,
-        "event_year": null,
-        "event_year_not_canonical": false,
-        "format_tags": [],
-        "presentation_labels": [],
-        "product_year": null,
-        "product_year_weak": false,
-        "program_series": null,
-        "removed_phrases": [],
-        "scoring_year": null,
-        "search_abbreviation": null,
-        "search_year": null,
-        "title_years": [],
-        "warnings": [],
-        "year_confidence": "none",
-        "year_evidence": "missing",
         "year_mismatch_relaxed": false
       }
     },
