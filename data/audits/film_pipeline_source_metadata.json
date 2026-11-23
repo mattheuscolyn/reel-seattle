@@ -1,43 +1,45 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-11-22T06:05:17-08:00",
+  "generated_at": "2026-11-23T09:09:54-08:00",
   "audit_kind": "film_pipeline_source_metadata",
   "logs_dir": "data/daily_logs",
   "sources": {
     "amc": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-22_amc.json",
-      "generated_at": "2026-11-22T05:53:46-08:00",
-      "record_count": 7685,
+      "latest_log": "data/daily_logs/2026-11-23_amc.json",
+      "generated_at": "2026-11-23T08:59:55-08:00",
+      "record_count": 7336,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 84,
-      "eligible_feature_count": 73,
+      "source_identity_count": 83,
+      "eligible_feature_count": 72,
       "title": {
-        "with_title": 84,
+        "with_title": 83,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 73,
-        "eligible_features_missing_runtime": 0,
-        "missing_feature_samples": []
+        "eligible_features_with_runtime": 71,
+        "eligible_features_missing_runtime": 1,
+        "missing_feature_samples": [
+          "THIS SYMPHONY MAY CONTAIN HOPE."
+        ]
       },
       "release_year": {
         "strategy": "source_catalog_join",
         "eligible_features_with_year": 0,
-        "eligible_features_missing_year": 73,
+        "eligible_features_missing_year": 72,
         "missing_feature_samples": [
           "Avengers: Doomsday",
           "Clayface",
           "Forgotten Island",
           "Disney's Hexed",
-          "PAW Patrol: The Dino Movie",
           "The Cat in the Hat",
           "Dune: Part Three",
           "The Hunger Games: Sunrise on the Reaping",
           "Violent Night 2",
-          "Focker In-Law"
+          "Focker In-Law",
+          "ZERO A.D.: The Birth of Christ"
         ]
       },
       "cleanup": {
@@ -123,7 +125,7 @@
       },
       "entity_kind_counts": {
         "broadcast_event": 10,
-        "feature_film": 73,
+        "feature_film": 72,
         "live_event": 1
       },
       "identities": [
@@ -182,22 +184,6 @@
           "matcher_title": "Disney's Hexed",
           "program_series": null,
           "runtime_min": 110,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:76344",
-          "source_title": "PAW Patrol: The Dino Movie",
-          "adapter_identity_title": null,
-          "matcher_title": "PAW Patrol: The Dino Movie",
-          "program_series": null,
-          "runtime_min": 88,
           "release_year": null,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
@@ -784,44 +770,12 @@
           ]
         },
         {
-          "source_identity_key": "id:84334",
-          "source_title": "ENE Repeat",
-          "adapter_identity_title": null,
-          "matcher_title": "ENE Repeat",
-          "program_series": null,
-          "runtime_min": 169,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
           "source_identity_key": "id:84366",
           "source_title": "La Bola Negra",
           "adapter_identity_title": null,
           "matcher_title": "La Bola Negra",
           "program_series": null,
           "runtime_min": 159,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:84430",
-          "source_title": "Festive Fun with Peppa Cinema Experience",
-          "adapter_identity_title": null,
-          "matcher_title": "Festive Fun with Peppa Cinema Experience",
-          "program_series": null,
-          "runtime_min": 60,
           "release_year": null,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
@@ -929,12 +883,12 @@
           ]
         },
         {
-          "source_identity_key": "id:84768",
-          "source_title": "Dune: Part Three Insider Screenings",
+          "source_identity_key": "id:84741",
+          "source_title": "Ink",
           "adapter_identity_title": null,
-          "matcher_title": "Dune: Part Three Insider Screenings",
+          "matcher_title": "Ink",
           "program_series": null,
-          "runtime_min": 150,
+          "runtime_min": 117,
           "release_year": null,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
@@ -945,12 +899,12 @@
           ]
         },
         {
-          "source_identity_key": "id:84773",
-          "source_title": "GIANT - The Play",
+          "source_identity_key": "id:84768",
+          "source_title": "Dune: Part Three Insider Screenings",
           "adapter_identity_title": null,
-          "matcher_title": "GIANT - The Play",
+          "matcher_title": "Dune: Part Three Insider Screenings",
           "program_series": null,
-          "runtime_min": 136,
+          "runtime_min": 150,
           "release_year": null,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
@@ -1314,6 +1268,22 @@
           ]
         },
         {
+          "source_identity_key": "id:85500",
+          "source_title": "THIS SYMPHONY MAY CONTAIN HOPE.",
+          "adapter_identity_title": null,
+          "matcher_title": "This Symphony May Contain Hope.",
+          "program_series": null,
+          "runtime_min": null,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
           "source_identity_key": "id:85503",
           "source_title": "BTS WORLD TOUR 'ARIRANG' IN JAKARTA: LIVE VIEWING",
           "adapter_identity_title": null,
@@ -1442,6 +1412,22 @@
           ]
         },
         {
+          "source_identity_key": "id:85686",
+          "source_title": "Cameron Winter at Carnegie Hall",
+          "adapter_identity_title": null,
+          "matcher_title": "Cameron Winter at Carnegie Hall",
+          "program_series": null,
+          "runtime_min": 72,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
           "source_identity_key": "id:85695",
           "source_title": "The Odyssey",
           "adapter_identity_title": null,
@@ -1477,20 +1463,20 @@
     },
     "siff": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-22_siff.json",
-      "generated_at": "2026-11-22T05:52:58-08:00",
-      "record_count": 171,
+      "latest_log": "data/daily_logs/2026-11-23_siff.json",
+      "generated_at": "2026-11-23T08:59:10-08:00",
+      "record_count": 158,
       "malformed_record_count": 0,
-      "warning_count": 7,
+      "warning_count": 6,
       "error_count": 0,
-      "source_identity_count": 35,
-      "eligible_feature_count": 34,
+      "source_identity_count": 31,
+      "eligible_feature_count": 30,
       "title": {
-        "with_title": 35,
+        "with_title": 31,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 33,
+        "eligible_features_with_runtime": 29,
         "eligible_features_missing_runtime": 1,
         "missing_feature_samples": [
           "Elsinore"
@@ -1498,26 +1484,14 @@
       },
       "release_year": {
         "strategy": "source_page_metadata",
-        "eligible_features_with_year": 34,
+        "eligible_features_with_year": 30,
         "eligible_features_missing_year": 0,
         "missing_feature_samples": []
       },
       "cleanup": {
-        "adapter_cleaned_identity_count": 15,
+        "adapter_cleaned_identity_count": 11,
         "matcher_cleaned_identity_count": 14,
         "adapter_cleanup_samples": [
-          {
-            "source_title": "Cinema Italian Style 2026: Beloved",
-            "identity_title": "Beloved"
-          },
-          {
-            "source_title": "Cinema Italian Style 2026: God Forgives Everyone",
-            "identity_title": "God Forgives Everyone"
-          },
-          {
-            "source_title": "Cinema Italian Style 2026: Journey to Italy",
-            "identity_title": "Journey to Italy"
-          },
           {
             "source_title": "Holiday Favorites: Fiddler on the Roof Sing-along",
             "identity_title": "Fiddler on the Roof Sing-along"
@@ -1545,6 +1519,18 @@
           {
             "source_title": "SIFF Movie Club: Mary and Max (35mm)",
             "identity_title": "Mary and Max (35mm)"
+          },
+          {
+            "source_title": "SIFF Movie Club: Midnight (35mm)",
+            "identity_title": "Midnight (35mm)"
+          },
+          {
+            "source_title": "SIFF Movie Club: The Love Witch (35mm)",
+            "identity_title": "The Love Witch (35mm)"
+          },
+          {
+            "source_title": "The Open Road: Beavis and Butt-Head Do America (35mm)",
+            "identity_title": "Beavis and Butt-Head Do America (35mm)"
           }
         ],
         "matcher_cleanup_samples": [
@@ -1621,20 +1607,8 @@
         ]
       },
       "series": {
-        "identity_count": 17,
+        "identity_count": 13,
         "samples": [
-          {
-            "source_title": "Cinema Italian Style 2026: Beloved",
-            "program_series": "Cinema Italian Style 2026"
-          },
-          {
-            "source_title": "Cinema Italian Style 2026: God Forgives Everyone",
-            "program_series": "Cinema Italian Style 2026"
-          },
-          {
-            "source_title": "Cinema Italian Style 2026: Journey to Italy",
-            "program_series": "Cinema Italian Style 2026"
-          },
           {
             "source_title": "Community Screening: Singin’ In the Rain",
             "program_series": "Community Screenings"
@@ -1662,11 +1636,23 @@
           {
             "source_title": "SIFF Movie Club: Damnation",
             "program_series": "SIFF Movie Club"
+          },
+          {
+            "source_title": "SIFF Movie Club: Days of Heaven",
+            "program_series": "SIFF Movie Club"
+          },
+          {
+            "source_title": "SIFF Movie Club: Mary and Max (35mm)",
+            "program_series": "SIFF Movie Club"
+          },
+          {
+            "source_title": "SIFF Movie Club: Midnight (35mm)",
+            "program_series": "SIFF Movie Club"
           }
         ]
       },
       "entity_kind_counts": {
-        "feature_film": 34,
+        "feature_film": 30,
         "multi_feature_program": 1
       },
       "identities": [
@@ -1959,54 +1945,6 @@
           ]
         },
         {
-          "source_identity_key": "id:programs-and-events/cinema-italian-style-2026/beloved",
-          "source_title": "Cinema Italian Style 2026: Beloved",
-          "adapter_identity_title": "Beloved",
-          "matcher_title": "Cinema Italian Style 2026: Beloved",
-          "program_series": "Cinema Italian Style 2026",
-          "runtime_min": 100,
-          "release_year": 2025,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": true,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:programs-and-events/cinema-italian-style-2026/god-forgives-everyone",
-          "source_title": "Cinema Italian Style 2026: God Forgives Everyone",
-          "adapter_identity_title": "God Forgives Everyone",
-          "matcher_title": "Cinema Italian Style 2026: God Forgives Everyone",
-          "program_series": "Cinema Italian Style 2026",
-          "runtime_min": 113,
-          "release_year": 2026,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": true,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:programs-and-events/cinema-italian-style-2026/journey-to-italy",
-          "source_title": "Cinema Italian Style 2026: Journey to Italy",
-          "adapter_identity_title": "Journey to Italy",
-          "matcher_title": "Cinema Italian Style 2026: Journey to Italy",
-          "program_series": "Cinema Italian Style 2026",
-          "runtime_min": 97,
-          "release_year": 1954,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": true,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
           "source_identity_key": "id:programs-and-events/community-screenings/singin-in-the-rain-cs",
           "source_title": "Community Screening: Singin’ In the Rain",
           "adapter_identity_title": null,
@@ -2202,22 +2140,6 @@
           ]
         },
         {
-          "source_identity_key": "id:programs-and-events/the-open-road/route-one/usa",
-          "source_title": "The Open Road: Route One/USA",
-          "adapter_identity_title": "Route One/USA",
-          "matcher_title": "The Open Road: Route One/USA",
-          "program_series": "The Open Road",
-          "runtime_min": 254,
-          "release_year": 1989,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": true,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
           "source_identity_key": "id:programs-and-events/the-open-road/taste-of-cherry",
           "source_title": "The Open Road: Taste of Cherry",
           "adapter_identity_title": "Taste of Cherry",
@@ -2237,9 +2159,9 @@
     },
     "beacon": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-22_beacon.json",
-      "generated_at": "2026-11-22T05:52:58-08:00",
-      "record_count": 76,
+      "latest_log": "data/daily_logs/2026-11-23_beacon.json",
+      "generated_at": "2026-11-23T08:59:10-08:00",
+      "record_count": 74,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
@@ -3010,34 +2932,34 @@
     },
     "nwff": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-22_nwff.json",
-      "generated_at": "2026-11-22T05:51:40-08:00",
-      "record_count": 93,
+      "latest_log": "data/daily_logs/2026-11-23_nwff.json",
+      "generated_at": "2026-11-23T08:57:50-08:00",
+      "record_count": 89,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 31,
-      "eligible_feature_count": 30,
+      "source_identity_count": 30,
+      "eligible_feature_count": 29,
       "title": {
-        "with_title": 31,
+        "with_title": 30,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 30,
+        "eligible_features_with_runtime": 29,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "source_page_when_published",
-        "eligible_features_with_year": 29,
+        "eligible_features_with_year": 28,
         "eligible_features_missing_year": 1,
         "missing_feature_samples": [
           "Truth To Fiction: Vittorio De Seta's Lost World"
         ]
       },
       "cleanup": {
-        "adapter_cleaned_identity_count": 11,
-        "matcher_cleaned_identity_count": 13,
+        "adapter_cleaned_identity_count": 10,
+        "matcher_cleaned_identity_count": 12,
         "adapter_cleanup_samples": [
           {
             "source_title": "MOURNING SICKNESS VOL. 5: Showgirls Annual Screenings",
@@ -3068,16 +2990,16 @@
             "identity_title": "Vittorio De Seta's Lost World"
           },
           {
-            "source_title": "Unstreamable - Love Streams",
-            "identity_title": "Love Streams"
-          },
-          {
             "source_title": "Unstreamable - Mod Fuck Explosion",
             "identity_title": "Mod Fuck Explosion"
           },
           {
             "source_title": "Unstreamable - The Taste of Tea",
             "identity_title": "The Taste of Tea"
+          },
+          {
+            "source_title": "WTF with STUFF - Fresh Kill",
+            "identity_title": "Fresh Kill"
           }
         ],
         "matcher_cleanup_samples": [
@@ -3146,8 +3068,8 @@
             ]
           },
           {
-            "source_title": "Unstreamable - Love Streams",
-            "matcher_title": "Love Streams",
+            "source_title": "Unstreamable - Mod Fuck Explosion",
+            "matcher_title": "Mod Fuck Explosion",
             "rules": [
               "program_series:unstreamable"
             ]
@@ -3155,7 +3077,7 @@
         ]
       },
       "series": {
-        "identity_count": 11,
+        "identity_count": 10,
         "samples": [
           {
             "source_title": "MOURNING SICKNESS VOL. 5: Showgirls Annual Screenings",
@@ -3186,21 +3108,21 @@
             "program_series": "Truth To Fiction"
           },
           {
-            "source_title": "Unstreamable - Love Streams",
-            "program_series": "Unstreamable"
-          },
-          {
             "source_title": "Unstreamable - Mod Fuck Explosion",
             "program_series": "Unstreamable"
           },
           {
             "source_title": "Unstreamable - The Taste of Tea",
             "program_series": "Unstreamable"
+          },
+          {
+            "source_title": "WTF with STUFF - Fresh Kill",
+            "program_series": "WTF with STUFF"
           }
         ]
       },
       "entity_kind_counts": {
-        "feature_film": 30,
+        "feature_film": 29,
         "shorts_program": 1
       },
       "identities": [
@@ -3590,22 +3512,6 @@
           ]
         },
         {
-          "source_identity_key": "id:unstreamable-love-streams",
-          "source_title": "Unstreamable - Love Streams",
-          "adapter_identity_title": "Love Streams",
-          "matcher_title": "Love Streams",
-          "program_series": "Unstreamable",
-          "runtime_min": 140,
-          "release_year": 1984,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": true,
-          "matcher_cleanup": true,
-          "normalization_rules": [
-            "program_series:unstreamable"
-          ]
-        },
-        {
           "source_identity_key": "id:unstreamable-mod-fuck-explosion",
           "source_title": "Unstreamable - Mod Fuck Explosion",
           "adapter_identity_title": "Mod Fuck Explosion",
@@ -3705,47 +3611,82 @@
     },
     "central_cinema": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-22_central_cinema.json",
-      "generated_at": "2026-11-22T05:51:56-08:00",
-      "record_count": 8,
+      "latest_log": "data/daily_logs/2026-11-23_central_cinema.json",
+      "generated_at": "2026-11-23T08:58:09-08:00",
+      "record_count": 7,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 3,
-      "eligible_feature_count": 3,
+      "source_identity_count": 4,
+      "eligible_feature_count": 4,
       "title": {
-        "with_title": 3,
+        "with_title": 4,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 3,
+        "eligible_features_with_runtime": 4,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "source_page_when_published",
         "eligible_features_with_year": 0,
-        "eligible_features_missing_year": 3,
+        "eligible_features_missing_year": 4,
         "missing_feature_samples": [
+          "Cinemancy: Legend",
           "Eating Raoul",
           "Planes, Trains and Automobiles",
           "Seattle Scare Society: Chopping Mall"
         ]
       },
       "cleanup": {
-        "adapter_cleaned_identity_count": 0,
-        "matcher_cleaned_identity_count": 0,
-        "adapter_cleanup_samples": [],
-        "matcher_cleanup_samples": []
+        "adapter_cleaned_identity_count": 1,
+        "matcher_cleaned_identity_count": 1,
+        "adapter_cleanup_samples": [
+          {
+            "source_title": "Cinemancy: Legend",
+            "identity_title": "Legend"
+          }
+        ],
+        "matcher_cleanup_samples": [
+          {
+            "source_title": "Cinemancy: Legend",
+            "matcher_title": "Legend",
+            "rules": [
+              "program_series:cinemancy"
+            ]
+          }
+        ]
       },
       "series": {
-        "identity_count": 0,
-        "samples": []
+        "identity_count": 1,
+        "samples": [
+          {
+            "source_title": "Cinemancy: Legend",
+            "program_series": "Cinemancy"
+          }
+        ]
       },
       "entity_kind_counts": {
-        "feature_film": 3
+        "feature_film": 4
       },
       "identities": [
+        {
+          "source_identity_key": "id:cinemancy-legend",
+          "source_title": "Cinemancy: Legend",
+          "adapter_identity_title": "Legend",
+          "matcher_title": "Legend",
+          "program_series": "Cinemancy",
+          "runtime_min": 94,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": true,
+          "matcher_cleanup": true,
+          "normalization_rules": [
+            "program_series:cinemancy"
+          ]
+        },
         {
           "source_identity_key": "id:eating-raoul",
           "source_title": "Eating Raoul",
@@ -3798,8 +3739,8 @@
     },
     "grand_illusion": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-22_grand_illusion.json",
-      "generated_at": "2026-11-22T05:52:56-08:00",
+      "latest_log": "data/daily_logs/2026-11-23_grand_illusion.json",
+      "generated_at": "2026-11-23T08:59:08-08:00",
       "record_count": 19,
       "malformed_record_count": 0,
       "warning_count": 0,
@@ -4053,9 +3994,9 @@
     },
     "tasveer": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-22_tasveer.json",
-      "generated_at": "2026-11-22T05:52:56-08:00",
-      "record_count": 18,
+      "latest_log": "data/daily_logs/2026-11-23_tasveer.json",
+      "generated_at": "2026-11-23T08:59:08-08:00",
+      "record_count": 16,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
@@ -4201,9 +4142,9 @@
     },
     "anderson_school": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-22_anderson_school.json",
-      "generated_at": "2026-11-22T05:52:58-08:00",
-      "record_count": 28,
+      "latest_log": "data/daily_logs/2026-11-23_anderson_school.json",
+      "generated_at": "2026-11-23T08:59:09-08:00",
+      "record_count": 25,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
@@ -4520,9 +4461,9 @@
     },
     "majestic_bay": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-22_majestic_bay.json",
-      "generated_at": "2026-11-22T05:52:58-08:00",
-      "record_count": 47,
+      "latest_log": "data/daily_logs/2026-11-23_majestic_bay.json",
+      "generated_at": "2026-11-23T08:59:10-08:00",
+      "record_count": 38,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
@@ -4717,6 +4658,7 @@
   "findings": {
     "missing_logs": [],
     "sources_with_feature_runtime_gaps": [
+      "amc",
       "siff",
       "beacon",
       "stg"
