@@ -1,12 +1,12 @@
 {
   "catalog_path": "data/film_identity/film_identity_catalog.json",
   "collisions": 0,
-  "coverage_rate": 0.5728643216080402,
-  "generated_at": "2026-11-23T17:00:24+00:00",
-  "index_size": 131,
+  "coverage_rate": 0.5879396984924623,
+  "generated_at": "2026-11-23T18:51:00+00:00",
+  "index_size": 127,
   "invalid_identities": 0,
-  "mapping_misses": 85,
-  "non_null_film_id": 114,
+  "mapping_misses": 82,
+  "non_null_film_id": 117,
   "notes": [
     "Public film_id emits confirmed tmdb:<id> only; unmatched/program → null.",
     "Mapping key is source_identity_key (source|id|sid preferred).",
@@ -14,12 +14,12 @@
     "Saved/Seen/NI readers prefer filmId with showtimeFilmKey aliases (T-FILMID-03).",
     "Film Detail / Home / Search join enrichment by exact filmId only."
   ],
-  "null_film_id": 85,
+  "null_film_id": 82,
   "per_source": {
     "amc": {
       "films": 83,
-      "null_film_id": 46,
-      "with_film_id": 37
+      "null_film_id": 44,
+      "with_film_id": 39
     },
     "anderson_school": {
       "films": 1,
@@ -33,8 +33,8 @@
     },
     "central_cinema": {
       "films": 4,
-      "null_film_id": 2,
-      "with_film_id": 2
+      "null_film_id": 1,
+      "with_film_id": 3
     },
     "grand_illusion": {
       "films": 9,
@@ -62,21 +62,12 @@
       "with_film_id": 4
     }
   },
-  "performance_identity": {
-    "ambiguous": 0,
-    "inherited_from_registry": 12,
-    "matched": 0,
-    "registry_path": "data/performance_identity/performance_identity_current.json",
-    "registry_persisted": false,
-    "registry_upserts": 0,
-    "unmatched_gi": 12
-  },
-  "repeated_canonical_across_films": 2,
+  "repeated_canonical_across_films": 3,
   "schema_version": "1.0.0",
   "source_fallback_emitted": 0,
   "status": "ok",
   "total_public_films": 199,
-  "unique_tmdb_ids": 112,
+  "unique_tmdb_ids": 114,
   "warning_count": 0,
   "warnings": []
 }
