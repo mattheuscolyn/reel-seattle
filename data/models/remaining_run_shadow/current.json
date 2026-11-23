@@ -156,9 +156,9 @@
   },
   "snapshot_coverage": {
     "since": "2026-09-03",
-    "through": "2026-11-22",
-    "expected_days": 81,
-    "observed_days": 75,
+    "through": "2026-11-23",
+    "expected_days": 82,
+    "observed_days": 76,
     "missing_dates": [
       "2026-10-13",
       "2026-10-14",
@@ -686,18 +686,18 @@
   },
   "publication_threshold": 0.8,
   "tmdb_cost": {
-    "active_films": 20,
-    "requests_per_run": 20,
-    "requests_per_day": 20,
-    "requests_per_week": 20,
+    "active_films": 19,
+    "requests_per_run": 19,
+    "requests_per_day": 19,
+    "requests_per_week": 19,
     "dynamic_bytes_per_row": 180,
-    "dynamic_megabytes_per_month_daily": 0.108,
+    "dynamic_megabytes_per_month_daily": 0.103,
     "dynamic_megabytes_per_month_weekly": 0.014,
-    "stable_megabytes_per_refresh": 0.018,
+    "stable_megabytes_per_refresh": 0.017,
     "extra_requests_beyond_movie_details": 0,
     "keywords_included": false,
     "cadence": "daily",
     "reason": "A few hundred movie-details calls a day is inside normal TMDB throughput, and daily rows are small enough to keep. The same call already returns popularity, vote_count, and vote_average."
   },
-  "generated_at": "2026-11-22T16:56:19+00:00"
+  "generated_at": "2026-11-23T20:55:15+00:00"
 }
