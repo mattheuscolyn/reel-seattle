@@ -1,6 +1,6 @@
 {
   "schema_version": "1.1.0",
-  "generated_at": "2026-11-23T12:20:03-08:00",
+  "generated_at": "2026-11-24T08:55:23-08:00",
   "timezone": "America/Los_Angeles",
   "week": {
     "start_date": "2026-11-23",
@@ -12,7 +12,7 @@
     "description": "Citywide opening_date is the earliest non-canceled scheduled Date across enabled Seattle theaters after collapsing variants to parent film identity. A film is a member when week_start <= opening_date <= week_end (Pacific Monday–Sunday). Current showtimes join visibility metadata only. opening_type is soft QA classification (theatrical/repertory/event/limited) and does not affect membership."
   },
   "stats": {
-    "entry_count": 24,
+    "entry_count": 25,
     "low_confidence_count": 0,
     "override_applied_count": 0,
     "earliest_opening_date": "2026-11-23",
@@ -20,7 +20,7 @@
     "opening_type_counts": {
       "limited": 9,
       "event": 2,
-      "theatrical": 9,
+      "theatrical": 10,
       "repertory": 4
     }
   },
@@ -36,7 +36,7 @@
         "amc-southcenter-16"
       ],
       "theater_count_on_opening_date": 2,
-      "visible_showtime_count": 4,
+      "visible_showtime_count": 0,
       "engagement_days": 1,
       "historical_screening_count": 2,
       "opening_type": "limited",
@@ -69,7 +69,7 @@
         "amc-southcenter-16"
       ],
       "theater_count_on_opening_date": 2,
-      "visible_showtime_count": 4,
+      "visible_showtime_count": 0,
       "engagement_days": 1,
       "historical_screening_count": 2,
       "opening_type": "limited",
@@ -132,9 +132,9 @@
         "amc-alderwood-mall-16"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 88,
-      "engagement_days": 9,
-      "historical_screening_count": 44,
+      "visible_showtime_count": 102,
+      "engagement_days": 10,
+      "historical_screening_count": 51,
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
@@ -142,7 +142,7 @@
         "variant_showtime_film_keys": [
           "bitter-christmas"
         ],
-        "distinct_scheduled_dates": 9,
+        "distinct_scheduled_dates": 10,
         "bootstrap_theater_ids": [],
         "mature_theater_ids": [
           "amc-alderwood-mall-16",
@@ -202,9 +202,9 @@
         "amc-woodinville-12"
       ],
       "theater_count_on_opening_date": 7,
-      "visible_showtime_count": 1020,
+      "visible_showtime_count": 1094,
       "engagement_days": 18,
-      "historical_screening_count": 511,
+      "historical_screening_count": 548,
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
@@ -275,14 +275,15 @@
       "opening_date": "2026-11-24",
       "theaters_on_opening_date": [
         "amc-alderwood-mall-16",
+        "amc-factoria-8",
         "amc-kent-station-14",
         "amc-southcenter-16",
         "amc-woodinville-12"
       ],
-      "theater_count_on_opening_date": 4,
-      "visible_showtime_count": 336,
+      "theater_count_on_opening_date": 5,
+      "visible_showtime_count": 394,
       "engagement_days": 9,
-      "historical_screening_count": 168,
+      "historical_screening_count": 197,
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
@@ -294,6 +295,7 @@
         "bootstrap_theater_ids": [],
         "mature_theater_ids": [
           "amc-alderwood-mall-16",
+          "amc-factoria-8",
           "amc-kent-station-14",
           "amc-southcenter-16",
           "amc-woodinville-12"
@@ -314,9 +316,9 @@
         "majestic-bay"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 14,
-      "engagement_days": 3,
-      "historical_screening_count": 7,
+      "visible_showtime_count": 42,
+      "engagement_days": 9,
+      "historical_screening_count": 21,
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
@@ -324,7 +326,7 @@
         "variant_showtime_film_keys": [
           "hexed"
         ],
-        "distinct_scheduled_dates": 3,
+        "distinct_scheduled_dates": 9,
         "bootstrap_theater_ids": [],
         "mature_theater_ids": [
           "majestic-bay"
@@ -345,12 +347,13 @@
         "amc-alderwood-mall-16",
         "amc-kent-station-14",
         "amc-pacific-place-11",
-        "amc-southcenter-16"
+        "amc-southcenter-16",
+        "amc-woodinville-12"
       ],
-      "theater_count_on_opening_date": 4,
-      "visible_showtime_count": 348,
+      "theater_count_on_opening_date": 5,
+      "visible_showtime_count": 394,
       "engagement_days": 9,
-      "historical_screening_count": 174,
+      "historical_screening_count": 197,
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
@@ -365,6 +368,7 @@
           "amc-kent-station-14",
           "amc-pacific-place-11",
           "amc-southcenter-16",
+          "amc-woodinville-12",
           "siff-cinema-uptown"
         ],
         "sources": [
@@ -452,9 +456,9 @@
         "amc-woodinville-12"
       ],
       "theater_count_on_opening_date": 7,
-      "visible_showtime_count": 1126,
+      "visible_showtime_count": 1172,
       "engagement_days": 16,
-      "historical_screening_count": 563,
+      "historical_screening_count": 586,
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
@@ -568,6 +572,68 @@
         "mature_theater_ids": [
           "amc-alderwood-mall-16",
           "amc-kent-station-14",
+          "amc-southcenter-16"
+        ],
+        "sources": [
+          "amc"
+        ]
+      },
+      "override": null
+    },
+    {
+      "showtime_film_key": "closed-for-thanksgiving",
+      "parent_film_key": "closed-for-thanksgiving",
+      "film_id": null,
+      "film_title": "Closed for Thanksgiving",
+      "opening_date": "2026-11-26",
+      "theaters_on_opening_date": [
+        "central-cinema"
+      ],
+      "theater_count_on_opening_date": 1,
+      "visible_showtime_count": 2,
+      "engagement_days": 1,
+      "historical_screening_count": 1,
+      "opening_type": "limited",
+      "confidence": "high",
+      "evidence": {
+        "identity_method": "showtime_film_key",
+        "variant_showtime_film_keys": [
+          "closed-for-thanksgiving"
+        ],
+        "distinct_scheduled_dates": 1,
+        "bootstrap_theater_ids": [],
+        "mature_theater_ids": [
+          "central-cinema"
+        ],
+        "sources": [
+          "central_cinema"
+        ]
+      },
+      "override": null
+    },
+    {
+      "showtime_film_key": "yeh-prem-mol-liya",
+      "parent_film_key": "yeh-prem-mol-liya",
+      "film_id": null,
+      "film_title": "Yeh Prem Mol Liya",
+      "opening_date": "2026-11-26",
+      "theaters_on_opening_date": [
+        "amc-southcenter-16"
+      ],
+      "theater_count_on_opening_date": 1,
+      "visible_showtime_count": 14,
+      "engagement_days": 7,
+      "historical_screening_count": 7,
+      "opening_type": "theatrical",
+      "confidence": "high",
+      "evidence": {
+        "identity_method": "showtime_film_key",
+        "variant_showtime_film_keys": [
+          "yeh-prem-mol-liya"
+        ],
+        "distinct_scheduled_dates": 7,
+        "bootstrap_theater_ids": [],
+        "mature_theater_ids": [
           "amc-southcenter-16"
         ],
         "sources": [
@@ -789,37 +855,6 @@
         ],
         "sources": [
           "beacon"
-        ]
-      },
-      "override": null
-    },
-    {
-      "showtime_film_key": "backcourt-documentary-basketball-s-best-kept-secret",
-      "parent_film_key": "backcourt-documentary-basketball-s-best-kept-secret",
-      "film_id": null,
-      "film_title": "The Backcourt Documentary - Basketball's Best Kept Secret",
-      "opening_date": "2026-11-29",
-      "theaters_on_opening_date": [
-        "siff-film-center"
-      ],
-      "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 2,
-      "engagement_days": 1,
-      "historical_screening_count": 1,
-      "opening_type": "limited",
-      "confidence": "high",
-      "evidence": {
-        "identity_method": "showtime_film_key",
-        "variant_showtime_film_keys": [
-          "backcourt-documentary-basketball-s-best-kept-secret"
-        ],
-        "distinct_scheduled_dates": 1,
-        "bootstrap_theater_ids": [],
-        "mature_theater_ids": [
-          "siff-film-center"
-        ],
-        "sources": [
-          "siff"
         ]
       },
       "override": null

@@ -1,25 +1,25 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-11-23T09:09:54-08:00",
+  "generated_at": "2026-11-24T09:02:46-08:00",
   "audit_kind": "film_pipeline_source_metadata",
   "logs_dir": "data/daily_logs",
   "sources": {
     "amc": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-23_amc.json",
-      "generated_at": "2026-11-23T08:59:55-08:00",
-      "record_count": 7336,
+      "latest_log": "data/daily_logs/2026-11-24_amc.json",
+      "generated_at": "2026-11-24T08:49:27-08:00",
+      "record_count": 8304,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 83,
-      "eligible_feature_count": 72,
+      "source_identity_count": 82,
+      "eligible_feature_count": 70,
       "title": {
-        "with_title": 83,
+        "with_title": 82,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 71,
+        "eligible_features_with_runtime": 69,
         "eligible_features_missing_runtime": 1,
         "missing_feature_samples": [
           "THIS SYMPHONY MAY CONTAIN HOPE."
@@ -28,7 +28,7 @@
       "release_year": {
         "strategy": "source_catalog_join",
         "eligible_features_with_year": 0,
-        "eligible_features_missing_year": 72,
+        "eligible_features_missing_year": 70,
         "missing_feature_samples": [
           "Avengers: Doomsday",
           "Clayface",
@@ -38,25 +38,18 @@
           "Dune: Part Three",
           "The Hunger Games: Sunrise on the Reaping",
           "Violent Night 2",
-          "Focker In-Law",
-          "ZERO A.D.: The Birth of Christ"
+          "Werwulf",
+          "Focker In-Law"
         ]
       },
       "cleanup": {
         "adapter_cleaned_identity_count": 0,
-        "matcher_cleaned_identity_count": 23,
+        "matcher_cleaned_identity_count": 21,
         "adapter_cleanup_samples": [],
         "matcher_cleanup_samples": [
           {
             "source_title": "The Maltese Falcon 85th Anniversary",
             "matcher_title": "The Maltese Falcon",
-            "rules": [
-              "presentation_trailing_atoms"
-            ]
-          },
-          {
-            "source_title": "A Beautiful Mind 25th Anniversary",
-            "matcher_title": "A Beautiful Mind",
             "rules": [
               "presentation_trailing_atoms"
             ]
@@ -116,6 +109,13 @@
             "rules": [
               "film_year_paren"
             ]
+          },
+          {
+            "source_title": "MET Opera: Manon Encore (2027)",
+            "matcher_title": "MET Opera: Manon Encore",
+            "rules": [
+              "film_year_paren"
+            ]
           }
         ]
       },
@@ -125,8 +125,9 @@
       },
       "entity_kind_counts": {
         "broadcast_event": 10,
-        "feature_film": 72,
-        "live_event": 1
+        "feature_film": 70,
+        "live_event": 1,
+        "mystery_screening": 1
       },
       "identities": [
         {
@@ -248,6 +249,22 @@
           "matcher_title": "Violent Night 2",
           "program_series": null,
           "runtime_min": 110,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:79305",
+          "source_title": "Werwulf",
+          "adapter_identity_title": null,
+          "matcher_title": "Werwulf",
+          "program_series": null,
+          "runtime_min": 120,
           "release_year": null,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
@@ -402,22 +419,6 @@
           ]
         },
         {
-          "source_identity_key": "id:82780",
-          "source_title": "A Beautiful Mind 25th Anniversary",
-          "adapter_identity_title": null,
-          "matcher_title": "A Beautiful Mind",
-          "program_series": null,
-          "runtime_min": 140,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": true,
-          "normalization_rules": [
-            "presentation_trailing_atoms"
-          ]
-        },
-        {
           "source_identity_key": "id:82788",
           "source_title": "It's a Wonderful Life 80th Anniversary",
           "adapter_identity_title": null,
@@ -498,22 +499,6 @@
           ]
         },
         {
-          "source_identity_key": "id:83723",
-          "source_title": "Drummer Boy",
-          "adapter_identity_title": null,
-          "matcher_title": "Drummer Boy",
-          "program_series": null,
-          "runtime_min": 129,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
           "source_identity_key": "id:83726",
           "source_title": "Hershey",
           "adapter_identity_title": null,
@@ -584,22 +569,6 @@
           "matcher_title": "The Further Mis-Adventures Of Cliff Booth",
           "program_series": null,
           "runtime_min": 145,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:84240",
-          "source_title": "Wicker",
-          "adapter_identity_title": null,
-          "matcher_title": "Wicker",
-          "program_series": null,
-          "runtime_min": 105,
           "release_year": null,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
@@ -770,12 +739,44 @@
           ]
         },
         {
+          "source_identity_key": "id:84334",
+          "source_title": "ENE Repeat",
+          "adapter_identity_title": null,
+          "matcher_title": "ENE Repeat",
+          "program_series": null,
+          "runtime_min": 169,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
           "source_identity_key": "id:84366",
           "source_title": "La Bola Negra",
           "adapter_identity_title": null,
           "matcher_title": "La Bola Negra",
           "program_series": null,
           "runtime_min": 159,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:84449",
+          "source_title": "The Debut",
+          "adapter_identity_title": null,
+          "matcher_title": "The Debut",
+          "program_series": null,
+          "runtime_min": 105,
           "release_year": null,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
@@ -1139,12 +1140,12 @@
           ]
         },
         {
-          "source_identity_key": "id:85227",
-          "source_title": "Doctor Who: The Satan Pit",
+          "source_identity_key": "id:85304",
+          "source_title": "Yeh Prem Mol Liya",
           "adapter_identity_title": null,
-          "matcher_title": "Doctor Who: The Satan Pit",
+          "matcher_title": "Yeh Prem Mol Liya",
           "program_series": null,
-          "runtime_min": 115,
+          "runtime_min": 173,
           "release_year": null,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
@@ -1152,22 +1153,6 @@
           "matcher_cleanup": false,
           "normalization_rules": [
             "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:85305",
-          "source_title": "The Host 4K Re-Release",
-          "adapter_identity_title": null,
-          "matcher_title": "The Host",
-          "program_series": null,
-          "runtime_min": 120,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": true,
-          "normalization_rules": [
-            "presentation_trailing_atoms"
           ]
         },
         {
@@ -1348,22 +1333,6 @@
           ]
         },
         {
-          "source_identity_key": "id:85550",
-          "source_title": "The Rings of Power S3 Ep7 - Forging the One Ring",
-          "adapter_identity_title": null,
-          "matcher_title": "The Rings of Power S3 Ep7 - Forging the One Ring",
-          "program_series": null,
-          "runtime_min": 73,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
           "source_identity_key": "id:85597",
           "source_title": "Prince 3121 Las Vegas Live",
           "adapter_identity_title": null,
@@ -1458,33 +1427,50 @@
           "normalization_rules": [
             "normalized_source_fallback"
           ]
+        },
+        {
+          "source_identity_key": "id:85700",
+          "source_title": "AMC Screen Unseen: December 7",
+          "adapter_identity_title": null,
+          "matcher_title": "AMC Screen Unseen: December 7",
+          "program_series": null,
+          "runtime_min": 118,
+          "release_year": null,
+          "eligibility": "non_film",
+          "entity_kind": "mystery_screening",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
         }
       ]
     },
     "siff": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-23_siff.json",
-      "generated_at": "2026-11-23T08:59:10-08:00",
-      "record_count": 158,
+      "latest_log": "data/daily_logs/2026-11-24_siff.json",
+      "generated_at": "2026-11-24T08:48:45-08:00",
+      "record_count": 239,
       "malformed_record_count": 0,
-      "warning_count": 6,
+      "warning_count": 7,
       "error_count": 0,
-      "source_identity_count": 31,
-      "eligible_feature_count": 30,
+      "source_identity_count": 37,
+      "eligible_feature_count": 36,
       "title": {
-        "with_title": 31,
+        "with_title": 37,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 29,
-        "eligible_features_missing_runtime": 1,
+        "eligible_features_with_runtime": 34,
+        "eligible_features_missing_runtime": 2,
         "missing_feature_samples": [
-          "Elsinore"
+          "Elsinore",
+          "The Debut"
         ]
       },
       "release_year": {
         "strategy": "source_page_metadata",
-        "eligible_features_with_year": 30,
+        "eligible_features_with_year": 36,
         "eligible_features_missing_year": 0,
         "missing_feature_samples": []
       },
@@ -1607,7 +1593,7 @@
         ]
       },
       "series": {
-        "identity_count": 13,
+        "identity_count": 16,
         "samples": [
           {
             "source_title": "Community Screening: Singin’ In the Rain",
@@ -1652,10 +1638,26 @@
         ]
       },
       "entity_kind_counts": {
-        "feature_film": 30,
+        "feature_film": 36,
         "multi_feature_program": 1
       },
       "identities": [
+        {
+          "source_identity_key": "id:cinema/in-theaters/all-of-a-sudden",
+          "source_title": "All of a Sudden",
+          "adapter_identity_title": null,
+          "matcher_title": "All of a Sudden",
+          "program_series": null,
+          "runtime_min": 196,
+          "release_year": 2026,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
         {
           "source_identity_key": "id:cinema/in-theaters/beware-the-devils-wrath-special-screening-qanda",
           "source_title": "Beware! The Devil’s Wrath - Special Screening + Q&A",
@@ -1833,6 +1835,22 @@
           ]
         },
         {
+          "source_identity_key": "id:cinema/in-theaters/on-the-road",
+          "source_title": "On The Road",
+          "adapter_identity_title": null,
+          "matcher_title": "On The Road",
+          "program_series": null,
+          "runtime_min": 93,
+          "release_year": 2025,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
           "source_identity_key": "id:cinema/in-theaters/paper-tiger",
           "source_title": "Paper Tiger",
           "adapter_identity_title": null,
@@ -1865,12 +1883,12 @@
           ]
         },
         {
-          "source_identity_key": "id:cinema/in-theaters/the-backcourt-documentary-basketballs-best-kept-secret",
-          "source_title": "The Backcourt Documentary - Basketball's Best Kept Secret",
+          "source_identity_key": "id:cinema/in-theaters/the-debut",
+          "source_title": "The Debut",
           "adapter_identity_title": null,
-          "matcher_title": "The Backcourt Documentary - Basketball's Best Kept Secret",
+          "matcher_title": "The Debut",
           "program_series": null,
-          "runtime_min": 120,
+          "runtime_min": null,
           "release_year": 2026,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
@@ -1903,6 +1921,22 @@
           "matcher_title": "The Oldest Person in the World",
           "program_series": null,
           "runtime_min": 87,
+          "release_year": 2026,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:cinema/in-theaters/werwulf",
+          "source_title": "Werwulf",
+          "adapter_identity_title": null,
+          "matcher_title": "Werwulf",
+          "program_series": null,
+          "runtime_min": 120,
           "release_year": 2026,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
@@ -2124,6 +2158,54 @@
           ]
         },
         {
+          "source_identity_key": "id:programs-and-events/the-godfather-trilogy/the-godfather",
+          "source_title": "The Godfather",
+          "adapter_identity_title": null,
+          "matcher_title": "The Godfather",
+          "program_series": "The Godfather Trilogy",
+          "runtime_min": 175,
+          "release_year": 1972,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:programs-and-events/the-godfather-trilogy/the-godfather-coda-the-death-of-michael-corleone",
+          "source_title": "The Godfather Coda: The Death of Michael Corleone",
+          "adapter_identity_title": null,
+          "matcher_title": "The Godfather Coda: The Death of Michael Corleone",
+          "program_series": "The Godfather Trilogy",
+          "runtime_min": 158,
+          "release_year": 1990,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:programs-and-events/the-godfather-trilogy/the-godfather-part-ii",
+          "source_title": "The Godfather Part II",
+          "adapter_identity_title": null,
+          "matcher_title": "The Godfather Part II",
+          "program_series": "The Godfather Trilogy",
+          "runtime_min": 200,
+          "release_year": 1974,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
           "source_identity_key": "id:programs-and-events/the-open-road/beavis-and-butt-head-do-america",
           "source_title": "The Open Road: Beavis and Butt-Head Do America (35mm)",
           "adapter_identity_title": "Beavis and Butt-Head Do America (35mm)",
@@ -2159,20 +2241,20 @@
     },
     "beacon": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-23_beacon.json",
-      "generated_at": "2026-11-23T08:59:10-08:00",
-      "record_count": 74,
+      "latest_log": "data/daily_logs/2026-11-24_beacon.json",
+      "generated_at": "2026-11-24T08:48:45-08:00",
+      "record_count": 72,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 44,
-      "eligible_feature_count": 41,
+      "source_identity_count": 43,
+      "eligible_feature_count": 40,
       "title": {
-        "with_title": 44,
+        "with_title": 43,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 40,
+        "eligible_features_with_runtime": 39,
         "eligible_features_missing_runtime": 1,
         "missing_feature_samples": [
           "?????? CINEMA"
@@ -2180,7 +2262,7 @@
       },
       "release_year": {
         "strategy": "source_page_when_published",
-        "eligible_features_with_year": 37,
+        "eligible_features_with_year": 36,
         "eligible_features_missing_year": 4,
         "missing_feature_samples": [
           "?????? CINEMA",
@@ -2219,7 +2301,7 @@
       },
       "entity_kind_counts": {
         "composite_event": 1,
-        "feature_film": 41,
+        "feature_film": 40,
         "multi_feature_program": 1,
         "mystery_screening": 1
       },
@@ -2360,22 +2442,6 @@
           "program_series": null,
           "runtime_min": 110,
           "release_year": 1998,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:clash-by-ight",
-          "source_title": "CLASH BY NIGHT",
-          "adapter_identity_title": null,
-          "matcher_title": "Clash By Night",
-          "program_series": null,
-          "runtime_min": 105,
-          "release_year": 1952,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
           "adapter_cleanup": false,
@@ -2932,9 +2998,9 @@
     },
     "nwff": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-23_nwff.json",
-      "generated_at": "2026-11-23T08:57:50-08:00",
-      "record_count": 89,
+      "latest_log": "data/daily_logs/2026-11-24_nwff.json",
+      "generated_at": "2026-11-24T08:47:20-08:00",
+      "record_count": 87,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
@@ -3611,9 +3677,9 @@
     },
     "central_cinema": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-23_central_cinema.json",
-      "generated_at": "2026-11-23T08:58:09-08:00",
-      "record_count": 7,
+      "latest_log": "data/daily_logs/2026-11-24_central_cinema.json",
+      "generated_at": "2026-11-24T08:47:38-08:00",
+      "record_count": 5,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
@@ -3634,7 +3700,7 @@
         "eligible_features_missing_year": 4,
         "missing_feature_samples": [
           "Cinemancy: Legend",
-          "Eating Raoul",
+          "Closed for Thanksgiving",
           "Planes, Trains and Automobiles",
           "Seattle Scare Society: Chopping Mall"
         ]
@@ -3688,12 +3754,12 @@
           ]
         },
         {
-          "source_identity_key": "id:eating-raoul",
-          "source_title": "Eating Raoul",
+          "source_identity_key": "id:closed-for-thanksgiving",
+          "source_title": "Closed for Thanksgiving",
           "adapter_identity_title": null,
-          "matcher_title": "Eating Raoul",
+          "matcher_title": "Closed for Thanksgiving",
           "program_series": null,
-          "runtime_min": 87,
+          "runtime_min": 300,
           "release_year": null,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
@@ -3739,8 +3805,8 @@
     },
     "grand_illusion": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-23_grand_illusion.json",
-      "generated_at": "2026-11-23T08:59:08-08:00",
+      "latest_log": "data/daily_logs/2026-11-24_grand_illusion.json",
+      "generated_at": "2026-11-24T08:48:42-08:00",
       "record_count": 19,
       "malformed_record_count": 0,
       "warning_count": 0,
@@ -3994,9 +4060,9 @@
     },
     "tasveer": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-23_tasveer.json",
-      "generated_at": "2026-11-23T08:59:08-08:00",
-      "record_count": 16,
+      "latest_log": "data/daily_logs/2026-11-24_tasveer.json",
+      "generated_at": "2026-11-24T08:48:43-08:00",
+      "record_count": 40,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
@@ -4142,9 +4208,9 @@
     },
     "anderson_school": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-23_anderson_school.json",
-      "generated_at": "2026-11-23T08:59:09-08:00",
-      "record_count": 25,
+      "latest_log": "data/daily_logs/2026-11-24_anderson_school.json",
+      "generated_at": "2026-11-24T08:48:45-08:00",
+      "record_count": 23,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
@@ -4461,9 +4527,9 @@
     },
     "majestic_bay": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-23_majestic_bay.json",
-      "generated_at": "2026-11-23T08:59:10-08:00",
-      "record_count": 38,
+      "latest_log": "data/daily_logs/2026-11-24_majestic_bay.json",
+      "generated_at": "2026-11-24T08:48:45-08:00",
+      "record_count": 79,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
