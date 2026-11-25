@@ -14713,7 +14713,7 @@
       }
     },
     {
-      "auto_confirm_blocked_reason": null,
+      "auto_confirm_blocked_reason": "weak_title_only_match",
       "candidates": [
         {
           "director": "Joe Russo",
@@ -14723,7 +14723,7 @@
           "poster_path": "/jzPwsojjFStf5lR5Nm07w2hH56G.jpg",
           "release_year": 2026,
           "runtime_min": 165,
-          "score": 1.0,
+          "score": 0.75,
           "search_query": "Avengers: Doomsday",
           "search_query_reason": "normalized_title",
           "search_year_used": null,
@@ -14731,8 +14731,8 @@
             "available_weight": 0.6,
             "contributions": {
               "runtime": {
-                "kind": "match",
-                "matched": true,
+                "kind": "miss",
+                "matched": false,
                 "weight": 0.15
               },
               "title_exact": {
@@ -14757,17 +14757,17 @@
             "event_year_relaxed": false,
             "external_id_exact": false,
             "hard_conflict": false,
-            "matched_weight": 0.6,
+            "matched_weight": 0.45,
             "original_title_exact": false,
             "popularity": 43.7441,
             "runtime_compatible_max": 3,
             "runtime_conflict": false,
             "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 0,
-            "runtime_near": true,
+            "runtime_delta_minutes": 14,
+            "runtime_near": false,
             "runtime_soft": false,
             "runtime_soft_max": 12,
-            "runtime_status": "match",
+            "runtime_status": "miss",
             "search_query": "Avengers: Doomsday",
             "search_query_reason": "normalized_title",
             "search_year_used": null,
@@ -14784,7 +14784,8 @@
           "tmdb_id": 1003596,
           "warnings": [
             "year_evidence_absent",
-            "missing_year_supported_by_other_evidence",
+            "runtime_mismatch",
+            "weak_title_only_match",
             "director_unavailable"
           ]
         }
@@ -14793,13 +14794,13 @@
       "directors_raw": null,
       "eligibility": "eligible",
       "entity_kind": "feature_film",
-      "film_id": "tmdb:1003596",
+      "film_id": "source:amc:84722",
       "first_observed_at": null,
-      "identity_type": "tmdb",
+      "identity_type": "source",
       "last_observed_at": null,
-      "match_confidence": 1.0,
-      "match_method": "automatic",
-      "match_status": "confirmed_automatic",
+      "match_confidence": 0.75,
+      "match_method": "fallback",
+      "match_status": "review_required",
       "normalized_title": "Avengers: Doomsday",
       "presentation_labels": [
         "fan event",
@@ -14815,13 +14816,13 @@
           }
         ]
       },
-      "runtime_min": 165,
+      "runtime_min": 151,
       "signals": {
         "available_weight": 0.6,
         "contributions": {
           "runtime": {
-            "kind": "match",
-            "matched": true,
+            "kind": "miss",
+            "matched": false,
             "weight": 0.15
           },
           "title_exact": {
@@ -14846,17 +14847,17 @@
         "event_year_relaxed": false,
         "external_id_exact": false,
         "hard_conflict": false,
-        "matched_weight": 0.6,
+        "matched_weight": 0.45,
         "original_title_exact": false,
         "popularity": 43.7441,
         "runtime_compatible_max": 3,
         "runtime_conflict": false,
         "runtime_conflict_min": 25,
-        "runtime_delta_minutes": 0,
-        "runtime_near": true,
+        "runtime_delta_minutes": 14,
+        "runtime_near": false,
         "runtime_soft": false,
         "runtime_soft_max": 12,
-        "runtime_status": "match",
+        "runtime_status": "miss",
         "search_query": "Avengers: Doomsday",
         "search_query_reason": "normalized_title",
         "search_year_used": null,
@@ -14877,7 +14878,7 @@
           "source_title": "Avengers: Doomsday RealD 3D Fan Event"
         }
       ],
-      "tmdb_id": 1003596,
+      "tmdb_id": null,
       "tmdb_original_title": null,
       "tmdb_overview_excerpt": "Beloved heroes from three distinct universes are set on a deadly collision course and face an existential threat unlike anything they've ever encountered.",
       "tmdb_poster_path": "/jzPwsojjFStf5lR5Nm07w2hH56G.jpg",
@@ -14887,7 +14888,8 @@
       "top_candidate_margin": null,
       "warnings": [
         "year_evidence_absent",
-        "missing_year_supported_by_other_evidence",
+        "runtime_mismatch",
+        "weak_title_only_match",
         "director_unavailable"
       ],
       "year_hint": null,
@@ -21603,6 +21605,78 @@
     },
     {
       "auto_confirm_blocked_reason": null,
+      "candidates": [],
+      "directors_normalized": [
+        "event director"
+      ],
+      "directors_raw": "Event Director",
+      "eligibility": "non_film",
+      "entity_kind": "live_event",
+      "film_id": "source:amc:85278",
+      "first_observed_at": null,
+      "identity_type": "source",
+      "last_observed_at": null,
+      "match_confidence": null,
+      "match_method": "none",
+      "match_status": "non_film",
+      "normalized_title": "UFC 335: Oliveira vs. Lopes",
+      "presentation_labels": [],
+      "provenance": {
+        "source_identity_key": "amc|id|85278"
+      },
+      "runtime_min": 270,
+      "signals": null,
+      "source_identities": [
+        {
+          "showtime_film_key": "ufc-335-oliveira-vs-lopes",
+          "source": "amc",
+          "source_film_id": "85278",
+          "source_title": "UFC 335: Oliveira vs. Lopes"
+        }
+      ],
+      "tmdb_id": null,
+      "top_candidate_margin": null,
+      "warnings": [
+        "live_or_broadcast_event",
+        "product_year_weak_evidence",
+        "program_entity_not_tmdb_movie"
+      ],
+      "year_hint": 2026,
+      "year_interpretation": {
+        "alternate_search_title": null,
+        "anniversary_year_derived": false,
+        "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "normalized_source_fallback"
+        ],
+        "base_title": "UFC 335: Oliveira vs. Lopes",
+        "canonical_year_candidate": null,
+        "event_labels": [],
+        "event_phrase": null,
+        "event_year": null,
+        "event_year_not_canonical": false,
+        "format_tags": [],
+        "presentation_labels": [],
+        "product_year": 2026,
+        "product_year_weak": true,
+        "program_series": null,
+        "removed_phrases": [],
+        "scoring_year": 2026,
+        "search_abbreviation": null,
+        "search_year": null,
+        "title_years": [],
+        "warnings": [
+          "product_year_weak_evidence"
+        ],
+        "year_confidence": "product",
+        "year_evidence": "derived_or_explicit",
+        "year_mismatch_relaxed": true
+      }
+    },
+    {
+      "auto_confirm_blocked_reason": null,
       "candidates": [
         {
           "director": "Sooraj Barjatya",
@@ -24617,223 +24691,6 @@
       }
     },
     {
-      "auto_confirm_blocked_reason": "hard_conflict",
-      "candidates": [
-        {
-          "director": "Rajkumar Periasamy",
-          "original_title": "ஓ.ம்: Operation Mole",
-          "overview_excerpt": "Set across the temple corridors of Tirupati and Tiruvannamalai, an elite undercover operative infiltrates a sprawling transnational red sanders syndicate. As criminal politics escalate, a covert task force launches Oper…",
-          "popularity": 8.2553,
-          "poster_path": "/vFnFLqXjf7RQfkNxrrys43BZKxJ.jpg",
-          "release_year": 2026,
-          "runtime_min": 178,
-          "score": 0.4376,
-          "search_query": "OM: Chapter 1 - Udhiram",
-          "search_query_reason": "normalized_title",
-          "search_year_used": null,
-          "signals": {
-            "available_weight": 0.8,
-            "contributions": {
-              "director": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.2
-              },
-              "runtime": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.15
-              },
-              "title_exact": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "absent",
-                "matched": false,
-                "weight": 0.0
-              }
-            },
-            "director_candidate_normalized": [
-              "rajkumar periasamy"
-            ],
-            "director_conflict": false,
-            "director_overlap": true,
-            "director_source_normalized": [
-              "rajkumar periasamy"
-            ],
-            "director_status": "match",
-            "director_weak_overlap": false,
-            "event_year_relaxed": true,
-            "external_id_exact": false,
-            "hard_conflict": true,
-            "matched_weight": 0.35,
-            "original_title_exact": false,
-            "popularity": 8.2553,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 1,
-            "runtime_near": true,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "match",
-            "search_query": "OM: Chapter 1 - Udhiram",
-            "search_query_reason": "normalized_title",
-            "search_year_used": null,
-            "title_conflict": true,
-            "title_exact": false,
-            "title_prefix_equivalence": false,
-            "year_conflict": false,
-            "year_evidence": "uncertain_rerelease_restoration",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "unavailable"
-          },
-          "title": "O.M: Operation Mole",
-          "tmdb_id": 1384528,
-          "warnings": [
-            "title_conflict",
-            "year_evidence_absent"
-          ]
-        }
-      ],
-      "directors_normalized": [
-        "rajkumar periasamy"
-      ],
-      "directors_raw": "RAJKUMAR PERIASAMY",
-      "eligibility": "eligible",
-      "entity_kind": "feature_film",
-      "film_id": "source:amc:85543",
-      "first_observed_at": null,
-      "identity_type": "source",
-      "last_observed_at": null,
-      "match_confidence": 0.4376,
-      "match_method": "fallback",
-      "match_status": "unmatched",
-      "normalized_title": "OM: Chapter 1 - Udhiram",
-      "presentation_labels": [],
-      "provenance": {
-        "source_identity_key": "amc|id|85543",
-        "tmdb_search_queries": [
-          {
-            "reason": "normalized_title",
-            "title": "OM: Chapter 1 - Udhiram",
-            "year": null
-          }
-        ]
-      },
-      "runtime_min": 179,
-      "signals": {
-        "available_weight": 0.8,
-        "contributions": {
-          "director": {
-            "kind": "match",
-            "matched": true,
-            "weight": 0.2
-          },
-          "runtime": {
-            "kind": "match",
-            "matched": true,
-            "weight": 0.15
-          },
-          "title_exact": {
-            "kind": "conflict",
-            "matched": false,
-            "weight": 0.45
-          },
-          "year": {
-            "kind": "absent",
-            "matched": false,
-            "weight": 0.0
-          }
-        },
-        "director_candidate_normalized": [
-          "rajkumar periasamy"
-        ],
-        "director_conflict": false,
-        "director_overlap": true,
-        "director_source_normalized": [
-          "rajkumar periasamy"
-        ],
-        "director_status": "match",
-        "director_weak_overlap": false,
-        "event_year_relaxed": true,
-        "external_id_exact": false,
-        "hard_conflict": true,
-        "matched_weight": 0.35,
-        "original_title_exact": false,
-        "popularity": 8.2553,
-        "runtime_compatible_max": 3,
-        "runtime_conflict": false,
-        "runtime_conflict_min": 25,
-        "runtime_delta_minutes": 1,
-        "runtime_near": true,
-        "runtime_soft": false,
-        "runtime_soft_max": 12,
-        "runtime_status": "match",
-        "search_query": "OM: Chapter 1 - Udhiram",
-        "search_query_reason": "normalized_title",
-        "search_year_used": null,
-        "title_conflict": true,
-        "title_exact": false,
-        "title_prefix_equivalence": false,
-        "year_conflict": false,
-        "year_evidence": "uncertain_rerelease_restoration",
-        "year_exact": false,
-        "year_near": false,
-        "year_status": "unavailable"
-      },
-      "source_identities": [
-        {
-          "showtime_film_key": "om-chapter-1-udhiram",
-          "source": "amc",
-          "source_film_id": "85543",
-          "source_title": "OM: Chapter 1 - Udhiram"
-        }
-      ],
-      "tmdb_id": null,
-      "top_candidate_margin": null,
-      "warnings": [
-        "title_conflict",
-        "year_evidence_absent"
-      ],
-      "year_hint": 2026,
-      "year_interpretation": {
-        "alternate_search_title": null,
-        "anniversary_year_derived": false,
-        "anniversary_years": null,
-        "applied_alias": null,
-        "applied_alias_id": null,
-        "applied_rules": [
-          "normalized_source_fallback"
-        ],
-        "base_title": "OM: Chapter 1 - Udhiram",
-        "canonical_year_candidate": null,
-        "event_labels": [],
-        "event_phrase": null,
-        "event_year": null,
-        "event_year_not_canonical": false,
-        "format_tags": [],
-        "presentation_labels": [],
-        "product_year": 2026,
-        "product_year_weak": true,
-        "program_series": null,
-        "removed_phrases": [],
-        "scoring_year": 2026,
-        "search_abbreviation": null,
-        "search_year": null,
-        "title_years": [],
-        "warnings": [
-          "product_year_weak_evidence"
-        ],
-        "year_confidence": "product",
-        "year_evidence": "derived_or_explicit",
-        "year_mismatch_relaxed": true
-      }
-    },
-    {
       "auto_confirm_blocked_reason": null,
       "candidates": [],
       "directors_normalized": [
@@ -24887,6 +24744,231 @@
           "normalized_source_fallback"
         ],
         "base_title": "Prince 3121 Las Vegas Live",
+        "canonical_year_candidate": null,
+        "event_labels": [],
+        "event_phrase": null,
+        "event_year": null,
+        "event_year_not_canonical": false,
+        "format_tags": [],
+        "presentation_labels": [],
+        "product_year": 2026,
+        "product_year_weak": true,
+        "program_series": null,
+        "removed_phrases": [],
+        "scoring_year": 2026,
+        "search_abbreviation": null,
+        "search_year": null,
+        "title_years": [],
+        "warnings": [
+          "product_year_weak_evidence"
+        ],
+        "year_confidence": "product",
+        "year_evidence": "derived_or_explicit",
+        "year_mismatch_relaxed": true
+      }
+    },
+    {
+      "auto_confirm_blocked_reason": "hard_conflict",
+      "candidates": [
+        {
+          "director": "Abhijith Joseph",
+          "original_title": "കോസ്മിക് സാംസൺ",
+          "overview_excerpt": "The ordinary life of an aspiring filmmaker working as a pizza delivery guy takes an extraordinary turn when mysterious forces unlock hidden superpowers within, pulling him into a secret fantasy world and launching him o…",
+          "popularity": 2.0787,
+          "poster_path": "/bLZt3m1itByeC8PubRkRQ3Lmqey.jpg",
+          "release_year": 2026,
+          "runtime_min": 123,
+          "score": 0.8125,
+          "search_query": "Cosmic Samson",
+          "search_query_reason": "normalized_title",
+          "search_year_used": null,
+          "signals": {
+            "available_weight": 0.8,
+            "contributions": {
+              "director": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.2
+              },
+              "runtime": {
+                "kind": "conflict",
+                "matched": false,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "abhijith joseph"
+            ],
+            "director_conflict": false,
+            "director_overlap": true,
+            "director_source_normalized": [
+              "abhijith joseph"
+            ],
+            "director_status": "match",
+            "director_weak_overlap": false,
+            "event_year_relaxed": true,
+            "external_id_exact": false,
+            "hard_conflict": true,
+            "matched_weight": 0.65,
+            "original_title_exact": false,
+            "popularity": 2.0787,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": true,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 34,
+            "runtime_near": false,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "conflict",
+            "search_query": "Cosmic Samson",
+            "search_query_reason": "normalized_title",
+            "search_year_used": null,
+            "title_conflict": false,
+            "title_exact": true,
+            "title_prefix_equivalence": false,
+            "year_conflict": false,
+            "year_evidence": "uncertain_rerelease_restoration",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Cosmic Samson",
+          "tmdb_id": 1179380,
+          "warnings": [
+            "year_evidence_absent",
+            "runtime_conflict",
+            "missing_year_supported_by_other_evidence"
+          ]
+        }
+      ],
+      "directors_normalized": [
+        "abhijith joseph"
+      ],
+      "directors_raw": "ABHIJITH JOSEPH",
+      "eligibility": "eligible",
+      "entity_kind": "feature_film",
+      "film_id": "source:amc:85598",
+      "first_observed_at": null,
+      "identity_type": "source",
+      "last_observed_at": null,
+      "match_confidence": 0.8125,
+      "match_method": "fallback",
+      "match_status": "review_required",
+      "normalized_title": "Cosmic Samson",
+      "presentation_labels": [],
+      "provenance": {
+        "source_identity_key": "amc|id|85598",
+        "tmdb_search_queries": [
+          {
+            "reason": "normalized_title",
+            "title": "Cosmic Samson",
+            "year": null
+          }
+        ]
+      },
+      "runtime_min": 157,
+      "signals": {
+        "available_weight": 0.8,
+        "contributions": {
+          "director": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.2
+          },
+          "runtime": {
+            "kind": "conflict",
+            "matched": false,
+            "weight": 0.15
+          },
+          "title_exact": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.45
+          },
+          "year": {
+            "kind": "absent",
+            "matched": false,
+            "weight": 0.0
+          }
+        },
+        "director_candidate_normalized": [
+          "abhijith joseph"
+        ],
+        "director_conflict": false,
+        "director_overlap": true,
+        "director_source_normalized": [
+          "abhijith joseph"
+        ],
+        "director_status": "match",
+        "director_weak_overlap": false,
+        "event_year_relaxed": true,
+        "external_id_exact": false,
+        "hard_conflict": true,
+        "matched_weight": 0.65,
+        "original_title_exact": false,
+        "popularity": 2.0787,
+        "runtime_compatible_max": 3,
+        "runtime_conflict": true,
+        "runtime_conflict_min": 25,
+        "runtime_delta_minutes": 34,
+        "runtime_near": false,
+        "runtime_soft": false,
+        "runtime_soft_max": 12,
+        "runtime_status": "conflict",
+        "search_query": "Cosmic Samson",
+        "search_query_reason": "normalized_title",
+        "search_year_used": null,
+        "title_conflict": false,
+        "title_exact": true,
+        "title_prefix_equivalence": false,
+        "year_conflict": false,
+        "year_evidence": "uncertain_rerelease_restoration",
+        "year_exact": false,
+        "year_near": false,
+        "year_status": "unavailable"
+      },
+      "source_identities": [
+        {
+          "showtime_film_key": "cosmic-samson",
+          "source": "amc",
+          "source_film_id": "85598",
+          "source_title": "Cosmic Samson"
+        }
+      ],
+      "tmdb_id": null,
+      "tmdb_original_title": "കോസ്മിക് സാംസൺ",
+      "tmdb_overview_excerpt": "The ordinary life of an aspiring filmmaker working as a pizza delivery guy takes an extraordinary turn when mysterious forces unlock hidden superpowers within, pulling him into a secret fantasy world and launching him o…",
+      "tmdb_poster_path": "/bLZt3m1itByeC8PubRkRQ3Lmqey.jpg",
+      "tmdb_release_year": 2026,
+      "tmdb_runtime_min": 123,
+      "tmdb_title": "Cosmic Samson",
+      "top_candidate_margin": null,
+      "warnings": [
+        "year_evidence_absent",
+        "runtime_conflict",
+        "missing_year_supported_by_other_evidence"
+      ],
+      "year_hint": 2026,
+      "year_interpretation": {
+        "alternate_search_title": null,
+        "anniversary_year_derived": false,
+        "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "normalized_source_fallback"
+        ],
+        "base_title": "Cosmic Samson",
         "canonical_year_candidate": null,
         "event_labels": [],
         "event_phrase": null,
@@ -31567,205 +31649,6 @@
       "auto_confirm_blocked_reason": null,
       "candidates": [
         {
-          "director": "William Greaves",
-          "original_title": null,
-          "overview_excerpt": "A decade after his death, genre-defying filmmaker William Greaves has one last trick up his sleeve with what he considered the most important event he captured on film: a 1972 party he engineered with the living luminar…",
-          "popularity": 3.0283,
-          "poster_path": "/9eukk5gby8NZCwraiC7mloZmasP.jpg",
-          "release_year": 2026,
-          "runtime_min": 100,
-          "score": 1.0,
-          "search_query": "Once Upon A Time In Harlem",
-          "search_query_reason": "normalized_title_year",
-          "search_year_used": 2026,
-          "signals": {
-            "available_weight": 0.9,
-            "contributions": {
-              "runtime": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.15
-              },
-              "title_exact": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.3
-              }
-            },
-            "director_candidate_normalized": [
-              "william greaves"
-            ],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": false,
-            "matched_weight": 0.9,
-            "original_title_exact": false,
-            "popularity": 3.0283,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 0,
-            "runtime_near": true,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "match",
-            "search_query": "Once Upon A Time In Harlem",
-            "search_query_reason": "normalized_title_year",
-            "search_year_used": 2026,
-            "title_conflict": false,
-            "title_exact": true,
-            "title_prefix_equivalence": false,
-            "year_conflict": false,
-            "year_evidence": "compatible",
-            "year_exact": true,
-            "year_near": false,
-            "year_status": "match"
-          },
-          "title": "Once Upon a Time in Harlem",
-          "tmdb_id": 1596300,
-          "warnings": []
-        }
-      ],
-      "directors_normalized": [],
-      "directors_raw": null,
-      "eligibility": "eligible",
-      "entity_kind": "feature_film",
-      "film_id": "tmdb:1596300",
-      "first_observed_at": null,
-      "identity_type": "tmdb",
-      "last_observed_at": null,
-      "match_confidence": 1.0,
-      "match_method": "automatic",
-      "match_status": "confirmed_automatic",
-      "normalized_title": "Once Upon A Time In Harlem",
-      "presentation_labels": [],
-      "provenance": {
-        "source_identity_key": "beacon|id|once-upon-a-time-in-harlem",
-        "tmdb_search_queries": [
-          {
-            "reason": "normalized_title_year",
-            "title": "Once Upon A Time In Harlem",
-            "year": 2026
-          }
-        ]
-      },
-      "runtime_min": 100,
-      "signals": {
-        "available_weight": 0.9,
-        "contributions": {
-          "runtime": {
-            "kind": "match",
-            "matched": true,
-            "weight": 0.15
-          },
-          "title_exact": {
-            "kind": "match",
-            "matched": true,
-            "weight": 0.45
-          },
-          "year": {
-            "kind": "match",
-            "matched": true,
-            "weight": 0.3
-          }
-        },
-        "director_candidate_normalized": [
-          "william greaves"
-        ],
-        "director_conflict": false,
-        "director_overlap": false,
-        "director_source_normalized": [],
-        "director_status": "unavailable",
-        "director_weak_overlap": false,
-        "event_year_relaxed": false,
-        "external_id_exact": false,
-        "hard_conflict": false,
-        "matched_weight": 0.9,
-        "original_title_exact": false,
-        "popularity": 3.0283,
-        "runtime_compatible_max": 3,
-        "runtime_conflict": false,
-        "runtime_conflict_min": 25,
-        "runtime_delta_minutes": 0,
-        "runtime_near": true,
-        "runtime_soft": false,
-        "runtime_soft_max": 12,
-        "runtime_status": "match",
-        "search_query": "Once Upon A Time In Harlem",
-        "search_query_reason": "normalized_title_year",
-        "search_year_used": 2026,
-        "title_conflict": false,
-        "title_exact": true,
-        "title_prefix_equivalence": false,
-        "year_conflict": false,
-        "year_evidence": "compatible",
-        "year_exact": true,
-        "year_near": false,
-        "year_status": "match"
-      },
-      "source_identities": [
-        {
-          "showtime_film_key": "once-upon-a-time-in-harlem",
-          "source": "beacon",
-          "source_film_id": "once-upon-a-time-in-harlem",
-          "source_title": "ONCE UPON A TIME IN HARLEM"
-        }
-      ],
-      "tmdb_id": 1596300,
-      "tmdb_original_title": null,
-      "tmdb_overview_excerpt": "A decade after his death, genre-defying filmmaker William Greaves has one last trick up his sleeve with what he considered the most important event he captured on film: a 1972 party he engineered with the living luminar…",
-      "tmdb_poster_path": "/9eukk5gby8NZCwraiC7mloZmasP.jpg",
-      "tmdb_release_year": 2026,
-      "tmdb_runtime_min": 100,
-      "tmdb_title": "Once Upon a Time in Harlem",
-      "top_candidate_margin": null,
-      "warnings": [],
-      "year_hint": 2026,
-      "year_interpretation": {
-        "alternate_search_title": null,
-        "anniversary_year_derived": false,
-        "anniversary_years": null,
-        "applied_alias": null,
-        "applied_alias_id": null,
-        "applied_rules": [
-          "normalized_source_fallback"
-        ],
-        "base_title": "Once Upon A Time In Harlem",
-        "canonical_year_candidate": 2026,
-        "event_labels": [],
-        "event_phrase": null,
-        "event_year": null,
-        "event_year_not_canonical": false,
-        "format_tags": [],
-        "presentation_labels": [],
-        "product_year": null,
-        "product_year_weak": false,
-        "program_series": null,
-        "removed_phrases": [],
-        "scoring_year": 2026,
-        "search_abbreviation": null,
-        "search_year": 2026,
-        "title_years": [],
-        "warnings": [],
-        "year_confidence": "explicit",
-        "year_evidence": "derived_or_explicit",
-        "year_mismatch_relaxed": false
-      }
-    },
-    {
-      "auto_confirm_blocked_reason": null,
-      "candidates": [
-        {
           "director": "Carl Theodor Dreyer",
           "original_title": null,
           "overview_excerpt": "The three sons of devout Danish farmer Morten have widely disparate religious beliefs. Youngest son Anders shares his father's religion, but eldest son Mikkel has lost his faith, while middle child Johannes has become d…",
@@ -34884,6 +34767,420 @@
       "auto_confirm_blocked_reason": null,
       "candidates": [
         {
+          "director": "John Carpenter",
+          "original_title": null,
+          "overview_excerpt": "Truck driver Jack Burton gets embroiled in a supernatural battle when his best friend Wang Chi's green-eyed fiancée is kidnapped by henchmen of the sorcerer Lo Pan, who must marry a girl with green eyes in order to retu…",
+          "popularity": 6.0876,
+          "poster_path": "/gI2Qs1yTTj3NcESJyttCkbmJ4k9.jpg",
+          "release_year": 1986,
+          "runtime_min": 100,
+          "score": 1.0,
+          "search_query": "Big Trouble in Little China",
+          "search_query_reason": "normalized_title",
+          "search_year_used": null,
+          "signals": {
+            "available_weight": 0.6,
+            "contributions": {
+              "runtime": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "absent",
+                "matched": false,
+                "weight": 0.0
+              }
+            },
+            "director_candidate_normalized": [
+              "john carpenter"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": false,
+            "matched_weight": 0.6,
+            "original_title_exact": false,
+            "popularity": 6.0876,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 0,
+            "runtime_near": true,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "match",
+            "search_query": "Big Trouble in Little China",
+            "search_query_reason": "normalized_title",
+            "search_year_used": null,
+            "title_conflict": false,
+            "title_exact": true,
+            "title_prefix_equivalence": false,
+            "year_conflict": false,
+            "year_evidence": "missing",
+            "year_exact": false,
+            "year_near": false,
+            "year_status": "unavailable"
+          },
+          "title": "Big Trouble in Little China",
+          "tmdb_id": 6978,
+          "warnings": [
+            "year_evidence_absent",
+            "missing_year_supported_by_other_evidence",
+            "director_unavailable"
+          ]
+        }
+      ],
+      "directors_normalized": [],
+      "directors_raw": null,
+      "eligibility": "eligible",
+      "entity_kind": "feature_film",
+      "film_id": "tmdb:6978",
+      "first_observed_at": null,
+      "identity_type": "tmdb",
+      "last_observed_at": null,
+      "match_confidence": 1.0,
+      "match_method": "automatic",
+      "match_status": "confirmed_automatic",
+      "normalized_title": "Big Trouble in Little China",
+      "presentation_labels": [],
+      "provenance": {
+        "source_identity_key": "central_cinema|id|big-trouble-in-little-china",
+        "tmdb_search_queries": [
+          {
+            "reason": "normalized_title",
+            "title": "Big Trouble in Little China",
+            "year": null
+          }
+        ]
+      },
+      "runtime_min": 100,
+      "signals": {
+        "available_weight": 0.6,
+        "contributions": {
+          "runtime": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.15
+          },
+          "title_exact": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.45
+          },
+          "year": {
+            "kind": "absent",
+            "matched": false,
+            "weight": 0.0
+          }
+        },
+        "director_candidate_normalized": [
+          "john carpenter"
+        ],
+        "director_conflict": false,
+        "director_overlap": false,
+        "director_source_normalized": [],
+        "director_status": "unavailable",
+        "director_weak_overlap": false,
+        "event_year_relaxed": false,
+        "external_id_exact": false,
+        "hard_conflict": false,
+        "matched_weight": 0.6,
+        "original_title_exact": false,
+        "popularity": 6.0876,
+        "runtime_compatible_max": 3,
+        "runtime_conflict": false,
+        "runtime_conflict_min": 25,
+        "runtime_delta_minutes": 0,
+        "runtime_near": true,
+        "runtime_soft": false,
+        "runtime_soft_max": 12,
+        "runtime_status": "match",
+        "search_query": "Big Trouble in Little China",
+        "search_query_reason": "normalized_title",
+        "search_year_used": null,
+        "title_conflict": false,
+        "title_exact": true,
+        "title_prefix_equivalence": false,
+        "year_conflict": false,
+        "year_evidence": "missing",
+        "year_exact": false,
+        "year_near": false,
+        "year_status": "unavailable"
+      },
+      "source_identities": [
+        {
+          "showtime_film_key": "big-trouble-in-little-china",
+          "source": "central_cinema",
+          "source_film_id": "big-trouble-in-little-china",
+          "source_title": "Big Trouble in Little China"
+        }
+      ],
+      "tmdb_id": 6978,
+      "tmdb_original_title": null,
+      "tmdb_overview_excerpt": "Truck driver Jack Burton gets embroiled in a supernatural battle when his best friend Wang Chi's green-eyed fiancée is kidnapped by henchmen of the sorcerer Lo Pan, who must marry a girl with green eyes in order to retu…",
+      "tmdb_poster_path": "/gI2Qs1yTTj3NcESJyttCkbmJ4k9.jpg",
+      "tmdb_release_year": 1986,
+      "tmdb_runtime_min": 100,
+      "tmdb_title": "Big Trouble in Little China",
+      "top_candidate_margin": null,
+      "warnings": [
+        "year_evidence_absent",
+        "missing_year_supported_by_other_evidence",
+        "director_unavailable"
+      ],
+      "year_hint": null,
+      "year_interpretation": {
+        "alternate_search_title": null,
+        "anniversary_year_derived": false,
+        "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "normalized_source_fallback"
+        ],
+        "base_title": "Big Trouble in Little China",
+        "canonical_year_candidate": null,
+        "event_labels": [],
+        "event_phrase": null,
+        "event_year": null,
+        "event_year_not_canonical": false,
+        "format_tags": [],
+        "presentation_labels": [],
+        "product_year": null,
+        "product_year_weak": false,
+        "program_series": null,
+        "removed_phrases": [],
+        "scoring_year": null,
+        "search_abbreviation": null,
+        "search_year": null,
+        "title_years": [],
+        "warnings": [],
+        "year_confidence": "none",
+        "year_evidence": "missing",
+        "year_mismatch_relaxed": false
+      }
+    },
+    {
+      "auto_confirm_blocked_reason": null,
+      "candidates": [
+        {
+          "director": "Michael Curtiz",
+          "original_title": null,
+          "overview_excerpt": "In Casablanca, Morocco in December 1941, a cynical American expatriate meets a former lover, with unforeseen complications.",
+          "popularity": 11.4634,
+          "poster_path": "/lGCEKlJo2CnWydQj7aamY7s1S7Q.jpg",
+          "release_year": 1943,
+          "runtime_min": 102,
+          "score": 1.0,
+          "search_query": "Casablanca",
+          "search_query_reason": "normalized_title_year",
+          "search_year_used": 1942,
+          "signals": {
+            "available_weight": 0.72,
+            "contributions": {
+              "runtime": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "near",
+                "matched": true,
+                "weight": 0.12
+              }
+            },
+            "director_candidate_normalized": [
+              "michael curtiz"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": false,
+            "matched_weight": 0.72,
+            "original_title_exact": false,
+            "popularity": 11.4634,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 0,
+            "runtime_near": true,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "match",
+            "search_query": "Casablanca",
+            "search_query_reason": "normalized_title_year",
+            "search_year_used": 1942,
+            "title_conflict": false,
+            "title_exact": true,
+            "title_prefix_equivalence": false,
+            "year_conflict": false,
+            "year_evidence": "compatible",
+            "year_exact": false,
+            "year_near": true,
+            "year_status": "near"
+          },
+          "title": "Casablanca",
+          "tmdb_id": 289,
+          "warnings": [
+            "year_proximity"
+          ]
+        }
+      ],
+      "directors_normalized": [],
+      "directors_raw": null,
+      "eligibility": "eligible",
+      "entity_kind": "feature_film",
+      "film_id": "tmdb:289",
+      "first_observed_at": null,
+      "identity_type": "tmdb",
+      "last_observed_at": null,
+      "match_confidence": 1.0,
+      "match_method": "automatic",
+      "match_status": "confirmed_automatic",
+      "normalized_title": "Casablanca",
+      "presentation_labels": [],
+      "provenance": {
+        "source_identity_key": "central_cinema|id|casablanca-1942",
+        "tmdb_search_queries": [
+          {
+            "reason": "normalized_title_year",
+            "title": "Casablanca",
+            "year": 1942
+          }
+        ]
+      },
+      "runtime_min": 102,
+      "signals": {
+        "available_weight": 0.72,
+        "contributions": {
+          "runtime": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.15
+          },
+          "title_exact": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.45
+          },
+          "year": {
+            "kind": "near",
+            "matched": true,
+            "weight": 0.12
+          }
+        },
+        "director_candidate_normalized": [
+          "michael curtiz"
+        ],
+        "director_conflict": false,
+        "director_overlap": false,
+        "director_source_normalized": [],
+        "director_status": "unavailable",
+        "director_weak_overlap": false,
+        "event_year_relaxed": false,
+        "external_id_exact": false,
+        "hard_conflict": false,
+        "matched_weight": 0.72,
+        "original_title_exact": false,
+        "popularity": 11.4634,
+        "runtime_compatible_max": 3,
+        "runtime_conflict": false,
+        "runtime_conflict_min": 25,
+        "runtime_delta_minutes": 0,
+        "runtime_near": true,
+        "runtime_soft": false,
+        "runtime_soft_max": 12,
+        "runtime_status": "match",
+        "search_query": "Casablanca",
+        "search_query_reason": "normalized_title_year",
+        "search_year_used": 1942,
+        "title_conflict": false,
+        "title_exact": true,
+        "title_prefix_equivalence": false,
+        "year_conflict": false,
+        "year_evidence": "compatible",
+        "year_exact": false,
+        "year_near": true,
+        "year_status": "near"
+      },
+      "source_identities": [
+        {
+          "showtime_film_key": "casablanca-1942",
+          "source": "central_cinema",
+          "source_film_id": "casablanca-1942",
+          "source_title": "Casablanca (1942)"
+        }
+      ],
+      "tmdb_id": 289,
+      "tmdb_original_title": null,
+      "tmdb_overview_excerpt": "In Casablanca, Morocco in December 1941, a cynical American expatriate meets a former lover, with unforeseen complications.",
+      "tmdb_poster_path": "/lGCEKlJo2CnWydQj7aamY7s1S7Q.jpg",
+      "tmdb_release_year": 1943,
+      "tmdb_runtime_min": 102,
+      "tmdb_title": "Casablanca",
+      "top_candidate_margin": null,
+      "warnings": [
+        "year_proximity"
+      ],
+      "year_hint": 1942,
+      "year_interpretation": {
+        "alternate_search_title": null,
+        "anniversary_year_derived": false,
+        "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "film_year_paren"
+        ],
+        "base_title": "Casablanca",
+        "canonical_year_candidate": 1942,
+        "event_labels": [],
+        "event_phrase": null,
+        "event_year": null,
+        "event_year_not_canonical": false,
+        "format_tags": [],
+        "presentation_labels": [],
+        "product_year": null,
+        "product_year_weak": false,
+        "program_series": null,
+        "removed_phrases": [
+          "(1942)"
+        ],
+        "scoring_year": 1942,
+        "search_abbreviation": null,
+        "search_year": 1942,
+        "title_years": [
+          1942
+        ],
+        "warnings": [],
+        "year_confidence": "explicit",
+        "year_evidence": "derived_or_explicit",
+        "year_mismatch_relaxed": false
+      }
+    },
+    {
+      "auto_confirm_blocked_reason": null,
+      "candidates": [
+        {
           "director": "Ridley Scott",
           "original_title": null,
           "overview_excerpt": "Set in a timeless mythical forest inhabited by fairies, goblins, unicorns and mortals, this fantastic story follows a mystical forest dweller, chosen by fate, to undertake a heroic quest. He must save the beautiful Prin…",
@@ -35980,77 +36277,6 @@
           "normalized_source_fallback"
         ],
         "base_title": "Planes, Trains and Automobiles",
-        "canonical_year_candidate": null,
-        "event_labels": [],
-        "event_phrase": null,
-        "event_year": null,
-        "event_year_not_canonical": false,
-        "format_tags": [],
-        "presentation_labels": [],
-        "product_year": null,
-        "product_year_weak": false,
-        "program_series": null,
-        "removed_phrases": [],
-        "scoring_year": null,
-        "search_abbreviation": null,
-        "search_year": null,
-        "title_years": [],
-        "warnings": [],
-        "year_confidence": "none",
-        "year_evidence": "missing",
-        "year_mismatch_relaxed": false
-      }
-    },
-    {
-      "auto_confirm_blocked_reason": null,
-      "candidates": [],
-      "directors_normalized": [],
-      "directors_raw": null,
-      "eligibility": "eligible",
-      "entity_kind": "feature_film",
-      "film_id": "source:central_cinema:seattle-scare-society-chopping-mall",
-      "first_observed_at": null,
-      "identity_type": "source",
-      "last_observed_at": null,
-      "match_confidence": null,
-      "match_method": "fallback",
-      "match_status": "unmatched",
-      "normalized_title": "Seattle Scare Society: Chopping Mall",
-      "presentation_labels": [],
-      "provenance": {
-        "source_identity_key": "central_cinema|id|seattle-scare-society-chopping-mall",
-        "tmdb_search_queries": [
-          {
-            "reason": "normalized_title",
-            "title": "Seattle Scare Society: Chopping Mall",
-            "year": null
-          }
-        ]
-      },
-      "runtime_min": 77,
-      "signals": null,
-      "source_identities": [
-        {
-          "showtime_film_key": "seattle-scare-society-chopping-mall",
-          "source": "central_cinema",
-          "source_film_id": "seattle-scare-society-chopping-mall",
-          "source_title": "Seattle Scare Society: Chopping Mall"
-        }
-      ],
-      "tmdb_id": null,
-      "top_candidate_margin": null,
-      "warnings": [],
-      "year_hint": null,
-      "year_interpretation": {
-        "alternate_search_title": null,
-        "anniversary_year_derived": false,
-        "anniversary_years": null,
-        "applied_alias": null,
-        "applied_alias_id": null,
-        "applied_rules": [
-          "normalized_source_fallback"
-        ],
-        "base_title": "Seattle Scare Society: Chopping Mall",
         "canonical_year_candidate": null,
         "event_labels": [],
         "event_phrase": null,
@@ -42659,217 +42885,6 @@
       }
     },
     {
-      "auto_confirm_blocked_reason": "hard_conflict",
-      "candidates": [
-        {
-          "director": "Charles Burnett",
-          "original_title": null,
-          "overview_excerpt": "A young African-American man, living in Los Angeles without direction in his life, reluctantly agrees to be the best man for his brother, an upwardly mobile lawyer.",
-          "popularity": 1.4859,
-          "poster_path": "/zNTkmyNtdncmMFHOavpgevwsh6o.jpg",
-          "release_year": 1985,
-          "runtime_min": 81,
-          "score": 0.6667,
-          "search_query": "My Brother's Wedding",
-          "search_query_reason": "normalized_title_year",
-          "search_year_used": 1983,
-          "signals": {
-            "available_weight": 0.9,
-            "contributions": {
-              "runtime": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.15
-              },
-              "title_exact": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.3
-              }
-            },
-            "director_candidate_normalized": [
-              "charles burnett"
-            ],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": true,
-            "matched_weight": 0.6,
-            "original_title_exact": false,
-            "popularity": 1.4859,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 0,
-            "runtime_near": true,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "match",
-            "search_query": "My Brother's Wedding",
-            "search_query_reason": "normalized_title_year",
-            "search_year_used": 1983,
-            "title_conflict": false,
-            "title_exact": true,
-            "title_prefix_equivalence": false,
-            "year_conflict": true,
-            "year_evidence": "conflict",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "conflict"
-          },
-          "title": "My Brother's Wedding",
-          "tmdb_id": 91735,
-          "warnings": [
-            "year_conflict"
-          ]
-        }
-      ],
-      "directors_normalized": [],
-      "directors_raw": null,
-      "eligibility": "eligible",
-      "entity_kind": "feature_film",
-      "film_id": "source:nwff:my-brothers-wedding-4k-restoration",
-      "first_observed_at": null,
-      "identity_type": "source",
-      "last_observed_at": null,
-      "match_confidence": 0.6667,
-      "match_method": "fallback",
-      "match_status": "review_required",
-      "normalized_title": "My Brother's Wedding",
-      "presentation_labels": [
-        "4k restoration"
-      ],
-      "provenance": {
-        "source_identity_key": "nwff|id|my-brothers-wedding-4k-restoration",
-        "tmdb_search_queries": [
-          {
-            "reason": "normalized_title_year",
-            "title": "My Brother's Wedding",
-            "year": 1983
-          }
-        ]
-      },
-      "runtime_min": 81,
-      "signals": {
-        "available_weight": 0.9,
-        "contributions": {
-          "runtime": {
-            "kind": "match",
-            "matched": true,
-            "weight": 0.15
-          },
-          "title_exact": {
-            "kind": "match",
-            "matched": true,
-            "weight": 0.45
-          },
-          "year": {
-            "kind": "conflict",
-            "matched": false,
-            "weight": 0.3
-          }
-        },
-        "director_candidate_normalized": [
-          "charles burnett"
-        ],
-        "director_conflict": false,
-        "director_overlap": false,
-        "director_source_normalized": [],
-        "director_status": "unavailable",
-        "director_weak_overlap": false,
-        "event_year_relaxed": false,
-        "external_id_exact": false,
-        "hard_conflict": true,
-        "matched_weight": 0.6,
-        "original_title_exact": false,
-        "popularity": 1.4859,
-        "runtime_compatible_max": 3,
-        "runtime_conflict": false,
-        "runtime_conflict_min": 25,
-        "runtime_delta_minutes": 0,
-        "runtime_near": true,
-        "runtime_soft": false,
-        "runtime_soft_max": 12,
-        "runtime_status": "match",
-        "search_query": "My Brother's Wedding",
-        "search_query_reason": "normalized_title_year",
-        "search_year_used": 1983,
-        "title_conflict": false,
-        "title_exact": true,
-        "title_prefix_equivalence": false,
-        "year_conflict": true,
-        "year_evidence": "conflict",
-        "year_exact": false,
-        "year_near": false,
-        "year_status": "conflict"
-      },
-      "source_identities": [
-        {
-          "showtime_film_key": "my-brother-s-wedding-4k-restoration",
-          "source": "nwff",
-          "source_film_id": "my-brothers-wedding-4k-restoration",
-          "source_title": "My Brother's Wedding (4K Restoration)"
-        }
-      ],
-      "tmdb_id": null,
-      "tmdb_original_title": null,
-      "tmdb_overview_excerpt": "A young African-American man, living in Los Angeles without direction in his life, reluctantly agrees to be the best man for his brother, an upwardly mobile lawyer.",
-      "tmdb_poster_path": "/zNTkmyNtdncmMFHOavpgevwsh6o.jpg",
-      "tmdb_release_year": 1985,
-      "tmdb_runtime_min": 81,
-      "tmdb_title": "My Brother's Wedding",
-      "top_candidate_margin": null,
-      "warnings": [
-        "year_conflict"
-      ],
-      "year_hint": 1983,
-      "year_interpretation": {
-        "alternate_search_title": null,
-        "anniversary_year_derived": false,
-        "anniversary_years": null,
-        "applied_alias": null,
-        "applied_alias_id": null,
-        "applied_rules": [
-          "format_or_accessibility_paren"
-        ],
-        "base_title": "My Brother's Wedding",
-        "canonical_year_candidate": 1983,
-        "event_labels": [],
-        "event_phrase": null,
-        "event_year": null,
-        "event_year_not_canonical": false,
-        "format_tags": [
-          "4K Restoration"
-        ],
-        "presentation_labels": [
-          "4k restoration"
-        ],
-        "product_year": null,
-        "product_year_weak": false,
-        "program_series": null,
-        "removed_phrases": [
-          "(4K Restoration)"
-        ],
-        "scoring_year": 1983,
-        "search_abbreviation": null,
-        "search_year": 1983,
-        "title_years": [],
-        "warnings": [],
-        "year_confidence": "explicit",
-        "year_evidence": "derived_or_explicit",
-        "year_mismatch_relaxed": false
-      }
-    },
-    {
       "auto_confirm_blocked_reason": null,
       "candidates": [
         {
@@ -44906,6 +44921,205 @@
         "scoring_year": 1953,
         "search_abbreviation": null,
         "search_year": 1953,
+        "title_years": [],
+        "warnings": [],
+        "year_confidence": "explicit",
+        "year_evidence": "derived_or_explicit",
+        "year_mismatch_relaxed": false
+      }
+    },
+    {
+      "auto_confirm_blocked_reason": null,
+      "candidates": [
+        {
+          "director": "Alan Rudolph",
+          "original_title": null,
+          "overview_excerpt": "The lives of an ex-con, a coffee-shop owner, and a young couple looking to make it rich intersect in the hypnotic Rain City.",
+          "popularity": 1.262,
+          "poster_path": "/3qyepsmFJ8tYFwk1FImAtsJmmXk.jpg",
+          "release_year": 1985,
+          "runtime_min": 112,
+          "score": 1.0,
+          "search_query": "Trouble in Mind",
+          "search_query_reason": "normalized_title_year",
+          "search_year_used": 1985,
+          "signals": {
+            "available_weight": 0.9,
+            "contributions": {
+              "runtime": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.15
+              },
+              "title_exact": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.45
+              },
+              "year": {
+                "kind": "match",
+                "matched": true,
+                "weight": 0.3
+              }
+            },
+            "director_candidate_normalized": [
+              "alan rudolph"
+            ],
+            "director_conflict": false,
+            "director_overlap": false,
+            "director_source_normalized": [],
+            "director_status": "unavailable",
+            "director_weak_overlap": false,
+            "event_year_relaxed": false,
+            "external_id_exact": false,
+            "hard_conflict": false,
+            "matched_weight": 0.9,
+            "original_title_exact": false,
+            "popularity": 1.262,
+            "runtime_compatible_max": 3,
+            "runtime_conflict": false,
+            "runtime_conflict_min": 25,
+            "runtime_delta_minutes": 1,
+            "runtime_near": true,
+            "runtime_soft": false,
+            "runtime_soft_max": 12,
+            "runtime_status": "match",
+            "search_query": "Trouble in Mind",
+            "search_query_reason": "normalized_title_year",
+            "search_year_used": 1985,
+            "title_conflict": false,
+            "title_exact": true,
+            "title_prefix_equivalence": false,
+            "year_conflict": false,
+            "year_evidence": "compatible",
+            "year_exact": true,
+            "year_near": false,
+            "year_status": "match"
+          },
+          "title": "Trouble in Mind",
+          "tmdb_id": 31694,
+          "warnings": []
+        }
+      ],
+      "directors_normalized": [],
+      "directors_raw": null,
+      "eligibility": "eligible",
+      "entity_kind": "feature_film",
+      "film_id": "tmdb:31694",
+      "first_observed_at": null,
+      "identity_type": "tmdb",
+      "last_observed_at": null,
+      "match_confidence": 1.0,
+      "match_method": "automatic",
+      "match_status": "confirmed_automatic",
+      "normalized_title": "Trouble in Mind",
+      "presentation_labels": [],
+      "provenance": {
+        "source_identity_key": "nwff|id|trouble-in-mind",
+        "tmdb_search_queries": [
+          {
+            "reason": "normalized_title_year",
+            "title": "Trouble in Mind",
+            "year": 1985
+          }
+        ]
+      },
+      "runtime_min": 111,
+      "signals": {
+        "available_weight": 0.9,
+        "contributions": {
+          "runtime": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.15
+          },
+          "title_exact": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.45
+          },
+          "year": {
+            "kind": "match",
+            "matched": true,
+            "weight": 0.3
+          }
+        },
+        "director_candidate_normalized": [
+          "alan rudolph"
+        ],
+        "director_conflict": false,
+        "director_overlap": false,
+        "director_source_normalized": [],
+        "director_status": "unavailable",
+        "director_weak_overlap": false,
+        "event_year_relaxed": false,
+        "external_id_exact": false,
+        "hard_conflict": false,
+        "matched_weight": 0.9,
+        "original_title_exact": false,
+        "popularity": 1.262,
+        "runtime_compatible_max": 3,
+        "runtime_conflict": false,
+        "runtime_conflict_min": 25,
+        "runtime_delta_minutes": 1,
+        "runtime_near": true,
+        "runtime_soft": false,
+        "runtime_soft_max": 12,
+        "runtime_status": "match",
+        "search_query": "Trouble in Mind",
+        "search_query_reason": "normalized_title_year",
+        "search_year_used": 1985,
+        "title_conflict": false,
+        "title_exact": true,
+        "title_prefix_equivalence": false,
+        "year_conflict": false,
+        "year_evidence": "compatible",
+        "year_exact": true,
+        "year_near": false,
+        "year_status": "match"
+      },
+      "source_identities": [
+        {
+          "showtime_film_key": "trouble-in-mind",
+          "source": "nwff",
+          "source_film_id": "trouble-in-mind",
+          "source_title": "Trouble in Mind"
+        }
+      ],
+      "tmdb_id": 31694,
+      "tmdb_original_title": null,
+      "tmdb_overview_excerpt": "The lives of an ex-con, a coffee-shop owner, and a young couple looking to make it rich intersect in the hypnotic Rain City.",
+      "tmdb_poster_path": "/3qyepsmFJ8tYFwk1FImAtsJmmXk.jpg",
+      "tmdb_release_year": 1985,
+      "tmdb_runtime_min": 112,
+      "tmdb_title": "Trouble in Mind",
+      "top_candidate_margin": null,
+      "warnings": [],
+      "year_hint": 1985,
+      "year_interpretation": {
+        "alternate_search_title": null,
+        "anniversary_year_derived": false,
+        "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "normalized_source_fallback"
+        ],
+        "base_title": "Trouble in Mind",
+        "canonical_year_candidate": 1985,
+        "event_labels": [],
+        "event_phrase": null,
+        "event_year": null,
+        "event_year_not_canonical": false,
+        "format_tags": [],
+        "presentation_labels": [],
+        "product_year": null,
+        "product_year_weak": false,
+        "program_series": null,
+        "removed_phrases": [],
+        "scoring_year": 1985,
+        "search_abbreviation": null,
+        "search_year": 1985,
         "title_years": [],
         "warnings": [],
         "year_confidence": "explicit",
@@ -47077,6 +47291,73 @@
       }
     },
     {
+      "auto_confirm_blocked_reason": null,
+      "candidates": [],
+      "directors_normalized": [],
+      "directors_raw": null,
+      "eligibility": "non_film",
+      "entity_kind": "shorts_program",
+      "film_id": "source:nwff:wallace-gromit-the-classic-shorts-4k-restorations",
+      "first_observed_at": null,
+      "identity_type": "source",
+      "last_observed_at": null,
+      "match_confidence": null,
+      "match_method": "none",
+      "match_status": "non_film",
+      "normalized_title": "Wallace & Gromit: The Classic Shorts (4K Restorations!)",
+      "presentation_labels": [],
+      "provenance": {
+        "source_identity_key": "nwff|id|wallace-gromit-the-classic-shorts-4k-restorations"
+      },
+      "runtime_min": 85,
+      "signals": null,
+      "source_identities": [
+        {
+          "showtime_film_key": "wallace-gromit-the-classic-shorts-4k-restorations",
+          "source": "nwff",
+          "source_film_id": "wallace-gromit-the-classic-shorts-4k-restorations",
+          "source_title": "Wallace & Gromit: The Classic Shorts (4K Restorations!)"
+        }
+      ],
+      "tmdb_id": null,
+      "top_candidate_margin": null,
+      "warnings": [
+        "program_entity_not_tmdb_movie",
+        "shorts_or_festival_program"
+      ],
+      "year_hint": null,
+      "year_interpretation": {
+        "alternate_search_title": null,
+        "anniversary_year_derived": false,
+        "anniversary_years": null,
+        "applied_alias": null,
+        "applied_alias_id": null,
+        "applied_rules": [
+          "normalized_source_fallback"
+        ],
+        "base_title": "Wallace & Gromit: The Classic Shorts (4K Restorations!)",
+        "canonical_year_candidate": null,
+        "event_labels": [],
+        "event_phrase": null,
+        "event_year": null,
+        "event_year_not_canonical": false,
+        "format_tags": [],
+        "presentation_labels": [],
+        "product_year": null,
+        "product_year_weak": false,
+        "program_series": null,
+        "removed_phrases": [],
+        "scoring_year": null,
+        "search_abbreviation": null,
+        "search_year": null,
+        "title_years": [],
+        "warnings": [],
+        "year_confidence": "none",
+        "year_evidence": "missing",
+        "year_mismatch_relaxed": false
+      }
+    },
+    {
       "auto_confirm_blocked_reason": "hard_conflict",
       "candidates": [
         {
@@ -48071,79 +48352,6 @@
         "product_year_weak": false,
         "program_series": null,
         "removed_phrases": [],
-        "scoring_year": 2026,
-        "search_abbreviation": null,
-        "search_year": 2026,
-        "title_years": [],
-        "warnings": [],
-        "year_confidence": "explicit",
-        "year_evidence": "derived_or_explicit",
-        "year_mismatch_relaxed": false
-      }
-    },
-    {
-      "auto_confirm_blocked_reason": null,
-      "candidates": [],
-      "directors_normalized": [],
-      "directors_raw": null,
-      "eligibility": "eligible",
-      "entity_kind": "feature_film",
-      "film_id": "tmdb:1362422",
-      "first_observed_at": null,
-      "identity_type": "tmdb",
-      "last_observed_at": null,
-      "match_confidence": 1.0,
-      "match_method": "manual",
-      "match_status": "confirmed_manual",
-      "normalized_title": "Beware! The Devil’s Wrath - Special Screening +",
-      "presentation_labels": [
-        "q&a"
-      ],
-      "provenance": {
-        "decision_id": "admin_d5fa0382-4667-4274-a15e-96c534419468",
-        "source_identity_key": "siff|id|cinema/in-theaters/beware-the-devils-wrath-special-screening-qanda"
-      },
-      "runtime_min": 92,
-      "signals": null,
-      "source_identities": [
-        {
-          "showtime_film_key": "beware-the-devil-s-wrath-special-screening-q-a",
-          "source": "siff",
-          "source_film_id": "cinema/in-theaters/beware-the-devils-wrath-special-screening-qanda",
-          "source_title": "Beware! The Devil’s Wrath - Special Screening + Q&A"
-        }
-      ],
-      "tmdb_id": 1362422,
-      "top_candidate_margin": null,
-      "warnings": [],
-      "year_hint": 2026,
-      "year_interpretation": {
-        "alternate_search_title": null,
-        "anniversary_year_derived": false,
-        "anniversary_years": null,
-        "applied_alias": null,
-        "applied_alias_id": null,
-        "applied_rules": [
-          "presentation_trailing_atoms"
-        ],
-        "base_title": "Beware! The Devil’s Wrath - Special Screening +",
-        "canonical_year_candidate": 2026,
-        "event_labels": [
-          "Q&A"
-        ],
-        "event_phrase": null,
-        "event_year": null,
-        "event_year_not_canonical": false,
-        "format_tags": [],
-        "presentation_labels": [
-          "q&a"
-        ],
-        "product_year": null,
-        "product_year_weak": false,
-        "program_series": null,
-        "removed_phrases": [
-          "Q&A"
-        ],
         "scoring_year": 2026,
         "search_abbreviation": null,
         "search_year": 2026,
@@ -49563,280 +49771,6 @@
         "scoring_year": 2027,
         "search_abbreviation": null,
         "search_year": 2027,
-        "title_years": [],
-        "warnings": [],
-        "year_confidence": "explicit",
-        "year_evidence": "derived_or_explicit",
-        "year_mismatch_relaxed": false
-      }
-    },
-    {
-      "auto_confirm_blocked_reason": null,
-      "candidates": [
-        {
-          "director": "Takashi Yamazaki",
-          "original_title": "ゴジラ-0.0",
-          "overview_excerpt": "War reduced Japan to zero, and Godzilla plunged it into minus. Two years have passed since then, and the country has faced agonizing struggles to achieve recovery and finally reclaim its daily life. Just as humanity man…",
-          "popularity": 14.2035,
-          "poster_path": "/hSmIJluOJmTWvJs4d7kHRxjc8s8.jpg",
-          "release_year": 2026,
-          "runtime_min": 135,
-          "score": 1.0,
-          "search_query": "Godzilla Minus Zero",
-          "search_query_reason": "normalized_title_year",
-          "search_year_used": 2026,
-          "signals": {
-            "available_weight": 0.9,
-            "contributions": {
-              "runtime": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.15
-              },
-              "title_exact": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.3
-              }
-            },
-            "director_candidate_normalized": [
-              "takashi yamazaki"
-            ],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": false,
-            "matched_weight": 0.9,
-            "original_title_exact": false,
-            "popularity": 14.2035,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 0,
-            "runtime_near": true,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "match",
-            "search_query": "Godzilla Minus Zero",
-            "search_query_reason": "normalized_title_year",
-            "search_year_used": 2026,
-            "title_conflict": false,
-            "title_exact": true,
-            "title_prefix_equivalence": false,
-            "year_conflict": false,
-            "year_evidence": "compatible",
-            "year_exact": true,
-            "year_near": false,
-            "year_status": "match"
-          },
-          "title": "Godzilla Minus Zero",
-          "tmdb_id": 1381071,
-          "warnings": []
-        },
-        {
-          "director": "Takashi Yamazaki",
-          "original_title": "ゴジラ-1.0",
-          "overview_excerpt": "In postwar Japan, Godzilla brings new devastation to an already scorched landscape. With no military intervention or government help in sight, the survivors must join together in the face of despair and fight back again…",
-          "popularity": 21.7118,
-          "poster_path": "/2E2WTX0TJEflAged6kzErwqX1kt.jpg",
-          "release_year": 2023,
-          "runtime_min": 125,
-          "score": 0.0372,
-          "search_query": "Godzilla Minus Zero",
-          "search_query_reason": "normalized_title_year",
-          "search_year_used": 2026,
-          "signals": {
-            "available_weight": 0.9,
-            "contributions": {
-              "runtime": {
-                "delta_minutes": 10,
-                "kind": "soft",
-                "matched": true,
-                "soft_weight": 0.0333,
-                "weight": 0.15
-              },
-              "title_exact": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "conflict",
-                "matched": false,
-                "weight": 0.3
-              }
-            },
-            "director_candidate_normalized": [
-              "takashi yamazaki"
-            ],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": true,
-            "matched_weight": 0.0333,
-            "original_title_exact": false,
-            "popularity": 21.7118,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 10,
-            "runtime_near": false,
-            "runtime_soft": true,
-            "runtime_soft_max": 12,
-            "runtime_status": "soft",
-            "search_query": "Godzilla Minus Zero",
-            "search_query_reason": "normalized_title_year",
-            "search_year_used": 2026,
-            "title_conflict": true,
-            "title_exact": false,
-            "title_prefix_equivalence": false,
-            "year_conflict": true,
-            "year_evidence": "conflict",
-            "year_exact": false,
-            "year_near": false,
-            "year_status": "conflict"
-          },
-          "title": "Godzilla Minus One",
-          "tmdb_id": 940721,
-          "warnings": [
-            "title_conflict",
-            "year_conflict",
-            "runtime_soft_penalty"
-          ]
-        }
-      ],
-      "directors_normalized": [],
-      "directors_raw": null,
-      "eligibility": "eligible",
-      "entity_kind": "feature_film",
-      "film_id": "tmdb:1381071",
-      "first_observed_at": null,
-      "identity_type": "tmdb",
-      "last_observed_at": null,
-      "match_confidence": 1.0,
-      "match_method": "automatic",
-      "match_status": "confirmed_automatic",
-      "normalized_title": "Godzilla Minus Zero",
-      "presentation_labels": [],
-      "provenance": {
-        "source_identity_key": "siff|id|cinema/in-theaters/godzilla-minus-zero",
-        "tmdb_search_queries": [
-          {
-            "reason": "normalized_title_year",
-            "title": "Godzilla Minus Zero",
-            "year": 2026
-          }
-        ]
-      },
-      "runtime_min": 135,
-      "signals": {
-        "available_weight": 0.9,
-        "contributions": {
-          "runtime": {
-            "kind": "match",
-            "matched": true,
-            "weight": 0.15
-          },
-          "title_exact": {
-            "kind": "match",
-            "matched": true,
-            "weight": 0.45
-          },
-          "year": {
-            "kind": "match",
-            "matched": true,
-            "weight": 0.3
-          }
-        },
-        "director_candidate_normalized": [
-          "takashi yamazaki"
-        ],
-        "director_conflict": false,
-        "director_overlap": false,
-        "director_source_normalized": [],
-        "director_status": "unavailable",
-        "director_weak_overlap": false,
-        "event_year_relaxed": false,
-        "external_id_exact": false,
-        "hard_conflict": false,
-        "matched_weight": 0.9,
-        "original_title_exact": false,
-        "popularity": 14.2035,
-        "runtime_compatible_max": 3,
-        "runtime_conflict": false,
-        "runtime_conflict_min": 25,
-        "runtime_delta_minutes": 0,
-        "runtime_near": true,
-        "runtime_soft": false,
-        "runtime_soft_max": 12,
-        "runtime_status": "match",
-        "search_query": "Godzilla Minus Zero",
-        "search_query_reason": "normalized_title_year",
-        "search_year_used": 2026,
-        "title_conflict": false,
-        "title_exact": true,
-        "title_prefix_equivalence": false,
-        "year_conflict": false,
-        "year_evidence": "compatible",
-        "year_exact": true,
-        "year_near": false,
-        "year_status": "match"
-      },
-      "source_identities": [
-        {
-          "showtime_film_key": "godzilla-minus-zero",
-          "source": "siff",
-          "source_film_id": "cinema/in-theaters/godzilla-minus-zero",
-          "source_title": "Godzilla Minus Zero"
-        }
-      ],
-      "tmdb_id": 1381071,
-      "tmdb_original_title": "ゴジラ-0.0",
-      "tmdb_overview_excerpt": "War reduced Japan to zero, and Godzilla plunged it into minus. Two years have passed since then, and the country has faced agonizing struggles to achieve recovery and finally reclaim its daily life. Just as humanity man…",
-      "tmdb_poster_path": "/hSmIJluOJmTWvJs4d7kHRxjc8s8.jpg",
-      "tmdb_release_year": 2026,
-      "tmdb_runtime_min": 135,
-      "tmdb_title": "Godzilla Minus Zero",
-      "top_candidate_margin": 0.9628,
-      "warnings": [],
-      "year_hint": 2026,
-      "year_interpretation": {
-        "alternate_search_title": null,
-        "anniversary_year_derived": false,
-        "anniversary_years": null,
-        "applied_alias": null,
-        "applied_alias_id": null,
-        "applied_rules": [
-          "normalized_source_fallback"
-        ],
-        "base_title": "Godzilla Minus Zero",
-        "canonical_year_candidate": 2026,
-        "event_labels": [],
-        "event_phrase": null,
-        "event_year": null,
-        "event_year_not_canonical": false,
-        "format_tags": [],
-        "presentation_labels": [],
-        "product_year": null,
-        "product_year_weak": false,
-        "program_series": null,
-        "removed_phrases": [],
-        "scoring_year": 2026,
-        "search_abbreviation": null,
-        "search_year": 2026,
         "title_years": [],
         "warnings": [],
         "year_confidence": "explicit",
@@ -51510,205 +51444,6 @@
         "scoring_year": 2026,
         "search_abbreviation": null,
         "search_year": 2026,
-        "title_years": [],
-        "warnings": [],
-        "year_confidence": "explicit",
-        "year_evidence": "derived_or_explicit",
-        "year_mismatch_relaxed": false
-      }
-    },
-    {
-      "auto_confirm_blocked_reason": null,
-      "candidates": [
-        {
-          "director": "Zhang Yimou",
-          "original_title": "大红灯笼高高挂",
-          "overview_excerpt": "In 1920s China, 19-year-old Songlian becomes a concubine of a powerful lord and is forced to compete with his three wives for the privileges gained.",
-          "popularity": 5.8769,
-          "poster_path": "/j6MGZpg55cTqlHHwahBtzI2qQg1.jpg",
-          "release_year": 1991,
-          "runtime_min": 125,
-          "score": 1.0,
-          "search_query": "Raise the Red Lantern",
-          "search_query_reason": "normalized_title_year",
-          "search_year_used": 1991,
-          "signals": {
-            "available_weight": 0.9,
-            "contributions": {
-              "runtime": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.15
-              },
-              "title_exact": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.3
-              }
-            },
-            "director_candidate_normalized": [
-              "zhang yimou"
-            ],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": false,
-            "matched_weight": 0.9,
-            "original_title_exact": false,
-            "popularity": 5.8769,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 0,
-            "runtime_near": true,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "match",
-            "search_query": "Raise the Red Lantern",
-            "search_query_reason": "normalized_title_year",
-            "search_year_used": 1991,
-            "title_conflict": false,
-            "title_exact": true,
-            "title_prefix_equivalence": false,
-            "year_conflict": false,
-            "year_evidence": "compatible",
-            "year_exact": true,
-            "year_near": false,
-            "year_status": "match"
-          },
-          "title": "Raise the Red Lantern",
-          "tmdb_id": 10404,
-          "warnings": []
-        }
-      ],
-      "directors_normalized": [],
-      "directors_raw": null,
-      "eligibility": "eligible",
-      "entity_kind": "feature_film",
-      "film_id": "tmdb:10404",
-      "first_observed_at": null,
-      "identity_type": "tmdb",
-      "last_observed_at": null,
-      "match_confidence": 1.0,
-      "match_method": "automatic",
-      "match_status": "confirmed_automatic",
-      "normalized_title": "Raise the Red Lantern",
-      "presentation_labels": [],
-      "provenance": {
-        "source_identity_key": "siff|id|cinema/in-theaters/raise-the-red-lantern",
-        "tmdb_search_queries": [
-          {
-            "reason": "normalized_title_year",
-            "title": "Raise the Red Lantern",
-            "year": 1991
-          }
-        ]
-      },
-      "runtime_min": 125,
-      "signals": {
-        "available_weight": 0.9,
-        "contributions": {
-          "runtime": {
-            "kind": "match",
-            "matched": true,
-            "weight": 0.15
-          },
-          "title_exact": {
-            "kind": "match",
-            "matched": true,
-            "weight": 0.45
-          },
-          "year": {
-            "kind": "match",
-            "matched": true,
-            "weight": 0.3
-          }
-        },
-        "director_candidate_normalized": [
-          "zhang yimou"
-        ],
-        "director_conflict": false,
-        "director_overlap": false,
-        "director_source_normalized": [],
-        "director_status": "unavailable",
-        "director_weak_overlap": false,
-        "event_year_relaxed": false,
-        "external_id_exact": false,
-        "hard_conflict": false,
-        "matched_weight": 0.9,
-        "original_title_exact": false,
-        "popularity": 5.8769,
-        "runtime_compatible_max": 3,
-        "runtime_conflict": false,
-        "runtime_conflict_min": 25,
-        "runtime_delta_minutes": 0,
-        "runtime_near": true,
-        "runtime_soft": false,
-        "runtime_soft_max": 12,
-        "runtime_status": "match",
-        "search_query": "Raise the Red Lantern",
-        "search_query_reason": "normalized_title_year",
-        "search_year_used": 1991,
-        "title_conflict": false,
-        "title_exact": true,
-        "title_prefix_equivalence": false,
-        "year_conflict": false,
-        "year_evidence": "compatible",
-        "year_exact": true,
-        "year_near": false,
-        "year_status": "match"
-      },
-      "source_identities": [
-        {
-          "showtime_film_key": "raise-the-red-lantern",
-          "source": "siff",
-          "source_film_id": "cinema/in-theaters/raise-the-red-lantern",
-          "source_title": "Raise the Red Lantern"
-        }
-      ],
-      "tmdb_id": 10404,
-      "tmdb_original_title": "大红灯笼高高挂",
-      "tmdb_overview_excerpt": "In 1920s China, 19-year-old Songlian becomes a concubine of a powerful lord and is forced to compete with his three wives for the privileges gained.",
-      "tmdb_poster_path": "/j6MGZpg55cTqlHHwahBtzI2qQg1.jpg",
-      "tmdb_release_year": 1991,
-      "tmdb_runtime_min": 125,
-      "tmdb_title": "Raise the Red Lantern",
-      "top_candidate_margin": null,
-      "warnings": [],
-      "year_hint": 1991,
-      "year_interpretation": {
-        "alternate_search_title": null,
-        "anniversary_year_derived": false,
-        "anniversary_years": null,
-        "applied_alias": null,
-        "applied_alias_id": null,
-        "applied_rules": [
-          "normalized_source_fallback"
-        ],
-        "base_title": "Raise the Red Lantern",
-        "canonical_year_candidate": 1991,
-        "event_labels": [],
-        "event_phrase": null,
-        "event_year": null,
-        "event_year_not_canonical": false,
-        "format_tags": [],
-        "presentation_labels": [],
-        "product_year": null,
-        "product_year_weak": false,
-        "program_series": null,
-        "removed_phrases": [],
-        "scoring_year": 1991,
-        "search_abbreviation": null,
-        "search_year": 1991,
         "title_years": [],
         "warnings": [],
         "year_confidence": "explicit",
@@ -57327,207 +57062,6 @@
       "auto_confirm_blocked_reason": null,
       "candidates": [
         {
-          "director": "Pedro Almodóvar",
-          "original_title": "Amarga Navidad",
-          "overview_excerpt": "During a long December holiday weekend, a woman, whose mother has recently died, throws herself into work as a form of escape. Her relentless pace is interrupted when a panic attack forces her to take a break.",
-          "popularity": 7.1065,
-          "poster_path": "/kiPGcHX0YT49nrab76G0bqw3gHW.jpg",
-          "release_year": 2026,
-          "runtime_min": 111,
-          "score": 1.0,
-          "search_query": "Bitter Christmas",
-          "search_query_reason": "normalized_title_year",
-          "search_year_used": 2026,
-          "signals": {
-            "available_weight": 0.9,
-            "contributions": {
-              "runtime": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.15
-              },
-              "title_exact": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.45
-              },
-              "year": {
-                "kind": "match",
-                "matched": true,
-                "weight": 0.3
-              }
-            },
-            "director_candidate_normalized": [
-              "pedro almodovar"
-            ],
-            "director_conflict": false,
-            "director_overlap": false,
-            "director_source_normalized": [],
-            "director_status": "unavailable",
-            "director_weak_overlap": false,
-            "event_year_relaxed": false,
-            "external_id_exact": false,
-            "hard_conflict": false,
-            "matched_weight": 0.9,
-            "original_title_exact": false,
-            "popularity": 7.1065,
-            "runtime_compatible_max": 3,
-            "runtime_conflict": false,
-            "runtime_conflict_min": 25,
-            "runtime_delta_minutes": 0,
-            "runtime_near": true,
-            "runtime_soft": false,
-            "runtime_soft_max": 12,
-            "runtime_status": "match",
-            "search_query": "Bitter Christmas",
-            "search_query_reason": "normalized_title_year",
-            "search_year_used": 2026,
-            "title_conflict": false,
-            "title_exact": true,
-            "title_prefix_equivalence": false,
-            "year_conflict": false,
-            "year_evidence": "compatible",
-            "year_exact": true,
-            "year_near": false,
-            "year_status": "match"
-          },
-          "title": "Bitter Christmas",
-          "tmdb_id": 1088548,
-          "warnings": []
-        }
-      ],
-      "directors_normalized": [],
-      "directors_raw": null,
-      "eligibility": "eligible",
-      "entity_kind": "feature_film",
-      "film_id": "tmdb:1088548",
-      "first_observed_at": null,
-      "identity_type": "tmdb",
-      "last_observed_at": null,
-      "match_confidence": 1.0,
-      "match_method": "automatic",
-      "match_status": "confirmed_automatic",
-      "normalized_title": "Bitter Christmas",
-      "presentation_labels": [],
-      "provenance": {
-        "source_identity_key": "tasveer|id|164626",
-        "tmdb_search_queries": [
-          {
-            "reason": "normalized_title_year",
-            "title": "Bitter Christmas",
-            "year": 2026
-          }
-        ]
-      },
-      "runtime_min": 111,
-      "signals": {
-        "available_weight": 0.9,
-        "contributions": {
-          "runtime": {
-            "kind": "match",
-            "matched": true,
-            "weight": 0.15
-          },
-          "title_exact": {
-            "kind": "match",
-            "matched": true,
-            "weight": 0.45
-          },
-          "year": {
-            "kind": "match",
-            "matched": true,
-            "weight": 0.3
-          }
-        },
-        "director_candidate_normalized": [
-          "pedro almodovar"
-        ],
-        "director_conflict": false,
-        "director_overlap": false,
-        "director_source_normalized": [],
-        "director_status": "unavailable",
-        "director_weak_overlap": false,
-        "event_year_relaxed": false,
-        "external_id_exact": false,
-        "hard_conflict": false,
-        "matched_weight": 0.9,
-        "original_title_exact": false,
-        "popularity": 7.1065,
-        "runtime_compatible_max": 3,
-        "runtime_conflict": false,
-        "runtime_conflict_min": 25,
-        "runtime_delta_minutes": 0,
-        "runtime_near": true,
-        "runtime_soft": false,
-        "runtime_soft_max": 12,
-        "runtime_status": "match",
-        "search_query": "Bitter Christmas",
-        "search_query_reason": "normalized_title_year",
-        "search_year_used": 2026,
-        "title_conflict": false,
-        "title_exact": true,
-        "title_prefix_equivalence": false,
-        "year_conflict": false,
-        "year_evidence": "compatible",
-        "year_exact": true,
-        "year_near": false,
-        "year_status": "match"
-      },
-      "source_identities": [
-        {
-          "showtime_film_key": "bitter-christmas",
-          "source": "tasveer",
-          "source_film_id": "164626",
-          "source_title": "Bitter Christmas (Amarga Navidad, 2026, Spanish)"
-        }
-      ],
-      "tmdb_id": 1088548,
-      "tmdb_original_title": "Amarga Navidad",
-      "tmdb_overview_excerpt": "During a long December holiday weekend, a woman, whose mother has recently died, throws herself into work as a form of escape. Her relentless pace is interrupted when a panic attack forces her to take a break.",
-      "tmdb_poster_path": "/kiPGcHX0YT49nrab76G0bqw3gHW.jpg",
-      "tmdb_release_year": 2026,
-      "tmdb_runtime_min": 111,
-      "tmdb_title": "Bitter Christmas",
-      "top_candidate_margin": null,
-      "warnings": [],
-      "year_hint": 2026,
-      "year_interpretation": {
-        "alternate_search_title": null,
-        "anniversary_year_derived": false,
-        "anniversary_years": null,
-        "applied_alias": null,
-        "applied_alias_id": null,
-        "applied_rules": [
-          "normalized_source_fallback"
-        ],
-        "base_title": "Bitter Christmas (Amarga Navidad, 2026, Spanish)",
-        "canonical_year_candidate": 2026,
-        "event_labels": [],
-        "event_phrase": null,
-        "event_year": null,
-        "event_year_not_canonical": false,
-        "format_tags": [],
-        "presentation_labels": [],
-        "product_year": null,
-        "product_year_weak": false,
-        "program_series": null,
-        "removed_phrases": [],
-        "scoring_year": 2026,
-        "search_abbreviation": null,
-        "search_year": 2026,
-        "title_years": [
-          2026
-        ],
-        "warnings": [],
-        "year_confidence": "explicit",
-        "year_evidence": "derived_or_explicit",
-        "year_mismatch_relaxed": false
-      }
-    },
-    {
-      "auto_confirm_blocked_reason": null,
-      "candidates": [
-        {
           "director": "Daniel Sharp",
           "original_title": null,
           "overview_excerpt": "In the winter of 1976, a small plane carrying millions of dollars’ worth of marijuana crashed into a remote lake in Yosemite National Park. A group of young climbers from the legendary Camp 4 community then crossed the …",
@@ -58213,6 +57747,6 @@
       }
     }
   ],
-  "generated_at": "2026-11-24T18:26:16+00:00",
+  "generated_at": "2026-11-25T17:41:21+00:00",
   "schema_version": "1.0.0"
 }
