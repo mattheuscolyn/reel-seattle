@@ -1,21 +1,21 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-11-24T09:02:46-08:00",
+  "generated_at": "2026-11-25T08:50:42-08:00",
   "audit_kind": "film_pipeline_source_metadata",
   "logs_dir": "data/daily_logs",
   "sources": {
     "amc": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-24_amc.json",
-      "generated_at": "2026-11-24T08:49:27-08:00",
-      "record_count": 8304,
+      "latest_log": "data/daily_logs/2026-11-25_amc.json",
+      "generated_at": "2026-11-25T08:36:56-08:00",
+      "record_count": 8574,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 82,
+      "source_identity_count": 83,
       "eligible_feature_count": 70,
       "title": {
-        "with_title": 82,
+        "with_title": 83,
         "missing": 0
       },
       "runtime": {
@@ -126,7 +126,7 @@
       "entity_kind_counts": {
         "broadcast_event": 10,
         "feature_film": 70,
-        "live_event": 1,
+        "live_event": 2,
         "mystery_screening": 1
       },
       "identities": [
@@ -136,7 +136,7 @@
           "adapter_identity_title": null,
           "matcher_title": "Avengers: Doomsday",
           "program_series": null,
-          "runtime_min": 165,
+          "runtime_min": 151,
           "release_year": null,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
@@ -872,7 +872,7 @@
           "adapter_identity_title": null,
           "matcher_title": "Avengers: Doomsday",
           "program_series": null,
-          "runtime_min": 165,
+          "runtime_min": 151,
           "release_year": null,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
@@ -1140,6 +1140,22 @@
           ]
         },
         {
+          "source_identity_key": "id:85278",
+          "source_title": "UFC 335: Oliveira vs. Lopes",
+          "adapter_identity_title": null,
+          "matcher_title": "UFC 335: Oliveira vs. Lopes",
+          "program_series": null,
+          "runtime_min": 270,
+          "release_year": null,
+          "eligibility": "non_film",
+          "entity_kind": "live_event",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
           "source_identity_key": "id:85304",
           "source_title": "Yeh Prem Mol Liya",
           "adapter_identity_title": null,
@@ -1317,12 +1333,12 @@
           ]
         },
         {
-          "source_identity_key": "id:85543",
-          "source_title": "OM: Chapter 1 - Udhiram",
+          "source_identity_key": "id:85597",
+          "source_title": "Prince 3121 Las Vegas Live",
           "adapter_identity_title": null,
-          "matcher_title": "OM: Chapter 1 - Udhiram",
+          "matcher_title": "Prince 3121 Las Vegas Live",
           "program_series": null,
-          "runtime_min": 179,
+          "runtime_min": 115,
           "release_year": null,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
@@ -1333,12 +1349,12 @@
           ]
         },
         {
-          "source_identity_key": "id:85597",
-          "source_title": "Prince 3121 Las Vegas Live",
+          "source_identity_key": "id:85598",
+          "source_title": "Cosmic Samson",
           "adapter_identity_title": null,
-          "matcher_title": "Prince 3121 Las Vegas Live",
+          "matcher_title": "Cosmic Samson",
           "program_series": null,
-          "runtime_min": 115,
+          "runtime_min": 157,
           "release_year": null,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
@@ -1448,20 +1464,20 @@
     },
     "siff": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-24_siff.json",
-      "generated_at": "2026-11-24T08:48:45-08:00",
-      "record_count": 239,
+      "latest_log": "data/daily_logs/2026-11-25_siff.json",
+      "generated_at": "2026-11-25T08:36:12-08:00",
+      "record_count": 231,
       "malformed_record_count": 0,
       "warning_count": 7,
       "error_count": 0,
-      "source_identity_count": 37,
-      "eligible_feature_count": 36,
+      "source_identity_count": 34,
+      "eligible_feature_count": 33,
       "title": {
-        "with_title": 37,
+        "with_title": 34,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 34,
+        "eligible_features_with_runtime": 31,
         "eligible_features_missing_runtime": 2,
         "missing_feature_samples": [
           "Elsinore",
@@ -1470,13 +1486,13 @@
       },
       "release_year": {
         "strategy": "source_page_metadata",
-        "eligible_features_with_year": 36,
+        "eligible_features_with_year": 33,
         "eligible_features_missing_year": 0,
         "missing_feature_samples": []
       },
       "cleanup": {
         "adapter_cleaned_identity_count": 11,
-        "matcher_cleaned_identity_count": 14,
+        "matcher_cleaned_identity_count": 13,
         "adapter_cleanup_samples": [
           {
             "source_title": "Holiday Favorites: Fiddler on the Roof Sing-along",
@@ -1520,13 +1536,6 @@
           }
         ],
         "matcher_cleanup_samples": [
-          {
-            "source_title": "Beware! The Devil’s Wrath - Special Screening + Q&A",
-            "matcher_title": "Beware! The Devil’s Wrath - Special Screening +",
-            "rules": [
-              "presentation_trailing_atoms"
-            ]
-          },
           {
             "source_title": "Cameron Winter at Carnegie Hall (35mm)",
             "matcher_title": "Cameron Winter at Carnegie Hall",
@@ -1589,6 +1598,14 @@
             "rules": [
               "program_series:siff-movie-club"
             ]
+          },
+          {
+            "source_title": "SIFF Movie Club: Mary and Max (35mm)",
+            "matcher_title": "Mary and Max",
+            "rules": [
+              "program_series:siff-movie-club",
+              "format_or_accessibility_paren"
+            ]
           }
         ]
       },
@@ -1638,7 +1655,7 @@
         ]
       },
       "entity_kind_counts": {
-        "feature_film": 36,
+        "feature_film": 33,
         "multi_feature_program": 1
       },
       "identities": [
@@ -1656,22 +1673,6 @@
           "matcher_cleanup": false,
           "normalization_rules": [
             "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:cinema/in-theaters/beware-the-devils-wrath-special-screening-qanda",
-          "source_title": "Beware! The Devil’s Wrath - Special Screening + Q&A",
-          "adapter_identity_title": null,
-          "matcher_title": "Beware! The Devil’s Wrath - Special Screening +",
-          "program_series": null,
-          "runtime_min": 92,
-          "release_year": 2026,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": true,
-          "normalization_rules": [
-            "presentation_trailing_atoms"
           ]
         },
         {
@@ -1771,22 +1772,6 @@
           ]
         },
         {
-          "source_identity_key": "id:cinema/in-theaters/godzilla-minus-zero",
-          "source_title": "Godzilla Minus Zero",
-          "adapter_identity_title": null,
-          "matcher_title": "Godzilla Minus Zero",
-          "program_series": null,
-          "runtime_min": 135,
-          "release_year": 2026,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
           "source_identity_key": "id:cinema/in-theaters/hen",
           "source_title": "Hen",
           "adapter_identity_title": null,
@@ -1858,22 +1843,6 @@
           "program_series": null,
           "runtime_min": 114,
           "release_year": 2026,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:cinema/in-theaters/raise-the-red-lantern",
-          "source_title": "Raise the Red Lantern",
-          "adapter_identity_title": null,
-          "matcher_title": "Raise the Red Lantern",
-          "program_series": null,
-          "runtime_min": 125,
-          "release_year": 1991,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
           "adapter_cleanup": false,
@@ -2241,20 +2210,20 @@
     },
     "beacon": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-24_beacon.json",
-      "generated_at": "2026-11-24T08:48:45-08:00",
-      "record_count": 72,
+      "latest_log": "data/daily_logs/2026-11-25_beacon.json",
+      "generated_at": "2026-11-25T08:36:12-08:00",
+      "record_count": 70,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 43,
-      "eligible_feature_count": 40,
+      "source_identity_count": 42,
+      "eligible_feature_count": 39,
       "title": {
-        "with_title": 43,
+        "with_title": 42,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 39,
+        "eligible_features_with_runtime": 38,
         "eligible_features_missing_runtime": 1,
         "missing_feature_samples": [
           "?????? CINEMA"
@@ -2262,7 +2231,7 @@
       },
       "release_year": {
         "strategy": "source_page_when_published",
-        "eligible_features_with_year": 36,
+        "eligible_features_with_year": 35,
         "eligible_features_missing_year": 4,
         "missing_feature_samples": [
           "?????? CINEMA",
@@ -2301,7 +2270,7 @@
       },
       "entity_kind_counts": {
         "composite_event": 1,
-        "feature_film": 40,
+        "feature_film": 39,
         "multi_feature_program": 1,
         "mystery_screening": 1
       },
@@ -2691,22 +2660,6 @@
           ]
         },
         {
-          "source_identity_key": "id:once-upon-a-time-in-harlem",
-          "source_title": "ONCE UPON A TIME IN HARLEM",
-          "adapter_identity_title": null,
-          "matcher_title": "Once Upon A Time In Harlem",
-          "program_series": null,
-          "runtime_min": 100,
-          "release_year": 2026,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
           "source_identity_key": "id:ordet",
           "source_title": "ORDET",
           "adapter_identity_title": null,
@@ -2998,16 +2951,16 @@
     },
     "nwff": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-24_nwff.json",
-      "generated_at": "2026-11-24T08:47:20-08:00",
+      "latest_log": "data/daily_logs/2026-11-25_nwff.json",
+      "generated_at": "2026-11-25T08:34:43-08:00",
       "record_count": 87,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 30,
+      "source_identity_count": 31,
       "eligible_feature_count": 29,
       "title": {
-        "with_title": 30,
+        "with_title": 31,
         "missing": 0
       },
       "runtime": {
@@ -3025,7 +2978,7 @@
       },
       "cleanup": {
         "adapter_cleaned_identity_count": 10,
-        "matcher_cleaned_identity_count": 12,
+        "matcher_cleaned_identity_count": 11,
         "adapter_cleanup_samples": [
           {
             "source_title": "MOURNING SICKNESS VOL. 5: Showgirls Annual Screenings",
@@ -3085,13 +3038,6 @@
             ]
           },
           {
-            "source_title": "My Brother's Wedding (4K Restoration)",
-            "matcher_title": "My Brother's Wedding",
-            "rules": [
-              "format_or_accessibility_paren"
-            ]
-          },
-          {
             "source_title": "SFCS at 10: Moonlight",
             "matcher_title": "Moonlight",
             "rules": [
@@ -3136,6 +3082,13 @@
           {
             "source_title": "Unstreamable - Mod Fuck Explosion",
             "matcher_title": "Mod Fuck Explosion",
+            "rules": [
+              "program_series:unstreamable"
+            ]
+          },
+          {
+            "source_title": "Unstreamable - The Taste of Tea",
+            "matcher_title": "The Taste of Tea",
             "rules": [
               "program_series:unstreamable"
             ]
@@ -3189,7 +3142,7 @@
       },
       "entity_kind_counts": {
         "feature_film": 29,
-        "shorts_program": 1
+        "shorts_program": 2
       },
       "identities": [
         {
@@ -3319,22 +3272,6 @@
           "matcher_cleanup": false,
           "normalization_rules": [
             "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:my-brothers-wedding-4k-restoration",
-          "source_title": "My Brother's Wedding (4K Restoration)",
-          "adapter_identity_title": null,
-          "matcher_title": "My Brother's Wedding",
-          "program_series": null,
-          "runtime_min": 81,
-          "release_year": 1983,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": true,
-          "normalization_rules": [
-            "format_or_accessibility_paren"
           ]
         },
         {
@@ -3482,6 +3419,22 @@
           ]
         },
         {
+          "source_identity_key": "id:trouble-in-mind",
+          "source_title": "Trouble in Mind",
+          "adapter_identity_title": null,
+          "matcher_title": "Trouble in Mind",
+          "program_series": null,
+          "runtime_min": 111,
+          "release_year": 1985,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
           "source_identity_key": "id:truth-to-fiction-f-for-fake",
           "source_title": "Truth To Fiction: F For Fake",
           "adapter_identity_title": "F For Fake",
@@ -3610,6 +3563,22 @@
           ]
         },
         {
+          "source_identity_key": "id:wallace-gromit-the-classic-shorts-4k-restorations",
+          "source_title": "Wallace & Gromit: The Classic Shorts (4K Restorations!)",
+          "adapter_identity_title": null,
+          "matcher_title": "Wallace & Gromit: The Classic Shorts (4K Restorations!)",
+          "program_series": null,
+          "runtime_min": 85,
+          "release_year": null,
+          "eligibility": "non_film",
+          "entity_kind": "shorts_program",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
           "source_identity_key": "id:wtf-with-stuff-fresh-kill",
           "source_title": "WTF with STUFF - Fresh Kill",
           "adapter_identity_title": "Fresh Kill",
@@ -3677,37 +3646,38 @@
     },
     "central_cinema": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-24_central_cinema.json",
-      "generated_at": "2026-11-24T08:47:38-08:00",
-      "record_count": 5,
+      "latest_log": "data/daily_logs/2026-11-25_central_cinema.json",
+      "generated_at": "2026-11-25T08:35:04-08:00",
+      "record_count": 6,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 4,
-      "eligible_feature_count": 4,
+      "source_identity_count": 5,
+      "eligible_feature_count": 5,
       "title": {
-        "with_title": 4,
+        "with_title": 5,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 4,
+        "eligible_features_with_runtime": 5,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "source_page_when_published",
         "eligible_features_with_year": 0,
-        "eligible_features_missing_year": 4,
+        "eligible_features_missing_year": 5,
         "missing_feature_samples": [
+          "Big Trouble in Little China",
+          "Casablanca (1942)",
           "Cinemancy: Legend",
           "Closed for Thanksgiving",
-          "Planes, Trains and Automobiles",
-          "Seattle Scare Society: Chopping Mall"
+          "Planes, Trains and Automobiles"
         ]
       },
       "cleanup": {
         "adapter_cleaned_identity_count": 1,
-        "matcher_cleaned_identity_count": 1,
+        "matcher_cleaned_identity_count": 2,
         "adapter_cleanup_samples": [
           {
             "source_title": "Cinemancy: Legend",
@@ -3715,6 +3685,13 @@
           }
         ],
         "matcher_cleanup_samples": [
+          {
+            "source_title": "Casablanca (1942)",
+            "matcher_title": "Casablanca",
+            "rules": [
+              "film_year_paren"
+            ]
+          },
           {
             "source_title": "Cinemancy: Legend",
             "matcher_title": "Legend",
@@ -3734,9 +3711,41 @@
         ]
       },
       "entity_kind_counts": {
-        "feature_film": 4
+        "feature_film": 5
       },
       "identities": [
+        {
+          "source_identity_key": "id:big-trouble-in-little-china",
+          "source_title": "Big Trouble in Little China",
+          "adapter_identity_title": null,
+          "matcher_title": "Big Trouble in Little China",
+          "program_series": null,
+          "runtime_min": 100,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:casablanca-1942",
+          "source_title": "Casablanca (1942)",
+          "adapter_identity_title": null,
+          "matcher_title": "Casablanca",
+          "program_series": null,
+          "runtime_min": 102,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": true,
+          "normalization_rules": [
+            "film_year_paren"
+          ]
+        },
         {
           "source_identity_key": "id:cinemancy-legend",
           "source_title": "Cinemancy: Legend",
@@ -3784,29 +3793,13 @@
           "normalization_rules": [
             "normalized_source_fallback"
           ]
-        },
-        {
-          "source_identity_key": "id:seattle-scare-society-chopping-mall",
-          "source_title": "Seattle Scare Society: Chopping Mall",
-          "adapter_identity_title": null,
-          "matcher_title": "Seattle Scare Society: Chopping Mall",
-          "program_series": null,
-          "runtime_min": 77,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
         }
       ]
     },
     "grand_illusion": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-24_grand_illusion.json",
-      "generated_at": "2026-11-24T08:48:42-08:00",
+      "latest_log": "data/daily_logs/2026-11-25_grand_illusion.json",
+      "generated_at": "2026-11-25T08:36:10-08:00",
       "record_count": 19,
       "malformed_record_count": 0,
       "warning_count": 0,
@@ -4060,39 +4053,35 @@
     },
     "tasveer": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-24_tasveer.json",
-      "generated_at": "2026-11-24T08:48:43-08:00",
-      "record_count": 40,
+      "latest_log": "data/daily_logs/2026-11-25_tasveer.json",
+      "generated_at": "2026-11-25T08:36:10-08:00",
+      "record_count": 20,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 5,
-      "eligible_feature_count": 5,
+      "source_identity_count": 4,
+      "eligible_feature_count": 4,
       "title": {
-        "with_title": 5,
+        "with_title": 4,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 5,
+        "eligible_features_with_runtime": 4,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "source_title_when_present",
-        "eligible_features_with_year": 4,
+        "eligible_features_with_year": 3,
         "eligible_features_missing_year": 1,
         "missing_feature_samples": [
           "Queering India (India, 2026) With Post-Film Q&A"
         ]
       },
       "cleanup": {
-        "adapter_cleaned_identity_count": 4,
+        "adapter_cleaned_identity_count": 3,
         "matcher_cleaned_identity_count": 1,
         "adapter_cleanup_samples": [
-          {
-            "source_title": "Bitter Christmas (Amarga Navidad, 2026, Spanish)",
-            "identity_title": "Bitter Christmas"
-          },
           {
             "source_title": "High Ground (2026, USA, English)",
             "identity_title": "High Ground"
@@ -4121,25 +4110,9 @@
         "samples": []
       },
       "entity_kind_counts": {
-        "feature_film": 5
+        "feature_film": 4
       },
       "identities": [
-        {
-          "source_identity_key": "id:164626",
-          "source_title": "Bitter Christmas (Amarga Navidad, 2026, Spanish)",
-          "adapter_identity_title": "Bitter Christmas",
-          "matcher_title": "Bitter Christmas (Amarga Navidad, 2026, Spanish)",
-          "program_series": null,
-          "runtime_min": 111,
-          "release_year": 2026,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": true,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
         {
           "source_identity_key": "id:165669",
           "source_title": "High Ground (2026, USA, English)",
@@ -4208,9 +4181,9 @@
     },
     "anderson_school": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-24_anderson_school.json",
-      "generated_at": "2026-11-24T08:48:45-08:00",
-      "record_count": 23,
+      "latest_log": "data/daily_logs/2026-11-25_anderson_school.json",
+      "generated_at": "2026-11-25T08:36:12-08:00",
+      "record_count": 20,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
@@ -4527,9 +4500,9 @@
     },
     "majestic_bay": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-24_majestic_bay.json",
-      "generated_at": "2026-11-24T08:48:45-08:00",
-      "record_count": 79,
+      "latest_log": "data/daily_logs/2026-11-25_majestic_bay.json",
+      "generated_at": "2026-11-25T08:36:12-08:00",
+      "record_count": 73,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,

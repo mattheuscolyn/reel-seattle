@@ -1,6 +1,6 @@
 {
   "schema_version": "1.1.0",
-  "generated_at": "2026-11-24T08:55:23-08:00",
+  "generated_at": "2026-11-25T08:43:19-08:00",
   "timezone": "America/Los_Angeles",
   "week": {
     "start_date": "2026-11-23",
@@ -12,15 +12,15 @@
     "description": "Citywide opening_date is the earliest non-canceled scheduled Date across enabled Seattle theaters after collapsing variants to parent film identity. A film is a member when week_start <= opening_date <= week_end (Pacific Monday–Sunday). Current showtimes join visibility metadata only. opening_type is soft QA classification (theatrical/repertory/event/limited) and does not affect membership."
   },
   "stats": {
-    "entry_count": 25,
+    "entry_count": 28,
     "low_confidence_count": 0,
     "override_applied_count": 0,
     "earliest_opening_date": "2026-11-23",
     "latest_opening_date": "2026-11-29",
     "opening_type_counts": {
-      "limited": 9,
+      "limited": 11,
       "event": 2,
-      "theatrical": 10,
+      "theatrical": 11,
       "repertory": 4
     }
   },
@@ -101,7 +101,7 @@
         "siff-film-center"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 1,
+      "visible_showtime_count": 0,
       "engagement_days": 1,
       "historical_screening_count": 1,
       "opening_type": "event",
@@ -132,9 +132,9 @@
         "amc-alderwood-mall-16"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 102,
-      "engagement_days": 10,
-      "historical_screening_count": 51,
+      "visible_showtime_count": 60,
+      "engagement_days": 9,
+      "historical_screening_count": 33,
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
@@ -142,15 +142,13 @@
         "variant_showtime_film_keys": [
           "bitter-christmas"
         ],
-        "distinct_scheduled_dates": 10,
+        "distinct_scheduled_dates": 9,
         "bootstrap_theater_ids": [],
         "mature_theater_ids": [
-          "amc-alderwood-mall-16",
-          "tasveer-film-center"
+          "amc-alderwood-mall-16"
         ],
         "sources": [
-          "amc",
-          "tasveer"
+          "amc"
         ]
       },
       "override": null
@@ -165,7 +163,7 @@
         "the-beacon"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 4,
+      "visible_showtime_count": 2,
       "engagement_days": 2,
       "historical_screening_count": 2,
       "opening_type": "repertory",
@@ -202,9 +200,9 @@
         "amc-woodinville-12"
       ],
       "theater_count_on_opening_date": 7,
-      "visible_showtime_count": 1094,
+      "visible_showtime_count": 1042,
       "engagement_days": 18,
-      "historical_screening_count": 548,
+      "historical_screening_count": 557,
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
@@ -241,7 +239,7 @@
         "amc-pacific-place-11"
       ],
       "theater_count_on_opening_date": 2,
-      "visible_showtime_count": 354,
+      "visible_showtime_count": 338,
       "engagement_days": 17,
       "historical_screening_count": 177,
       "opening_type": "theatrical",
@@ -281,9 +279,9 @@
         "amc-woodinville-12"
       ],
       "theater_count_on_opening_date": 5,
-      "visible_showtime_count": 394,
+      "visible_showtime_count": 358,
       "engagement_days": 9,
-      "historical_screening_count": 197,
+      "historical_screening_count": 201,
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
@@ -316,7 +314,7 @@
         "majestic-bay"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 42,
+      "visible_showtime_count": 38,
       "engagement_days": 9,
       "historical_screening_count": 21,
       "opening_type": "theatrical",
@@ -351,9 +349,9 @@
         "amc-woodinville-12"
       ],
       "theater_count_on_opening_date": 5,
-      "visible_showtime_count": 394,
+      "visible_showtime_count": 378,
       "engagement_days": 9,
-      "historical_screening_count": 197,
+      "historical_screening_count": 209,
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
@@ -388,7 +386,7 @@
         "central-cinema"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 2,
+      "visible_showtime_count": 0,
       "engagement_days": 1,
       "historical_screening_count": 1,
       "opening_type": "limited",
@@ -456,9 +454,9 @@
         "amc-woodinville-12"
       ],
       "theater_count_on_opening_date": 7,
-      "visible_showtime_count": 1172,
+      "visible_showtime_count": 1200,
       "engagement_days": 16,
-      "historical_screening_count": 586,
+      "historical_screening_count": 600,
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
@@ -612,9 +610,40 @@
       "override": null
     },
     {
+      "showtime_film_key": "cosmic-samson",
+      "parent_film_key": "cosmic-samson",
+      "film_id": null,
+      "film_title": "Cosmic Samson",
+      "opening_date": "2026-11-26",
+      "theaters_on_opening_date": [
+        "amc-alderwood-mall-16"
+      ],
+      "theater_count_on_opening_date": 1,
+      "visible_showtime_count": 14,
+      "engagement_days": 7,
+      "historical_screening_count": 7,
+      "opening_type": "theatrical",
+      "confidence": "high",
+      "evidence": {
+        "identity_method": "showtime_film_key",
+        "variant_showtime_film_keys": [
+          "cosmic-samson"
+        ],
+        "distinct_scheduled_dates": 7,
+        "bootstrap_theater_ids": [],
+        "mature_theater_ids": [
+          "amc-alderwood-mall-16"
+        ],
+        "sources": [
+          "amc"
+        ]
+      },
+      "override": null
+    },
+    {
       "showtime_film_key": "yeh-prem-mol-liya",
       "parent_film_key": "yeh-prem-mol-liya",
-      "film_id": null,
+      "film_id": "tmdb:1209723",
       "film_title": "Yeh Prem Mol Liya",
       "opening_date": "2026-11-26",
       "theaters_on_opening_date": [
@@ -627,7 +656,7 @@
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
-        "identity_method": "showtime_film_key",
+        "identity_method": "film_id",
         "variant_showtime_film_keys": [
           "yeh-prem-mol-liya"
         ],
@@ -643,6 +672,68 @@
       "override": null
     },
     {
+      "showtime_film_key": "big-trouble-in-little-china",
+      "parent_film_key": "big-trouble-in-little-china",
+      "film_id": null,
+      "film_title": "Big Trouble in Little China",
+      "opening_date": "2026-11-27",
+      "theaters_on_opening_date": [
+        "central-cinema"
+      ],
+      "theater_count_on_opening_date": 1,
+      "visible_showtime_count": 4,
+      "engagement_days": 1,
+      "historical_screening_count": 2,
+      "opening_type": "limited",
+      "confidence": "high",
+      "evidence": {
+        "identity_method": "showtime_film_key",
+        "variant_showtime_film_keys": [
+          "big-trouble-in-little-china"
+        ],
+        "distinct_scheduled_dates": 1,
+        "bootstrap_theater_ids": [],
+        "mature_theater_ids": [
+          "central-cinema"
+        ],
+        "sources": [
+          "central_cinema"
+        ]
+      },
+      "override": null
+    },
+    {
+      "showtime_film_key": "casablanca-1942",
+      "parent_film_key": "amc-movie-casablanca-1942",
+      "film_id": null,
+      "film_title": "Casablanca (1942)",
+      "opening_date": "2026-11-27",
+      "theaters_on_opening_date": [
+        "central-cinema"
+      ],
+      "theater_count_on_opening_date": 1,
+      "visible_showtime_count": 1,
+      "engagement_days": 1,
+      "historical_screening_count": 1,
+      "opening_type": "limited",
+      "confidence": "high",
+      "evidence": {
+        "identity_method": "parent_film_key",
+        "variant_showtime_film_keys": [
+          "casablanca-1942"
+        ],
+        "distinct_scheduled_dates": 1,
+        "bootstrap_theater_ids": [],
+        "mature_theater_ids": [
+          "central-cinema"
+        ],
+        "sources": [
+          "central_cinema"
+        ]
+      },
+      "override": null
+    },
+    {
       "showtime_film_key": "hen",
       "parent_film_key": "hen",
       "film_id": null,
@@ -652,9 +743,9 @@
         "siff-film-center"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 28,
+      "visible_showtime_count": 30,
       "engagement_days": 7,
-      "historical_screening_count": 14,
+      "historical_screening_count": 15,
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
