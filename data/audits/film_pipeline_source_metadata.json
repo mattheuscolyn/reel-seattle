@@ -1,25 +1,25 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-11-25T08:50:42-08:00",
+  "generated_at": "2026-11-26T08:24:44-08:00",
   "audit_kind": "film_pipeline_source_metadata",
   "logs_dir": "data/daily_logs",
   "sources": {
     "amc": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-25_amc.json",
-      "generated_at": "2026-11-25T08:36:56-08:00",
-      "record_count": 8574,
+      "latest_log": "data/daily_logs/2026-11-26_amc.json",
+      "generated_at": "2026-11-26T08:12:49-08:00",
+      "record_count": 8275,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 83,
-      "eligible_feature_count": 70,
+      "source_identity_count": 82,
+      "eligible_feature_count": 69,
       "title": {
-        "with_title": 83,
+        "with_title": 82,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 69,
+        "eligible_features_with_runtime": 68,
         "eligible_features_missing_runtime": 1,
         "missing_feature_samples": [
           "THIS SYMPHONY MAY CONTAIN HOPE."
@@ -28,7 +28,7 @@
       "release_year": {
         "strategy": "source_catalog_join",
         "eligible_features_with_year": 0,
-        "eligible_features_missing_year": 70,
+        "eligible_features_missing_year": 69,
         "missing_feature_samples": [
           "Avengers: Doomsday",
           "Clayface",
@@ -44,7 +44,7 @@
       },
       "cleanup": {
         "adapter_cleaned_identity_count": 0,
-        "matcher_cleaned_identity_count": 21,
+        "matcher_cleaned_identity_count": 20,
         "adapter_cleanup_samples": [],
         "matcher_cleanup_samples": [
           {
@@ -125,7 +125,7 @@
       },
       "entity_kind_counts": {
         "broadcast_event": 10,
-        "feature_film": 70,
+        "feature_film": 69,
         "live_event": 2,
         "mystery_screening": 1
       },
@@ -1092,22 +1092,6 @@
           ]
         },
         {
-          "source_identity_key": "id:85176",
-          "source_title": "The Hunger Games: Sunrise on the Reaping: Sensory Friendly Screening",
-          "adapter_identity_title": null,
-          "matcher_title": "The Hunger Games: Sunrise on the Reaping",
-          "program_series": null,
-          "runtime_min": 158,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": true,
-          "normalization_rules": [
-            "presentation_segment"
-          ]
-        },
-        {
           "source_identity_key": "id:85177",
           "source_title": "Ebenezer: Sensory Friendly Screening",
           "adapter_identity_title": null,
@@ -1464,20 +1448,20 @@
     },
     "siff": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-25_siff.json",
-      "generated_at": "2026-11-25T08:36:12-08:00",
-      "record_count": 231,
+      "latest_log": "data/daily_logs/2026-11-26_siff.json",
+      "generated_at": "2026-11-26T08:12:07-08:00",
+      "record_count": 256,
       "malformed_record_count": 0,
       "warning_count": 7,
       "error_count": 0,
-      "source_identity_count": 34,
-      "eligible_feature_count": 33,
+      "source_identity_count": 33,
+      "eligible_feature_count": 32,
       "title": {
-        "with_title": 34,
+        "with_title": 33,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 31,
+        "eligible_features_with_runtime": 30,
         "eligible_features_missing_runtime": 2,
         "missing_feature_samples": [
           "Elsinore",
@@ -1486,12 +1470,12 @@
       },
       "release_year": {
         "strategy": "source_page_metadata",
-        "eligible_features_with_year": 33,
+        "eligible_features_with_year": 32,
         "eligible_features_missing_year": 0,
         "missing_feature_samples": []
       },
       "cleanup": {
-        "adapter_cleaned_identity_count": 11,
+        "adapter_cleaned_identity_count": 10,
         "matcher_cleaned_identity_count": 13,
         "adapter_cleanup_samples": [
           {
@@ -1610,7 +1594,7 @@
         ]
       },
       "series": {
-        "identity_count": 16,
+        "identity_count": 15,
         "samples": [
           {
             "source_title": "Community Screening: Singin’ In the Rain",
@@ -1655,7 +1639,7 @@
         ]
       },
       "entity_kind_counts": {
-        "feature_film": 33,
+        "feature_film": 32,
         "multi_feature_program": 1
       },
       "identities": [
@@ -2189,41 +2173,25 @@
           "normalization_rules": [
             "format_or_accessibility_paren"
           ]
-        },
-        {
-          "source_identity_key": "id:programs-and-events/the-open-road/taste-of-cherry",
-          "source_title": "The Open Road: Taste of Cherry",
-          "adapter_identity_title": "Taste of Cherry",
-          "matcher_title": "The Open Road: Taste of Cherry",
-          "program_series": "The Open Road",
-          "runtime_min": 99,
-          "release_year": 1997,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": true,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
         }
       ]
     },
     "beacon": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-25_beacon.json",
-      "generated_at": "2026-11-25T08:36:12-08:00",
-      "record_count": 70,
+      "latest_log": "data/daily_logs/2026-11-26_beacon.json",
+      "generated_at": "2026-11-26T08:12:07-08:00",
+      "record_count": 68,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 42,
-      "eligible_feature_count": 39,
+      "source_identity_count": 40,
+      "eligible_feature_count": 37,
       "title": {
-        "with_title": 42,
+        "with_title": 40,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 38,
+        "eligible_features_with_runtime": 36,
         "eligible_features_missing_runtime": 1,
         "missing_feature_samples": [
           "?????? CINEMA"
@@ -2231,7 +2199,7 @@
       },
       "release_year": {
         "strategy": "source_page_when_published",
-        "eligible_features_with_year": 35,
+        "eligible_features_with_year": 33,
         "eligible_features_missing_year": 4,
         "missing_feature_samples": [
           "?????? CINEMA",
@@ -2270,7 +2238,7 @@
       },
       "entity_kind_counts": {
         "composite_event": 1,
-        "feature_film": 39,
+        "feature_film": 37,
         "multi_feature_program": 1,
         "mystery_screening": 1
       },
@@ -2372,22 +2340,6 @@
           ]
         },
         {
-          "source_identity_key": "id:blood-rage",
-          "source_title": "BLOOD RAGE",
-          "adapter_identity_title": null,
-          "matcher_title": "Blood Rage",
-          "program_series": null,
-          "runtime_min": 82,
-          "release_year": 1987,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
           "source_identity_key": "id:bluebeard-s-eighth-wife",
           "source_title": "BLUEBEARD'S EIGHTH WIFE",
           "adapter_identity_title": null,
@@ -2395,22 +2347,6 @@
           "program_series": null,
           "runtime_min": 80,
           "release_year": 1938,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:buffalo-66",
-          "source_title": "BUFFALO '66",
-          "adapter_identity_title": null,
-          "matcher_title": "Buffalo '66",
-          "program_series": null,
-          "runtime_min": 110,
-          "release_year": 1998,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
           "adapter_cleanup": false,
@@ -2951,8 +2887,8 @@
     },
     "nwff": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-25_nwff.json",
-      "generated_at": "2026-11-25T08:34:43-08:00",
+      "latest_log": "data/daily_logs/2026-11-26_nwff.json",
+      "generated_at": "2026-11-26T08:06:37-08:00",
       "record_count": 87,
       "malformed_record_count": 0,
       "warning_count": 0,
@@ -2964,9 +2900,11 @@
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 29,
-        "eligible_features_missing_runtime": 0,
-        "missing_feature_samples": []
+        "eligible_features_with_runtime": 28,
+        "eligible_features_missing_runtime": 1,
+        "missing_feature_samples": [
+          "Tr*nny Jackass"
+        ]
       },
       "release_year": {
         "strategy": "source_page_when_published",
@@ -3210,22 +3148,6 @@
           ]
         },
         {
-          "source_identity_key": "id:la-bola-negra",
-          "source_title": "La Bola Negra",
-          "adapter_identity_title": null,
-          "matcher_title": "La Bola Negra",
-          "program_series": null,
-          "runtime_min": 159,
-          "release_year": 2026,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
           "source_identity_key": "id:late-autumn",
           "source_title": "Late Autumn",
           "adapter_identity_title": null,
@@ -3410,6 +3332,22 @@
           "program_series": null,
           "runtime_min": 137,
           "release_year": 1953,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
+        {
+          "source_identity_key": "id:trnny-jackass",
+          "source_title": "Tr*nny Jackass",
+          "adapter_identity_title": null,
+          "matcher_title": "Tr*nny Jackass",
+          "program_series": null,
+          "runtime_min": null,
+          "release_year": 2026,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
           "adapter_cleanup": false,
@@ -3646,44 +3584,37 @@
     },
     "central_cinema": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-25_central_cinema.json",
-      "generated_at": "2026-11-25T08:35:04-08:00",
-      "record_count": 6,
+      "latest_log": "data/daily_logs/2026-11-26_central_cinema.json",
+      "generated_at": "2026-11-26T08:06:56-08:00",
+      "record_count": 7,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 5,
-      "eligible_feature_count": 5,
+      "source_identity_count": 3,
+      "eligible_feature_count": 3,
       "title": {
-        "with_title": 5,
+        "with_title": 3,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 5,
+        "eligible_features_with_runtime": 3,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "source_page_when_published",
         "eligible_features_with_year": 0,
-        "eligible_features_missing_year": 5,
+        "eligible_features_missing_year": 3,
         "missing_feature_samples": [
           "Big Trouble in Little China",
           "Casablanca (1942)",
-          "Cinemancy: Legend",
-          "Closed for Thanksgiving",
-          "Planes, Trains and Automobiles"
+          "Closed for Thanksgiving"
         ]
       },
       "cleanup": {
-        "adapter_cleaned_identity_count": 1,
-        "matcher_cleaned_identity_count": 2,
-        "adapter_cleanup_samples": [
-          {
-            "source_title": "Cinemancy: Legend",
-            "identity_title": "Legend"
-          }
-        ],
+        "adapter_cleaned_identity_count": 0,
+        "matcher_cleaned_identity_count": 1,
+        "adapter_cleanup_samples": [],
         "matcher_cleanup_samples": [
           {
             "source_title": "Casablanca (1942)",
@@ -3691,27 +3622,15 @@
             "rules": [
               "film_year_paren"
             ]
-          },
-          {
-            "source_title": "Cinemancy: Legend",
-            "matcher_title": "Legend",
-            "rules": [
-              "program_series:cinemancy"
-            ]
           }
         ]
       },
       "series": {
-        "identity_count": 1,
-        "samples": [
-          {
-            "source_title": "Cinemancy: Legend",
-            "program_series": "Cinemancy"
-          }
-        ]
+        "identity_count": 0,
+        "samples": []
       },
       "entity_kind_counts": {
-        "feature_film": 5
+        "feature_film": 3
       },
       "identities": [
         {
@@ -3747,22 +3666,6 @@
           ]
         },
         {
-          "source_identity_key": "id:cinemancy-legend",
-          "source_title": "Cinemancy: Legend",
-          "adapter_identity_title": "Legend",
-          "matcher_title": "Legend",
-          "program_series": "Cinemancy",
-          "runtime_min": 94,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": true,
-          "matcher_cleanup": true,
-          "normalization_rules": [
-            "program_series:cinemancy"
-          ]
-        },
-        {
           "source_identity_key": "id:closed-for-thanksgiving",
           "source_title": "Closed for Thanksgiving",
           "adapter_identity_title": null,
@@ -3777,29 +3680,13 @@
           "normalization_rules": [
             "normalized_source_fallback"
           ]
-        },
-        {
-          "source_identity_key": "id:planes-trains-and-automobiles",
-          "source_title": "Planes, Trains and Automobiles",
-          "adapter_identity_title": null,
-          "matcher_title": "Planes, Trains and Automobiles",
-          "program_series": null,
-          "runtime_min": 92,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
         }
       ]
     },
     "grand_illusion": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-25_grand_illusion.json",
-      "generated_at": "2026-11-25T08:36:10-08:00",
+      "latest_log": "data/daily_logs/2026-11-26_grand_illusion.json",
+      "generated_at": "2026-11-26T08:12:05-08:00",
       "record_count": 19,
       "malformed_record_count": 0,
       "warning_count": 0,
@@ -4053,35 +3940,39 @@
     },
     "tasveer": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-25_tasveer.json",
-      "generated_at": "2026-11-25T08:36:10-08:00",
-      "record_count": 20,
+      "latest_log": "data/daily_logs/2026-11-26_tasveer.json",
+      "generated_at": "2026-11-26T08:12:06-08:00",
+      "record_count": 35,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 4,
-      "eligible_feature_count": 4,
+      "source_identity_count": 5,
+      "eligible_feature_count": 5,
       "title": {
-        "with_title": 4,
+        "with_title": 5,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 4,
+        "eligible_features_with_runtime": 5,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "source_title_when_present",
-        "eligible_features_with_year": 3,
+        "eligible_features_with_year": 4,
         "eligible_features_missing_year": 1,
         "missing_feature_samples": [
           "Queering India (India, 2026) With Post-Film Q&A"
         ]
       },
       "cleanup": {
-        "adapter_cleaned_identity_count": 3,
+        "adapter_cleaned_identity_count": 4,
         "matcher_cleaned_identity_count": 1,
         "adapter_cleanup_samples": [
+          {
+            "source_title": "Bitter Christmas (Amarga Navidad, 2026, Spanish)",
+            "identity_title": "Bitter Christmas"
+          },
           {
             "source_title": "High Ground (2026, USA, English)",
             "identity_title": "High Ground"
@@ -4110,9 +4001,25 @@
         "samples": []
       },
       "entity_kind_counts": {
-        "feature_film": 4
+        "feature_film": 5
       },
       "identities": [
+        {
+          "source_identity_key": "id:164626",
+          "source_title": "Bitter Christmas (Amarga Navidad, 2026, Spanish)",
+          "adapter_identity_title": "Bitter Christmas",
+          "matcher_title": "Bitter Christmas (Amarga Navidad, 2026, Spanish)",
+          "program_series": null,
+          "runtime_min": 111,
+          "release_year": 2026,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": true,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
+        },
         {
           "source_identity_key": "id:165669",
           "source_title": "High Ground (2026, USA, English)",
@@ -4181,9 +4088,9 @@
     },
     "anderson_school": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-25_anderson_school.json",
-      "generated_at": "2026-11-25T08:36:12-08:00",
-      "record_count": 20,
+      "latest_log": "data/daily_logs/2026-11-26_anderson_school.json",
+      "generated_at": "2026-11-26T08:12:07-08:00",
+      "record_count": 18,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
@@ -4500,37 +4407,36 @@
     },
     "majestic_bay": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-25_majestic_bay.json",
-      "generated_at": "2026-11-25T08:36:12-08:00",
-      "record_count": 73,
+      "latest_log": "data/daily_logs/2026-11-26_majestic_bay.json",
+      "generated_at": "2026-11-26T08:12:07-08:00",
+      "record_count": 67,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 9,
-      "eligible_feature_count": 9,
+      "source_identity_count": 8,
+      "eligible_feature_count": 8,
       "title": {
-        "with_title": 9,
+        "with_title": 8,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 9,
+        "eligible_features_with_runtime": 8,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "not_exposed_by_listing",
         "eligible_features_with_year": 0,
-        "eligible_features_missing_year": 9,
+        "eligible_features_missing_year": 8,
         "missing_feature_samples": [
           "Wildwood",
-          "Star Trek IV: The Voyage Home",
           "You Can See Everything",
           "Hexed",
           "The Hunger Games: Sunrise on the Reaping",
-          "Avengers: Doomsday",
           "Star Trek: First Contact",
           "Dune",
-          "Dune: Part Three"
+          "Dune: Part Three",
+          "Avengers: Doomsday"
         ]
       },
       "cleanup": {
@@ -4544,7 +4450,7 @@
         "samples": []
       },
       "entity_kind_counts": {
-        "feature_film": 9
+        "feature_film": 8
       },
       "identities": [
         {
@@ -4554,22 +4460,6 @@
           "matcher_title": "Wildwood",
           "program_series": null,
           "runtime_min": 132,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
-          "source_identity_key": "id:0000001744",
-          "source_title": "Star Trek IV: The Voyage Home",
-          "adapter_identity_title": null,
-          "matcher_title": "Star Trek IV: The Voyage Home",
-          "program_series": null,
-          "runtime_min": 119,
           "release_year": null,
           "eligibility": "eligible",
           "entity_kind": "feature_film",
@@ -4628,22 +4518,6 @@
           ]
         },
         {
-          "source_identity_key": "id:0000001791",
-          "source_title": "Avengers: Doomsday",
-          "adapter_identity_title": null,
-          "matcher_title": "Avengers: Doomsday",
-          "program_series": null,
-          "runtime_min": 150,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
-        {
           "source_identity_key": "id:0000001793",
           "source_title": "Star Trek: First Contact",
           "adapter_identity_title": null,
@@ -4690,6 +4564,22 @@
           "normalization_rules": [
             "normalized_source_fallback"
           ]
+        },
+        {
+          "source_identity_key": "id:0000001814",
+          "source_title": "Avengers: Doomsday",
+          "adapter_identity_title": null,
+          "matcher_title": "Avengers: Doomsday",
+          "program_series": null,
+          "runtime_min": 151,
+          "release_year": null,
+          "eligibility": "eligible",
+          "entity_kind": "feature_film",
+          "adapter_cleanup": false,
+          "matcher_cleanup": false,
+          "normalization_rules": [
+            "normalized_source_fallback"
+          ]
         }
       ]
     }
@@ -4700,6 +4590,7 @@
       "amc",
       "siff",
       "beacon",
+      "nwff",
       "stg"
     ],
     "sources_with_feature_year_gaps_requiring_review": [

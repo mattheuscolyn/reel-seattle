@@ -1,6 +1,6 @@
 {
   "schema_version": "1.1.0",
-  "generated_at": "2026-11-25T08:43:19-08:00",
+  "generated_at": "2026-11-26T08:18:14-08:00",
   "timezone": "America/Los_Angeles",
   "week": {
     "start_date": "2026-11-23",
@@ -18,10 +18,10 @@
     "earliest_opening_date": "2026-11-23",
     "latest_opening_date": "2026-11-29",
     "opening_type_counts": {
-      "limited": 11,
+      "limited": 9,
       "event": 2,
       "theatrical": 11,
-      "repertory": 4
+      "repertory": 6
     }
   },
   "entries": [
@@ -94,7 +94,7 @@
     {
       "showtime_film_key": "beware-the-devil-s-wrath-special-screening-q-a",
       "parent_film_key": "beware-the-devil-s-wrath",
-      "film_id": "tmdb:1362422",
+      "film_id": null,
       "film_title": "Beware! The Devil’s Wrath",
       "opening_date": "2026-11-24",
       "theaters_on_opening_date": [
@@ -107,7 +107,7 @@
       "opening_type": "event",
       "confidence": "high",
       "evidence": {
-        "identity_method": "film_id",
+        "identity_method": "parent_film_key",
         "variant_showtime_film_keys": [
           "beware-the-devil-s-wrath-special-screening-q-a"
         ],
@@ -132,9 +132,9 @@
         "amc-alderwood-mall-16"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 60,
-      "engagement_days": 9,
-      "historical_screening_count": 33,
+      "visible_showtime_count": 82,
+      "engagement_days": 10,
+      "historical_screening_count": 49,
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
@@ -142,13 +142,15 @@
         "variant_showtime_film_keys": [
           "bitter-christmas"
         ],
-        "distinct_scheduled_dates": 9,
+        "distinct_scheduled_dates": 10,
         "bootstrap_theater_ids": [],
         "mature_theater_ids": [
-          "amc-alderwood-mall-16"
+          "amc-alderwood-mall-16",
+          "tasveer-film-center"
         ],
         "sources": [
-          "amc"
+          "amc",
+          "tasveer"
         ]
       },
       "override": null
@@ -163,7 +165,7 @@
         "the-beacon"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 2,
+      "visible_showtime_count": 0,
       "engagement_days": 2,
       "historical_screening_count": 2,
       "opening_type": "repertory",
@@ -200,7 +202,7 @@
         "amc-woodinville-12"
       ],
       "theater_count_on_opening_date": 7,
-      "visible_showtime_count": 1042,
+      "visible_showtime_count": 954,
       "engagement_days": 18,
       "historical_screening_count": 557,
       "opening_type": "theatrical",
@@ -239,7 +241,7 @@
         "amc-pacific-place-11"
       ],
       "theater_count_on_opening_date": 2,
-      "visible_showtime_count": 338,
+      "visible_showtime_count": 314,
       "engagement_days": 17,
       "historical_screening_count": 177,
       "opening_type": "theatrical",
@@ -279,7 +281,7 @@
         "amc-woodinville-12"
       ],
       "theater_count_on_opening_date": 5,
-      "visible_showtime_count": 358,
+      "visible_showtime_count": 310,
       "engagement_days": 9,
       "historical_screening_count": 201,
       "opening_type": "theatrical",
@@ -314,7 +316,7 @@
         "majestic-bay"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 38,
+      "visible_showtime_count": 34,
       "engagement_days": 9,
       "historical_screening_count": 21,
       "opening_type": "theatrical",
@@ -349,9 +351,9 @@
         "amc-woodinville-12"
       ],
       "theater_count_on_opening_date": 5,
-      "visible_showtime_count": 378,
-      "engagement_days": 9,
-      "historical_screening_count": 209,
+      "visible_showtime_count": 334,
+      "engagement_days": 10,
+      "historical_screening_count": 212,
       "opening_type": "theatrical",
       "confidence": "high",
       "evidence": {
@@ -359,7 +361,7 @@
         "variant_showtime_film_keys": [
           "paper-tiger"
         ],
-        "distinct_scheduled_dates": 9,
+        "distinct_scheduled_dates": 10,
         "bootstrap_theater_ids": [],
         "mature_theater_ids": [
           "amc-alderwood-mall-16",
@@ -417,7 +419,7 @@
         "the-beacon"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 2,
+      "visible_showtime_count": 0,
       "engagement_days": 1,
       "historical_screening_count": 1,
       "opening_type": "limited",
@@ -454,7 +456,7 @@
         "amc-woodinville-12"
       ],
       "theater_count_on_opening_date": 7,
-      "visible_showtime_count": 1200,
+      "visible_showtime_count": 1096,
       "engagement_days": 16,
       "historical_screening_count": 600,
       "opening_type": "theatrical",
@@ -491,7 +493,7 @@
         "central-cinema"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 2,
+      "visible_showtime_count": 0,
       "engagement_days": 1,
       "historical_screening_count": 1,
       "opening_type": "limited",
@@ -522,7 +524,7 @@
         "majestic-bay"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 2,
+      "visible_showtime_count": 0,
       "engagement_days": 1,
       "historical_screening_count": 1,
       "opening_type": "limited",
@@ -555,7 +557,7 @@
         "amc-southcenter-16"
       ],
       "theater_count_on_opening_date": 3,
-      "visible_showtime_count": 224,
+      "visible_showtime_count": 198,
       "engagement_days": 9,
       "historical_screening_count": 112,
       "opening_type": "theatrical",
@@ -674,24 +676,24 @@
     {
       "showtime_film_key": "big-trouble-in-little-china",
       "parent_film_key": "big-trouble-in-little-china",
-      "film_id": null,
+      "film_id": "tmdb:6978",
       "film_title": "Big Trouble in Little China",
       "opening_date": "2026-11-27",
       "theaters_on_opening_date": [
         "central-cinema"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 4,
-      "engagement_days": 1,
-      "historical_screening_count": 2,
-      "opening_type": "limited",
+      "visible_showtime_count": 8,
+      "engagement_days": 2,
+      "historical_screening_count": 4,
+      "opening_type": "repertory",
       "confidence": "high",
       "evidence": {
-        "identity_method": "showtime_film_key",
+        "identity_method": "film_id",
         "variant_showtime_film_keys": [
           "big-trouble-in-little-china"
         ],
-        "distinct_scheduled_dates": 1,
+        "distinct_scheduled_dates": 2,
         "bootstrap_theater_ids": [],
         "mature_theater_ids": [
           "central-cinema"
@@ -705,24 +707,24 @@
     {
       "showtime_film_key": "casablanca-1942",
       "parent_film_key": "amc-movie-casablanca-1942",
-      "film_id": null,
+      "film_id": "tmdb:289",
       "film_title": "Casablanca (1942)",
       "opening_date": "2026-11-27",
       "theaters_on_opening_date": [
         "central-cinema"
       ],
       "theater_count_on_opening_date": 1,
-      "visible_showtime_count": 1,
-      "engagement_days": 1,
-      "historical_screening_count": 1,
-      "opening_type": "limited",
+      "visible_showtime_count": 2,
+      "engagement_days": 2,
+      "historical_screening_count": 2,
+      "opening_type": "repertory",
       "confidence": "high",
       "evidence": {
-        "identity_method": "parent_film_key",
+        "identity_method": "film_id",
         "variant_showtime_film_keys": [
           "casablanca-1942"
         ],
-        "distinct_scheduled_dates": 1,
+        "distinct_scheduled_dates": 2,
         "bootstrap_theater_ids": [],
         "mature_theater_ids": [
           "central-cinema"
