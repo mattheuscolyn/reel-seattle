@@ -1,14 +1,14 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-11-26T08:24:44-08:00",
+  "generated_at": "2026-11-27T08:08:21-08:00",
   "audit_kind": "film_pipeline_source_metadata",
   "logs_dir": "data/daily_logs",
   "sources": {
     "amc": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-26_amc.json",
-      "generated_at": "2026-11-26T08:12:49-08:00",
-      "record_count": 8275,
+      "latest_log": "data/daily_logs/2026-11-27_amc.json",
+      "generated_at": "2026-11-27T07:57:04-08:00",
+      "record_count": 7914,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
@@ -1448,9 +1448,9 @@
     },
     "siff": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-26_siff.json",
-      "generated_at": "2026-11-26T08:12:07-08:00",
-      "record_count": 256,
+      "latest_log": "data/daily_logs/2026-11-27_siff.json",
+      "generated_at": "2026-11-27T07:56:22-08:00",
+      "record_count": 244,
       "malformed_record_count": 0,
       "warning_count": 7,
       "error_count": 0,
@@ -2178,8 +2178,8 @@
     },
     "beacon": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-26_beacon.json",
-      "generated_at": "2026-11-26T08:12:07-08:00",
+      "latest_log": "data/daily_logs/2026-11-27_beacon.json",
+      "generated_at": "2026-11-27T07:56:22-08:00",
       "record_count": 68,
       "malformed_record_count": 0,
       "warning_count": 0,
@@ -2887,8 +2887,8 @@
     },
     "nwff": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-26_nwff.json",
-      "generated_at": "2026-11-26T08:06:37-08:00",
+      "latest_log": "data/daily_logs/2026-11-27_nwff.json",
+      "generated_at": "2026-11-27T07:55:09-08:00",
       "record_count": 87,
       "malformed_record_count": 0,
       "warning_count": 0,
@@ -3584,31 +3584,30 @@
     },
     "central_cinema": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-26_central_cinema.json",
-      "generated_at": "2026-11-26T08:06:56-08:00",
-      "record_count": 7,
+      "latest_log": "data/daily_logs/2026-11-27_central_cinema.json",
+      "generated_at": "2026-11-27T07:55:28-08:00",
+      "record_count": 9,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 3,
-      "eligible_feature_count": 3,
+      "source_identity_count": 2,
+      "eligible_feature_count": 2,
       "title": {
-        "with_title": 3,
+        "with_title": 2,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 3,
+        "eligible_features_with_runtime": 2,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "source_page_when_published",
         "eligible_features_with_year": 0,
-        "eligible_features_missing_year": 3,
+        "eligible_features_missing_year": 2,
         "missing_feature_samples": [
           "Big Trouble in Little China",
-          "Casablanca (1942)",
-          "Closed for Thanksgiving"
+          "Casablanca (1942)"
         ]
       },
       "cleanup": {
@@ -3630,7 +3629,7 @@
         "samples": []
       },
       "entity_kind_counts": {
-        "feature_film": 3
+        "feature_film": 2
       },
       "identities": [
         {
@@ -3664,29 +3663,13 @@
           "normalization_rules": [
             "film_year_paren"
           ]
-        },
-        {
-          "source_identity_key": "id:closed-for-thanksgiving",
-          "source_title": "Closed for Thanksgiving",
-          "adapter_identity_title": null,
-          "matcher_title": "Closed for Thanksgiving",
-          "program_series": null,
-          "runtime_min": 300,
-          "release_year": null,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": false,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
         }
       ]
     },
     "grand_illusion": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-26_grand_illusion.json",
-      "generated_at": "2026-11-26T08:12:05-08:00",
+      "latest_log": "data/daily_logs/2026-11-27_grand_illusion.json",
+      "generated_at": "2026-11-27T07:56:19-08:00",
       "record_count": 19,
       "malformed_record_count": 0,
       "warning_count": 0,
@@ -3940,39 +3923,35 @@
     },
     "tasveer": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-26_tasveer.json",
-      "generated_at": "2026-11-26T08:12:06-08:00",
-      "record_count": 35,
+      "latest_log": "data/daily_logs/2026-11-27_tasveer.json",
+      "generated_at": "2026-11-27T07:56:20-08:00",
+      "record_count": 17,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
-      "source_identity_count": 5,
-      "eligible_feature_count": 5,
+      "source_identity_count": 4,
+      "eligible_feature_count": 4,
       "title": {
-        "with_title": 5,
+        "with_title": 4,
         "missing": 0
       },
       "runtime": {
-        "eligible_features_with_runtime": 5,
+        "eligible_features_with_runtime": 4,
         "eligible_features_missing_runtime": 0,
         "missing_feature_samples": []
       },
       "release_year": {
         "strategy": "source_title_when_present",
-        "eligible_features_with_year": 4,
+        "eligible_features_with_year": 3,
         "eligible_features_missing_year": 1,
         "missing_feature_samples": [
           "Queering India (India, 2026) With Post-Film Q&A"
         ]
       },
       "cleanup": {
-        "adapter_cleaned_identity_count": 4,
+        "adapter_cleaned_identity_count": 3,
         "matcher_cleaned_identity_count": 1,
         "adapter_cleanup_samples": [
-          {
-            "source_title": "Bitter Christmas (Amarga Navidad, 2026, Spanish)",
-            "identity_title": "Bitter Christmas"
-          },
           {
             "source_title": "High Ground (2026, USA, English)",
             "identity_title": "High Ground"
@@ -4001,25 +3980,9 @@
         "samples": []
       },
       "entity_kind_counts": {
-        "feature_film": 5
+        "feature_film": 4
       },
       "identities": [
-        {
-          "source_identity_key": "id:164626",
-          "source_title": "Bitter Christmas (Amarga Navidad, 2026, Spanish)",
-          "adapter_identity_title": "Bitter Christmas",
-          "matcher_title": "Bitter Christmas (Amarga Navidad, 2026, Spanish)",
-          "program_series": null,
-          "runtime_min": 111,
-          "release_year": 2026,
-          "eligibility": "eligible",
-          "entity_kind": "feature_film",
-          "adapter_cleanup": true,
-          "matcher_cleanup": false,
-          "normalization_rules": [
-            "normalized_source_fallback"
-          ]
-        },
         {
           "source_identity_key": "id:165669",
           "source_title": "High Ground (2026, USA, English)",
@@ -4088,9 +4051,9 @@
     },
     "anderson_school": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-26_anderson_school.json",
-      "generated_at": "2026-11-26T08:12:07-08:00",
-      "record_count": 18,
+      "latest_log": "data/daily_logs/2026-11-27_anderson_school.json",
+      "generated_at": "2026-11-27T07:56:21-08:00",
+      "record_count": 16,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
@@ -4407,9 +4370,9 @@
     },
     "majestic_bay": {
       "status": "ok",
-      "latest_log": "data/daily_logs/2026-11-26_majestic_bay.json",
-      "generated_at": "2026-11-26T08:12:07-08:00",
-      "record_count": 67,
+      "latest_log": "data/daily_logs/2026-11-27_majestic_bay.json",
+      "generated_at": "2026-11-27T07:56:22-08:00",
+      "record_count": 88,
       "malformed_record_count": 0,
       "warning_count": 0,
       "error_count": 0,
