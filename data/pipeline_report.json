@@ -1,0 +1,211 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-11-28T06:52:33-08:00",
+  "status": "success",
+  "window": {
+    "start_date": "2026-11-28",
+    "end_date": "2027-07-08"
+  },
+  "sources": {
+    "amc": {
+      "status": "success",
+      "showtime_count": 7518,
+      "film_count": 82,
+      "theater_count": 7,
+      "last_successful_run": "2026-11-28",
+      "warnings": [
+        "AMC allowlist: 2 disabled registry matches skipped: AMC Kitsap 8, AMC Lakewood Mall 12"
+      ],
+      "errors": []
+    },
+    "siff": {
+      "status": "success",
+      "showtime_count": 230,
+      "film_count": 33,
+      "theater_count": 3,
+      "last_successful_run": "2026-11-28",
+      "warnings": [
+        "SIFF parent/series page with no direct showtimes: programs-and-events/celluloid-screenings",
+        "SIFF parent/series page with no direct showtimes: programs-and-events/community-screenings",
+        "SIFF parent/series page with no direct showtimes: programs-and-events/holiday-favorites",
+        "SIFF parent/series page with no direct showtimes: programs-and-events/siff-book-club",
+        "SIFF parent/series page with no direct showtimes: programs-and-events/siff-movie-club",
+        "SIFF parent/series page with no direct showtimes: programs-and-events/the-godfather-trilogy",
+        "SIFF parent/series page with no direct showtimes: programs-and-events/the-open-road"
+      ],
+      "errors": []
+    },
+    "beacon": {
+      "status": "success",
+      "showtime_count": 67,
+      "film_count": 40,
+      "theater_count": 1,
+      "last_successful_run": "2026-11-28",
+      "warnings": [],
+      "errors": []
+    },
+    "nwff": {
+      "status": "success",
+      "showtime_count": 87,
+      "film_count": 31,
+      "theater_count": 1,
+      "last_successful_run": "2026-11-28",
+      "warnings": [],
+      "errors": []
+    },
+    "central_cinema": {
+      "status": "success",
+      "showtime_count": 9,
+      "film_count": 2,
+      "theater_count": 1,
+      "last_successful_run": "2026-11-28",
+      "warnings": [],
+      "errors": []
+    },
+    "grand_illusion": {
+      "status": "success",
+      "showtime_count": 12,
+      "film_count": 9,
+      "theater_count": 2,
+      "last_successful_run": "2026-11-12",
+      "warnings": [],
+      "errors": [
+        "{'code': 'unknown_or_missing_venue', 'message': 'unknown_venue:The Egyptian Theater', 'source_program_id': 'love-exposure-new-4k-restoration', 'source_value': 'The Egyptian Theater – 805 E Pine St, Seattle', 'affects_completeness': True}",
+        "{'code': 'unknown_or_missing_venue', 'message': 'unknown_venue:The Egyptian Theater', 'source_program_id': 'the-host-new-4k-restoration', 'source_value': 'The Egyptian Theater – 805 E Pine St, Seattle', 'affects_completeness': True}"
+      ]
+    },
+    "tasveer": {
+      "status": "success",
+      "showtime_count": 15,
+      "film_count": 4,
+      "theater_count": 1,
+      "last_successful_run": "2026-11-28",
+      "warnings": [],
+      "errors": []
+    },
+    "anderson_school": {
+      "status": "success",
+      "showtime_count": 13,
+      "film_count": 1,
+      "theater_count": 1,
+      "last_successful_run": "2026-11-28",
+      "warnings": [],
+      "errors": []
+    },
+    "stg": {
+      "status": "stale",
+      "showtime_count": 0,
+      "film_count": 0,
+      "theater_count": 0,
+      "last_successful_run": "2027-07-26",
+      "warnings": [
+        "Source intentionally paused; scraping and publication disabled."
+      ],
+      "errors": []
+    },
+    "majestic_bay": {
+      "status": "success",
+      "showtime_count": 79,
+      "film_count": 8,
+      "theater_count": 1,
+      "last_successful_run": "2026-11-28",
+      "warnings": [],
+      "errors": []
+    }
+  },
+  "totals": {
+    "showtime_count": 8030,
+    "film_count": 195,
+    "theater_count": 16
+  },
+  "messages": [],
+  "amc_source_catalog": {
+    "id": "amc_source_catalog",
+    "status": "success",
+    "build_attempted": true,
+    "build_succeeded": true,
+    "soft_failure": false,
+    "outcome": "promoted",
+    "artifacts_written_this_run": true,
+    "artifacts_retained_from_prior": false,
+    "reported_at": "2026-11-28T07:03:21-08:00",
+    "last_successful_build_at": "2026-11-28T07:01:49-08:00",
+    "message": "AMC source catalog: promoted",
+    "warnings": [],
+    "errors": [],
+    "refresh": {
+      "active_ids": 82,
+      "selected": 82,
+      "success": 82,
+      "failed": 0,
+      "invalid": 0
+    },
+    "artifacts": {
+      "amc_movie_products": {
+        "id": "amc_movie_products",
+        "path": "data/source_catalog/amc_movie_products.json",
+        "exists": true,
+        "valid": true,
+        "schema_version": "1.0.0",
+        "generated_at": "2026-11-28T07:01:49-08:00",
+        "record_count": 484,
+        "written_this_run": true,
+        "retained_from_prior": false,
+        "warnings": [],
+        "errors": []
+      },
+      "amc_release_observations": {
+        "id": "amc_release_observations",
+        "path": "data/source_catalog/amc_release_observations.json",
+        "exists": true,
+        "valid": true,
+        "schema_version": "1.0.0",
+        "generated_at": "2026-11-28T07:01:49-08:00",
+        "record_count": 431,
+        "written_this_run": true,
+        "retained_from_prior": false,
+        "warnings": [],
+        "errors": []
+      }
+    },
+    "products_summary": {
+      "total": 484,
+      "active": 82,
+      "inactive": 402,
+      "with_release_id": 475,
+      "without_release_id": 9,
+      "refresh_pending": 0,
+      "refresh_success": 484,
+      "refresh_stale": 0,
+      "refresh_failed": 0,
+      "refresh_invalid": 0,
+      "refresh_status_missing": 0,
+      "stored_stats": {
+        "products": 484,
+        "active_products": 82,
+        "inactive_products": 402,
+        "with_release_id": 475,
+        "without_release_id": 9,
+        "refresh_pending": 0,
+        "refresh_success": 484,
+        "refresh_stale": 0,
+        "refresh_failed": 0,
+        "refresh_invalid": 0,
+        "special_presentations": 226
+      }
+    },
+    "releases_summary": {
+      "total": 431,
+      "singleton_groups": 409,
+      "multi_product_groups": 22,
+      "membership_references": 475,
+      "unresolved_member_references": 0,
+      "stored_stats": {
+        "release_observations": 431,
+        "singleton_groups": 409,
+        "multi_product_groups": 22,
+        "largest_group": 19
+      }
+    }
+  }
+}
