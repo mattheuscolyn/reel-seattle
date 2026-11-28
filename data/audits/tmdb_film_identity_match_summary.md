@@ -1,7 +1,7 @@
 # Film identity live match summary
 
 - schema_version: `1.0.0`
-- generated_at: `2026-11-27T17:02:30+00:00`
+- generated_at: `2026-11-28T15:53:03+00:00`
 - total_unique_source_identities: **211**
 - confirmed_automatic: **115**
 - confirmed_manual: **5**
